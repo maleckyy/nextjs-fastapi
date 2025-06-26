@@ -4,6 +4,7 @@ from database import engine
 from users import routes as user_routes
 from auth import routes as auth_routes
 from todos import routes as todos_routes
+from events import routes as events_routes
 from auth.routes import oauth2_scheme
 from fastapi.middleware.cors import CORSMiddleware
 from config import origins_raw
@@ -35,4 +36,6 @@ app.include_router(auth_routes.router)
 app.include_router(user_routes.router)
 
 app.include_router(todos_routes.router) 
+
+app.include_router(events_routes.router) 
 

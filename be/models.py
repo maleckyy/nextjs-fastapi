@@ -26,6 +26,13 @@ class Users(Base):
         uselist=False
     )
 
+    event = relationship(
+        "Events",
+        back_populates="user",
+        cascade="all, delete",
+        uselist=False
+    )
+
 class TodoList(Base):
     __tablename__ = 'todo_list'
 
@@ -48,3 +55,13 @@ class UserToken(Base):
 
     user_id = Column(UUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
     user = relationship("Users", back_populates="token")
+
+class Events(Base):
+    __tablename__ = "events"
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    title = Column(String, nullable=False)
+    description = Column(String, nullable=True)
+    event_date = Column(DateTime, nullable=False, default=datetime.utcnow)
+
+    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    user = relationship("Users", back_populates="event")
