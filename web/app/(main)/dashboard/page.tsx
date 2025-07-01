@@ -3,9 +3,7 @@ import PageTitle from '@/components/page-title'
 import { Card, CardContent, CardTitle } from '@/components/ui/card'
 
 import React from 'react'
-export default function Dashboad() {
-
-
+export default  function Dashboad() {
   return (
     <section>
       <PageTitle title="Dashboard"/>
@@ -14,7 +12,9 @@ export default function Dashboad() {
 
         <Card className='gap-4 w-full'>
           <CardTitle className='px-6'>Nadchodzące wydarzenia</CardTitle>
-          <CardContent>czesc</CardContent>
+          <CardContent>
+            druga karta
+          </CardContent>
         </Card>
       </div>
     </section>

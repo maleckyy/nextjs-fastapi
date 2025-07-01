@@ -27,7 +27,7 @@ export default function AuthContextProvider({children}: Props) {
         if(token) {
             setTokenToStore(token)
         }
-    },[token])
+    },[token, setTokenToStore])
     return (
         <AuthContext.Provider value={{token}}>
             {children}

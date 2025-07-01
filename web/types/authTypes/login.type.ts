@@ -19,3 +19,8 @@ export type User = {
   id: string;
   created_at: string;
 };
+
+export type LoginFormType = {
+  username: string;
+  password: string
+}

@@ -1,0 +1,38 @@
+// components/atoms/Input.tsx
+import { Input } from "@/components/ui/input";
+import { Control, Controller, FieldValues, Path } from "react-hook-form";
+
+interface InputProps<T extends FieldValues> {
+  name: Path<T>;
+  control: Control<T>;
+  label: string;
+  error?: string;
+  type?: string;
+}
+
+function AppInputField<T extends FieldValues>({ name, control, label, error, type = "text" }: InputProps<T>) {
+  return (
+    <div className="mb-4">
+      <label htmlFor={name} className="block mb-1 font-medium sr-only">
+        {label}
+      </label>
+
+      <Controller
+        name={name}
+        control={control}
+        render={({ field }) => (
+          <Input
+            id={name}
+            type={type}
+            placeholder={label}
+            {...field}
+          />
+        )}
+      />
+
+      {error && <p className="mt-1 text-sm text-red-500">{error}</p>}
+    </div>
+  );
+};
+
+export default AppInputField;

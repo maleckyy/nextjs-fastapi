@@ -18,6 +18,7 @@ const excludedPaths = ['/auth/token', '/user/create'];
 api.interceptors.request.use(
   (config) => {
     const token = useAuthStore.getState().token
+    console.log(token)
     if (token && !excludedPaths.includes(config.url || '')) {
       config.headers.Authorization = `Bearer ${token}`;
     }

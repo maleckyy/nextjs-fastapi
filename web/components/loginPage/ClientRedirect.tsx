@@ -11,12 +11,11 @@ export default function ClientRedirect() {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if(!token) {
-          router.push('/login');
-        } else {
-          router.push('/dashboard');
-          setToken(token)
-          console.log(token)
-        }
+      router.push('/login');
+    } else {
+      router.push('/dashboard');
+      setToken(token)
+    }
   }, []);
 
   return <></>;
