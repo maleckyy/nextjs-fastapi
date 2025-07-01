@@ -26,6 +26,7 @@ function AppInputField<T extends FieldValues>({ name, control, label, error, typ
             type={type}
             placeholder={label}
             {...field}
+            value={field.value ?? ''} 
           />
         )}
       />
