@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation'
 import React from 'react'
 import { Button } from '../ui/button'
 import { useAuthStore } from '@/store/authStore'
+import { deleteTokenCookie } from '@/actions/actions'
 
 export default function LogoutButton() {
     const router = useRouter()
@@ -12,6 +13,7 @@ export default function LogoutButton() {
         clearLocalStorageData()
         clearToken()
         router.push("/login")
+        deleteTokenCookie()
     }
 
     return (

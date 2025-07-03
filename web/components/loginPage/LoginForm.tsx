@@ -11,6 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from '@/schemas/login.schema';
 import { useLoginMutation } from '@/api/auth/login/useLoginMutation';
 import AppInputField from './LoginInputs/LoginInput';
+import { createTokenCookie } from '@/actions/actions';
 
 export default function LoginForm() {
     const { setDetails } = useAuthStore()
@@ -31,7 +32,9 @@ export default function LoginForm() {
         loginMutation.mutate({ email: data.username, password: data.password },{
             onSuccess: (response: LoginOutput) => {
                 setStringValueToLocalStorage("token", response.access_token)
-                setDetails(response.access_token, response.refreshToken, response.token_expires_time)
+                setStringValueToLocalStorage("token_expire_datetime", response.expire_datetime)
+                setDetails(response.access_token, response.refreshToken, response.expire_datetime)
+                createTokenCookie(response.access_token)
                 router.replace('/dashboard')
                 reset()
             },

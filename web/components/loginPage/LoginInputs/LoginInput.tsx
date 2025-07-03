@@ -31,7 +31,7 @@ function AppInputField<T extends FieldValues>({ name, control, label, error, typ
         )}
       />
 
-      {error && <p className="mt-1 text-sm text-red-500">{error}</p>}
+      {error && <div className="mt-1 text-sm text-red-500">{error}</div>}
     </div>
   );
 };

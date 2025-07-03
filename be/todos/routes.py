@@ -13,11 +13,11 @@ router = APIRouter(prefix="/todo", tags=["Todos"], dependencies=[Depends(get_cur
 async def get_all_user_todos(db:db_dependency, current_user: models.Users = Depends(get_current_user)):
     return db.query(models.TodoList).filter(models.TodoList.user_id == current_user.id).all()
 
-@router.get('/', response_model=list[TodoResponse])
+@router.get('', response_model=list[TodoResponse])
 async def get_three_user_todos(db:db_dependency, current_user: models.Users = Depends(get_current_user)):
     return db.query(models.TodoList).filter(models.TodoList.user_id == current_user.id).limit(3).all()
 
-@router.post("/", response_model=TodoResponse, status_code=status.HTTP_201_CREATED)
+@router.post('', response_model=TodoResponse, status_code=status.HTTP_201_CREATED)
 async def create_todo(todo: TodoCreate, db: db_dependency, current_user: models.Users = Depends(get_current_user)):
     new_todo = models.TodoList(
         title=todo.title,

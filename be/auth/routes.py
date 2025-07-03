@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta, timezone
 from uuid import uuid4
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Response
 from typing import Annotated
 from .schemas import Token, TokenData
 from dependency import db_dependency
@@ -9,7 +9,6 @@ import jwt
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 import models
 from config import SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES
-
 
 router = APIRouter(
     prefix="/auth",
@@ -71,6 +70,7 @@ def create_refresh_token() -> str:
 
 @router.post('/token')
 async def login_for_access_token(
+        response: Response,
         form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
         db: db_dependency
     ):
@@ -91,14 +91,26 @@ async def login_for_access_token(
     token_object.refresh_token = create_refresh_token()
     token_object.token_expires_time = int(access_token_expires.total_seconds())
     token_object.user_id = user.id
+    expire_datetime = datetime.now(timezone.utc) + access_token_expires
 
     db.query(models.UserToken).filter(models.UserToken.user_id == user.id).delete()
     db.add(token_object)
     db.commit()
     db.refresh(token_object)
+
+    response.set_cookie(
+        key="auth_token",
+        value=access_token,
+        httponly=True,
+        secure=True,
+        samesite="None",
+        max_age=int(access_token_expires.total_seconds()),
+    )
+
     return {
         "access_token" : token.access_token,
         "token_expires_time" : access_token_expires,
+        "expire_datetime": expire_datetime,
         "user": token_object,
         "refreshToken": token_object.refresh_token
     }
@@ -106,6 +118,7 @@ async def login_for_access_token(
 
 @router.post("/refresh", dependencies=[Depends(get_current_user)])
 async def refresh_access_token(
+        response: Response,
         db: db_dependency,
         current_user: models.Users = Depends(get_current_user)
     ):
@@ -131,6 +144,15 @@ async def refresh_access_token(
     token_object.refresh_token = create_refresh_token()
     db.commit()
     db.refresh(token_object)
+
+    response.set_cookie(
+        key="auth_token",
+        value=new_access_token,
+        httponly=True,
+        secure=True,
+        samesite="None",
+        max_age=token_object.token_expires_time,
+    )
 
     return {
         "access_token": new_access_token,

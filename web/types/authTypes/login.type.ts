@@ -8,7 +8,7 @@ export type UserToken = {
 
 export type LoginOutput = {
   access_token: string;
-  token_expires_time: number;
+  expire_datetime: string;
   user: UserToken;
   refreshToken: string
 };

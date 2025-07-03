@@ -1,4 +1,4 @@
-import { House, NotebookPen } from 'lucide-react'
+import { CalendarDays, House, NotebookPen } from 'lucide-react'
 import React from 'react'
 import LogoutButton from './sidebar/logoutButton'
 import { NavOptionsType } from '@/types/navigationTypes/navigation.type'
@@ -15,6 +15,11 @@ export default function AppSidebar() {
       title: "Todo",
       path: "/todo",
       iconNode: <NotebookPen />
+    },
+    {
+      title: "Wydarzenia",
+      path: "/events",
+      iconNode: <CalendarDays />
     },
   ]
   

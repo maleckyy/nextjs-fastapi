@@ -124,3 +124,11 @@
     @apply bg-background text-foreground;
   }
 }
+
+.scale-hover {
+  transition: all 0.2s;
+}
+
+.scale-hover:hover {
+  transform: scale(1.04);
+}
