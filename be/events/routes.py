@@ -8,11 +8,11 @@ from dependency import db_dependency
 
 router = APIRouter(prefix="/event", tags=["Eventss"], dependencies=[Depends(get_current_user)])
 
-@router.get('/', response_model=list[EventResponse])
+@router.get('', response_model=list[EventResponse])
 async def get_events(db: db_dependency, current_user: models.Users = Depends(get_current_user)):
     return db.query(models.Events).filter(models.Events.user_id == current_user.id).all()
 
-@router.post('/', response_model=EventResponse)
+@router.post('', response_model=EventResponse)
 async def create_event( event: EventCreate, db:db_dependency, current_user: models.Users = Depends(get_current_user)):
     new_event = models.Events(**event.dict(), user_id=current_user.id)
     db.add(new_event)
@@ -20,3 +20,6 @@ async def create_event( event: EventCreate, db:db_dependency, current_user: mode
     db.refresh(new_event)
     return new_event
 
+@router.get('/upcoming', response_model=list[EventResponse])
+async def get_three_upcoming_events(db: db_dependency, current_user: models.Users = Depends(get_current_user)):
+    return db.query(models.Events).filter(models.Events.user_id == current_user.id).order_by(models.Events.event_date.asc()).limit(3).all()

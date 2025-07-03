@@ -34,7 +34,7 @@ async def create_new_user(db: db_dependency, user: UserCreate):
     return new_user
 
 
-@router.get('/', response_model=list[User], dependencies=[Depends(get_current_user)])
+@router.get('', response_model=list[User], dependencies=[Depends(get_current_user)])
 async def get_all_users(db:db_dependency):
     return db.query(models.Users).all()
 
@@ -56,7 +56,6 @@ async def delete_user_by_id(db:db_dependency, current_user: models.Users = Depen
 @router.put('/update', dependencies=[Depends(get_current_user)])
 async def update_user_by_id(db:db_dependency, user:UserCreate, current_user: models.Users = Depends(get_current_user)):
 
-    # dodac jeszcze pozniej weryfikacje dlugosci znakow dla hasla i nazwyuzytownika i czy email to email
     email_exists = db.query(models.Users).filter(
         models.Users.email == user.email,
         models.Users.id != current_user.id
