@@ -7,7 +7,7 @@ export enum ApiEndpoints {
 
   TODO_ALL = '/todo/all',
   TODO_CREATE = '/todo',
-  TODO_UPDATE = '/todo/update',
+  TODO_UPDATE = '/todo',
   TODO_DELETE = '/todo',
   TODO_LAST = '/todo',
 }

@@ -10,11 +10,11 @@ type PropsType ={
 export default function TodoPopover({iconNode, fn, popoverText}: PropsType) {
     return (
         <Popover>
-            <PopoverTrigger>{iconNode}</PopoverTrigger>
+            <PopoverTrigger className='cursor-pointer'>{iconNode}</PopoverTrigger>
             <PopoverContent>
                 <div className='flex flex-col gap-2'>
                     <p>{popoverText}</p>
-                    <Button className='self-end' onClick={()=>fn()}>Usuń</Button>
+                    <Button className='self-end cursor-pointer' onClick={()=>fn()}>Usuń</Button>
                 </div>
             </PopoverContent>
         </Popover>

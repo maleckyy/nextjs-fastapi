@@ -6,14 +6,16 @@ import FormatedDate from '@/components/todo/FormatedDate';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { QueryKeys } from '@/QueryKeys/queryKeys';
-import type { Todo } from '@/types/authTypes/todo/todo.type';
+import type { Todo, TodoUpdate } from '@/types/authTypes/todo/todo.type';
 import { useQuery } from '@tanstack/react-query';
-import { Pen, Trash, UnfoldVertical } from 'lucide-react';
+import { Trash } from 'lucide-react';
 import React from 'react'
 import CreateTodoDialog from '@/components/todo/TodoCreateDialog';
 import TodoPopover from '@/components/todo/TodoPopover';
 import { useDeleteTodo } from '@/api/todo/useDeleteTodo';
-export default function Todo() {
+import UpdateTodoDialog from '@/components/todo/TodoUpdateDialog';
+import { useUpdateMutatnion } from '@/api/todo/useUpdateTodo';
+export default function TodoPage() {
   async function getEvents() {
     const res = await api.get(ApiEndpoints.TODO_ALL)
     return res.data
@@ -24,23 +26,36 @@ export default function Todo() {
     queryFn: getEvents,
     retryOnMount: false,
     staleTime: 60*1000,
+    select: (data) =>
+      [...data].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()),
   })
 
-  const useDeleteTodoMutation = useDeleteTodo()
+  const useUpdateTodoMutation = useUpdateMutatnion()
+  function changeTodoStatus(item: Todo) {
+    const updatedTodo: TodoUpdate = {
+      id: item.id,
+      newTodo: {
+        title: item.title,
+        description: item.description,
+        is_done: !item.is_done
+      }
+    }
 
-  function changeTodoStatus(item) {
-    console.log(item)
-  }
-
-  function deleteTodo(item: Todo) {
-    console.log(item)
-    useDeleteTodoMutation.mutate(item.id, {
+    useUpdateTodoMutation.mutate(updatedTodo, {
       onSuccess: () => {
         refetch()
-        // dodac toasty czy inne message
       }
     })
 
+  }
+  
+  const useDeleteTodoMutation = useDeleteTodo()
+  function deleteTodo(item: Todo) {
+    useDeleteTodoMutation.mutate(item.id, {
+      onSuccess: () => {
+        refetch()
+      }
+    })
   }
 
   return (
@@ -61,7 +76,7 @@ export default function Todo() {
             {isLoading ? ("Ładowanie"):(
               data!.map((item: Todo) =>{ 
                 return (<TableRow key={item.id}>
-                  <TableCell className='flex justify-center items-center mt-1'><Checkbox checked={item.is_done} onCheckedChange={() => {
+                  <TableCell className='flex justify-center items-center mt-1'><Checkbox className='cursor-pointer' checked={item.is_done} onCheckedChange={() => {
                     changeTodoStatus(item)
                   }}/></TableCell>
                   <TableCell className="font-medium">{item.title}</TableCell>
@@ -69,16 +84,7 @@ export default function Todo() {
                   <TableCell><FormatedDate date={item.created_at}/></TableCell>
                   <TableCell className="text-center">
                     <div className='flex gap-2 justify-center'>
-                      {/* <button className='scale-hover' onClick={() => {
-                        changeTodoStatus(item)
-                      }}>
-                        <Trash/>
-                      </button>
-                      <button className='scale-hover' onClick={() => {
-                        changeTodoStatus(item)
-                      }}>
-                        <Pen />
-                      </button> */}
+                      <UpdateTodoDialog refetch={refetch} item={item}/>
                       <TodoPopover iconNode={<Trash/>} fn={()=>deleteTodo(item)} popoverText='Czy napewno usunąć ten element?'/>
                     </div>
                   </TableCell>
