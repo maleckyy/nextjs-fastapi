@@ -2,7 +2,7 @@ from datetime import datetime, timedelta, timezone
 from uuid import uuid4
 from fastapi import APIRouter, Depends, HTTPException, Response
 from typing import Annotated
-from .schemas import Token, TokenData
+from .schemas import RefreshRequest, Token, TokenData
 from dependency import db_dependency
 from utils.passwordhashing import verify_password
 import jwt
@@ -107,6 +107,15 @@ async def login_for_access_token(
         max_age=int(access_token_expires.total_seconds()),
     )
 
+    response.set_cookie(
+        key="auth_refresh_token",
+        value=token_object.refresh_token,
+        httponly=True,
+        secure=True,
+        samesite="None",
+        max_age=7 * 24 * 3600,
+    )
+
     return {
         "access_token" : token.access_token,
         "token_expires_time" : access_token_expires,
@@ -115,16 +124,27 @@ async def login_for_access_token(
         "refreshToken": token_object.refresh_token
     }
 
+@router.delete("/logout", dependencies=[Depends(get_current_user)])
+async def user_logout(db: db_dependency, current_user: models.Users = Depends(get_current_user)):
+    auth_user = db.query(models.UserToken).filter(models.UserToken.user_id == current_user.id).first()
+    db.delete(auth_user)
+    db.commit()
+    return {"message": "wylogowano usera"}
 
-@router.post("/refresh", dependencies=[Depends(get_current_user)])
+@router.post("/refresh")
 async def refresh_access_token(
+        refreshToken: RefreshRequest,
         response: Response,
         db: db_dependency,
         current_user: models.Users = Depends(get_current_user)
     ):
+    print(refreshToken)
     token_object = db.query(models.UserToken).filter(
         models.UserToken.user_id == current_user.id
     ).first()
+
+    if (token_object.refresh_token != refreshToken.refresh_token):
+        raise HTTPException(status_code=401, detail="Invalid refresh token")
 
     if not token_object:
         raise HTTPException(status_code=401, detail="Invalid refresh token")
@@ -142,6 +162,7 @@ async def refresh_access_token(
     token_object.access_token = new_access_token
     token_object.token_expires_time = int(expires.total_seconds())
     token_object.refresh_token = create_refresh_token()
+    expire_datetime = datetime.now(timezone.utc) + expires
     db.commit()
     db.refresh(token_object)
 
@@ -154,17 +175,19 @@ async def refresh_access_token(
         max_age=token_object.token_expires_time,
     )
 
+    response.set_cookie(
+        key="auth_refresh_token",
+        value=token_object.refresh_token,
+        httponly=True,
+        secure=True,
+        samesite="None",
+        max_age=7 * 24 * 3600,
+    )
+
     return {
         "access_token": new_access_token,
         "token_expires_time": expires,
+        "expire_datetime": expire_datetime,
         "user": token_object,
         "refreshToken": token_object.refresh_token
     }
-
-@router.delete("/logout", dependencies=[Depends(get_current_user)])
-async def user_logout(db: db_dependency, current_user: models.Users = Depends(get_current_user)):
-    auth_user = db.query(models.UserToken).filter(models.UserToken.user_id == current_user.id).first()
-    db.delete(auth_user)
-    db.commit()
-    return {"message": "wylogowano usera"}
-    
