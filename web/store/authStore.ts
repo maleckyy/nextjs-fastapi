@@ -1,9 +1,9 @@
 import { create } from 'zustand'
 
 type authStoreProps = {
-  token:string | null | undefined,
+  token: string | null | undefined,
   refreshToken: string | null,
-  expire_datetime: string | null
+  expireDatetime: string | null
   setToken: (newToken:string)=> void,
   setDetails: (newToken:string, newRefreshToken: string, newExpire_datetime: string)=> void,
   clearToken: ()=>void
@@ -12,8 +12,8 @@ type authStoreProps = {
 export const useAuthStore = create<authStoreProps>((set) => ({
   token: null,
   refreshToken: null,
-  expire_datetime: null,
+  expireDatetime: null,
   setToken: (newToken:string) => set({ token: newToken }),
-  setDetails: (newToken:string, newRefreshToken: string, newExpire_datetime: string) => set({ token: newToken, refreshToken: newRefreshToken, expire_datetime:newExpire_datetime}),
-  clearToken: () => set({ token: null, refreshToken: null, expire_datetime: null }),
+  setDetails: (newToken:string, newRefreshToken: string, newExpire_datetime: string) => set({ token: newToken, refreshToken: newRefreshToken, expireDatetime:newExpire_datetime}),
+  clearToken: () => set({ token: null, refreshToken: null, expireDatetime: null }),
 }))

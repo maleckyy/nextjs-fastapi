@@ -12,8 +12,8 @@ export default function LogoutButton() {
     function logoutUser() {
         clearLocalStorageData()
         clearToken()
-        router.push("/login")
         deleteTokenCookie()
+        router.push("/login")
     }
 
     return (
