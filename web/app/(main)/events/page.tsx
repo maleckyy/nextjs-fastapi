@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState, useCallback, useRef } from 'react'
 import PageTitle from '@/components/page-title'
 import { Calendar } from "@/components/ui/calendar"
 import { useQuery } from '@tanstack/react-query'
@@ -9,12 +9,13 @@ import { api } from '@/api/axios'
 import { EventOutput } from '@/types/events/event.type'
 import EventList from '@/components/event/EventList'
 import { Modifiers } from 'react-day-picker'
-import CreateEventDialog from '@/components/event/EventDialog'
+import CreateEventDialog, { CreateEventDialogRef } from '@/components/event/EventDialog'
 
 export default function Events() {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date())
   const [selectedEvents, setSelectedEvents] = useState<EventOutput[]>([])
-
+  const dialogRef = useRef<CreateEventDialogRef>(null);
+  
   const { data, isSuccess, isLoading, refetch } = useQuery<EventOutput[]>({
     queryKey: [QueryKeys.EVENTS],
     queryFn: async () => (await api.get(ApiEndpoints.EVENTS)).data,
@@ -50,20 +51,16 @@ export default function Events() {
   return (
     <section>
       <PageTitle title="Wydarzenia" />
-
       <div className='flex gap-4'>
-
-        {/*  */}
         <div className="calendar flex flex-col gap-2">
           <Calendar
             mode="multiple"
             selected={eventDates}
             onDayClick={(day, modifiers: Modifiers, e:React.MouseEvent) => {
               if (e.altKey && e.button === 0) {
-                console.log("ALT + lewy klik na:", day);
-                // 
-                //    OTWIERANIE DODANIA W DANYM DNIU 
-                //
+                if (dialogRef.current) {
+                  dialogRef.current.open(day);
+                }
               }
               return setSelectedDate(day)
             }}
@@ -81,8 +78,6 @@ export default function Events() {
           />
           <div>
             <h4 className='font-bold mb-1'>Wydarzenia w dniu {selectedDate.toDateString()}</h4>
-
-
             {selectedEvents.length > 0 ? (
               selectedEvents.map((item, index) => (
                 <p key={item.id}>{index+1}.{item.title}</p>
@@ -91,28 +86,19 @@ export default function Events() {
               <p>Brak wydarzeń dla wybranego dnia</p>
             )}
           </div>
-
-        {/*  */}
-
-
         </div>
-
         <div className='flex flex-col gap-2 w-full'>
           <div className='flex justify-between items-center'>
             <h3 className='text-2xl'>Wszystkie wydarzenia</h3>
-            <span><CreateEventDialog refetch={refetch}/>
-
-            </span>
+            <span><CreateEventDialog ref={dialogRef} refetch={refetch} /></span>
           </div>
 
           { data ?
             ( <EventList events={data} refetch={refetch} isLoading={isLoading}/>):
             (<p>ładowanie</p>)
           }
-
         </div>
       </div>
-      
     </section>
   )
 }

@@ -35,7 +35,7 @@ export default function EditEventDialog({refetch, eventItem}: PropsType) {
         reset,
         handleSubmit,
         control,
-        formState: { errors, isSubmitting },
+        formState: { errors, isSubmitting, isDirty },
     } = useForm<CreateEventFormType>({
         resolver: zodResolver(createEventSchema),
     });
@@ -110,7 +110,7 @@ export default function EditEventDialog({refetch, eventItem}: PropsType) {
                             />
                         {errors && <div className="mt-1 text-sm text-red-500">{errors.event_date?.message}</div>}
                         <div className='flex justify-end mt-[16px]'>
-                            <Button className='scale-hover cursor-pointer' onClick={handleSubmit(handleCreateEvent)} disabled={isSubmitting}>Edytuj zadanie</Button>
+                            <Button className='scale-hover cursor-pointer' onClick={handleSubmit(handleCreateEvent)} disabled={isSubmitting || !isDirty}>Edytuj zadanie</Button>
                         </div>
                     </div>
                 </DialogHeader>
