@@ -6,7 +6,7 @@ import FormatedDate from '@/components/todo/FormatedDate';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { QueryKeys } from '@/QueryKeys/queryKeys';
-import type { Todo, TodoUpdate } from '@/types/authTypes/todo/todo.type';
+import type { Todo, TodoUpdate } from '@/types/todo/todo.type';
 import { useQuery } from '@tanstack/react-query';
 import { Trash } from 'lucide-react';
 import React from 'react'
@@ -22,7 +22,7 @@ export default function TodoPage() {
   }
 
   const {data, isLoading, refetch} = useQuery<Todo[]>({
-    queryKey: [QueryKeys.EVENTS],
+    queryKey: [QueryKeys.LAST_TODOS],
     queryFn: getEvents,
     retryOnMount: false,
     staleTime: 60*1000,

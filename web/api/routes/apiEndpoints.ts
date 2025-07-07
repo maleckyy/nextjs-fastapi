@@ -11,4 +11,7 @@ export enum ApiEndpoints {
   TODO_UPDATE = '/todo',
   TODO_DELETE = '/todo',
   TODO_LAST = '/todo',
+
+  EVENTS = '/event'
+  EVENT_CREATE = '/event'
 }

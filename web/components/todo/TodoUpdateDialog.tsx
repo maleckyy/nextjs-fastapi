@@ -7,7 +7,7 @@ import AppInputField from "../loginPage/LoginInputs/LoginInput";
 import { Button } from "../ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
 import { useUpdateMutatnion } from "@/api/todo/useUpdateTodo";
-import { Todo, TodoUpdate } from "@/types/authTypes/todo/todo.type";
+import { Todo, TodoUpdate } from "@/types/todo/todo.type";
 
 type PropsType ={
     refetch: () => void,
