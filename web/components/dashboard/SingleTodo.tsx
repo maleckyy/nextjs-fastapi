@@ -1,4 +1,4 @@
-import { Todo } from '@/types/authTypes/todo/todo.type'
+import { Todo } from '@/types/todo/todo.type'
 import React from 'react'
 
 type Props = {

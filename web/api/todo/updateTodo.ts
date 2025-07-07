@@ -1,4 +1,4 @@
-import { TodoUpdate } from "@/types/authTypes/todo/todo.type";
+import { TodoUpdate } from "@/types/todo/todo.type";
 import { api } from "../axios";
 import { ApiEndpoints } from "../routes/apiEndpoints";
 

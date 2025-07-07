@@ -1,7 +1,7 @@
 import GenericCard from '@/components/dashboard/DashboardCard'
 import SingleCardElement from '@/components/dashboard/SingleTodo'
 import PageTitle from '@/components/page-title'
-import { Todo } from '@/types/authTypes/todo/todo.type'
+import { Todo } from '@/types/todo/todo.type'
 
 import React from 'react'
 export default  function Dashboad() {

@@ -7,7 +7,7 @@ import AppInputField from "../loginPage/LoginInputs/LoginInput";
 import { Button } from "../ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
 import { useUpdateMutatnion } from "@/api/todo/useUpdateTodo";
-import { Todo, TodoUpdate } from "@/types/authTypes/todo/todo.type";
+import { Todo, TodoUpdate } from "@/types/todo/todo.type";
 
 type PropsType ={
     refetch: () => void,
@@ -61,10 +61,10 @@ export default function UpdateTodoDialog({refetch, item}: PropsType) {
     return (
         <Dialog open={open} onOpenChange={(value: boolean) => {
             setOpen(value)
-                reset({
-                    title: item.title,
-                    description: item.description
-                })
+            reset({
+                title: item.title,
+                description: item.description
+            })
         }}>
             <DialogTrigger className='scale-hover cursor-pointer'><Pen size={24} className='mt-2'/></DialogTrigger>
                 <DialogContent>
