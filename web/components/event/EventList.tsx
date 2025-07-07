@@ -3,13 +3,14 @@ import React from 'react'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table'
 import DeleteEventPopover from './DeleteEventPopover'
 import { useDeleteEvent } from '@/api/event/useDeleteEvent'
+import EditEventDialog from './EditEventDialog'
 
 type PropsType = {
     events: EventOutput[]
-    refetch: ()=>{}
+    refetch: ()=> void
     isLoading: boolean
 }
-export default function EventList({events, refetch, isLoading}: PropsType) {
+export default function EventList({events, refetch}: PropsType) {
 
     const deleteEventMutation = useDeleteEvent()
     function deleteEvent(id: string) {
@@ -41,7 +42,7 @@ export default function EventList({events, refetch, isLoading}: PropsType) {
                         <TableCell>{item.description}</TableCell>
                         <TableCell>
                             <div>
-                                <p>edit</p>
+                                <EditEventDialog refetch={refetch} eventItem={item}/>
                                 <DeleteEventPopover fn={()=> deleteEvent(item.id)} popoverText='Czy chcesz usunąć to wydarzenie?'/>
                             </div>
                         </TableCell>

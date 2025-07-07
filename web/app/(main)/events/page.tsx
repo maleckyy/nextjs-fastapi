@@ -12,18 +12,14 @@ import { Modifiers } from 'react-day-picker'
 import CreateEventDialog from '@/components/event/EventDialog'
 
 export default function Events() {
-  // Stan na wybraną datę w kalendarzu (single)
   const [selectedDate, setSelectedDate] = useState<Date>(new Date())
-  // Wybrane eventy dla wybranej daty
   const [selectedEvents, setSelectedEvents] = useState<EventOutput[]>([])
 
-  // Fetch eventów
   const { data, isSuccess, isLoading, refetch } = useQuery<EventOutput[]>({
     queryKey: [QueryKeys.EVENTS],
     queryFn: async () => (await api.get(ApiEndpoints.EVENTS)).data,
   })
 
-  // Funkcja filtrująca eventy z podanego dnia (ignoruje czas)
   const getEventsByDay = useCallback((day: Date): EventOutput[] => {
     if (!data) return []
     return data.filter(event => {
@@ -36,7 +32,6 @@ export default function Events() {
     })
   }, [data])
 
-  // Aktualizuj wybrane eventy za każdym razem, gdy zmienia się selectedDate lub data eventów
   useEffect(() => {
     if (isSuccess) {
       const eventsForDay = getEventsByDay(selectedDate)
@@ -44,10 +39,8 @@ export default function Events() {
     }
   }, [selectedDate, isSuccess, getEventsByDay])
 
-  // Wyciągamy z eventów unikalne daty na potrzeby kalendarza (format Date)
   const eventDates = React.useMemo(() => {
     if (!data) return []
-    // Mapujemy event_date na Date i filtrujemy duplikaty
     const dates = data.map(event => new Date(event.event_date))
     const uniqueDates = Array.from(new Set(dates.map(d => d.toDateString())))
       .map(dateStr => new Date(dateStr))
@@ -107,7 +100,7 @@ export default function Events() {
         <div className='flex flex-col gap-2 w-full'>
           <div className='flex justify-between items-center'>
             <h3 className='text-2xl'>Wszystkie wydarzenia</h3>
-            <span>Dodaj 
+            <span><CreateEventDialog refetch={refetch}/>
 
             </span>
           </div>
@@ -119,7 +112,7 @@ export default function Events() {
 
         </div>
       </div>
-      <CreateEventDialog refetch={refetch}/>
+      
     </section>
   )
 }

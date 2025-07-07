@@ -1,6 +1,6 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CalendarIcon, CirclePlus } from "lucide-react";
+import { CalendarIcon, Pen } from "lucide-react";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import z from "zod";
@@ -10,13 +10,15 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { cn } from "@/lib/utils";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Calendar } from "../ui/calendar";
-import { useCreateEvent } from "@/api/event/useCreateEvent";
+import { EventOutput } from "@/types/events/event.type";
+import { useEditEvent } from "@/api/event/useUpdateEvent";
 
 type PropsType ={
-    refetch: () => void
+    refetch: () => void,
+    eventItem: EventOutput
 }
 
-export default function CreateEventDialog({refetch}: PropsType) {
+export default function EditEventDialog({refetch, eventItem}: PropsType) {
     const [open, setOpen] = React.useState(false);
     
     const createEventSchema = z.object({
@@ -27,7 +29,7 @@ export default function CreateEventDialog({refetch}: PropsType) {
     
     type CreateEventFormType = z.infer<typeof createEventSchema>;
 
-    const createEventMutatnion = useCreateEvent()
+    const updateEventMutatnion = useEditEvent()
 
     const {
         reset,
@@ -36,11 +38,6 @@ export default function CreateEventDialog({refetch}: PropsType) {
         formState: { errors, isSubmitting },
     } = useForm<CreateEventFormType>({
         resolver: zodResolver(createEventSchema),
-        defaultValues: {
-            title: "",
-            description: "",
-            event_date: new Date(),
-        }
     });
 
     function handleCreateEvent(formData: CreateEventFormType){
@@ -49,10 +46,18 @@ export default function CreateEventDialog({refetch}: PropsType) {
             description: formData.description ?? '',
             event_date: formData.event_date
         }
-        console.log(data)
-        createEventMutatnion.mutate(data, {
+
+        const updatedItem = {
+            ...data,
+            id: eventItem.id
+        }
+        updateEventMutatnion.mutate(updatedItem, {
             onSuccess: () => {
-                reset()
+                reset({
+                    title: eventItem.title,
+                    description: eventItem.description,
+                    event_date: eventItem.event_date
+                })
                 setOpen(false)
                 refetch()
             }
@@ -61,17 +66,18 @@ export default function CreateEventDialog({refetch}: PropsType) {
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger className='scale-hover cursor-pointer'><CirclePlus size={24} className='mt-2'/></DialogTrigger>
+            <DialogTrigger className='scale-hover cursor-pointer'><Pen size={24} className='mt-2'/></DialogTrigger>
                 <DialogContent>
                 <DialogHeader>
-                    <DialogTitle className='mb-2'>Utwórz nowe wydarzenie</DialogTitle>
+                    <DialogTitle className='mb-2'>Edytuj wydarzenie</DialogTitle>
                     <DialogDescription aria-describedby={undefined}></DialogDescription>
                     <div className="flex flex-col">
-                        <AppInputField name="title" control={control} label='Nazwa zadania' error={errors.title?.message}/>
-                        <AppInputField name="description" control={control} label='Nazwa zadania' error={errors.description?.message}/>
+                        <AppInputField name="title" control={control} label='Nazwa wydarzenia' error={errors.title?.message} defaultInputValue={eventItem.title}/>
+                        <AppInputField name="description" control={control} label='Opis wydarzenia' error={errors.description?.message} defaultInputValue={eventItem.description ?? ''}/>
                         <Controller
                             name='event_date'
                             control={control}
+                            defaultValue={new Date(eventItem.event_date)}
                             render={({ field }) => (
                                 <Popover>
                                     <PopoverTrigger asChild>
@@ -97,12 +103,14 @@ export default function CreateEventDialog({refetch}: PropsType) {
                                             onSelect={field.onChange}
                                             captionLayout="dropdown"
                                         />
+
                                     </PopoverContent>
                                 </Popover>
                             )}                        
-                        />
+                            />
+                        {errors && <div className="mt-1 text-sm text-red-500">{errors.event_date?.message}</div>}
                         <div className='flex justify-end mt-[16px]'>
-                            <Button className='scale-hover cursor-pointer' onClick={handleSubmit(handleCreateEvent)} disabled={isSubmitting}>Dodaj zadanie</Button>
+                            <Button className='scale-hover cursor-pointer' onClick={handleSubmit(handleCreateEvent)} disabled={isSubmitting}>Edytuj zadanie</Button>
                         </div>
                     </div>
                 </DialogHeader>

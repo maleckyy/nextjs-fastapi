@@ -61,10 +61,10 @@ export default function UpdateTodoDialog({refetch, item}: PropsType) {
     return (
         <Dialog open={open} onOpenChange={(value: boolean) => {
             setOpen(value)
-                reset({
-                    title: item.title,
-                    description: item.description
-                })
+            reset({
+                title: item.title,
+                description: item.description
+            })
         }}>
             <DialogTrigger className='scale-hover cursor-pointer'><Pen size={24} className='mt-2'/></DialogTrigger>
                 <DialogContent>

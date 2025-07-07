@@ -37,3 +37,19 @@ async def delete_event( event_id: str, db: db_dependency, current_user: models.U
     db.delete(event_to_delete)
     db.commit()
     return {"details": "Usunięto event"}
+
+@router.put('/{event_id}')
+async def edit_event_by_id(event_id: str, event: EventCreate, db: db_dependency, current_user: models.Users = Depends(get_current_user)):
+    event_to_update = db.query(models.Events).filter(models.Events.id == event_id).first()
+
+    if not event_to_update:
+        raise HTTPException(status_code=404, detail="Event not found")
+
+    if not event_to_update.user_id == current_user.id:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+    
+    for key,value in event.model_dump().items():
+        setattr(event_to_update, key, value)
+
+    print(event_to_update)
+    return "test"
