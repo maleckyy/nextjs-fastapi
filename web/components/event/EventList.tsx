@@ -41,7 +41,7 @@ export default function EventList({events, refetch}: PropsType) {
                         </TableCell>
                         <TableCell>{item.description}</TableCell>
                         <TableCell>
-                            <div>
+                            <div className='flex flex-row gap-2 justify-center items-center'>
                                 <EditEventDialog refetch={refetch} eventItem={item}/>
                                 <DeleteEventPopover fn={()=> deleteEvent(item.id)} popoverText='Czy chcesz usunąć to wydarzenie?'/>
                             </div>
