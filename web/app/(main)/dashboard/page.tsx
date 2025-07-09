@@ -8,7 +8,7 @@ export default async function Dashboad() {
   return (
     <section>
       <PageTitle title="Dashboard"/>
-      <div className='flex gap-4'>
+      <div className='flex flex-col md:flex-row gap-4'>
         <GenericCard<Todo>
           endpoint="/todo"
           title="Ostatnie zadania"
