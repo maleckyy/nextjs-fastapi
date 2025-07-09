@@ -3,8 +3,8 @@ from datetime import datetime
 from uuid import UUID
 
 class UserBase(BaseModel):
-    username: str
-    email: EmailStr
+    username: str = Field(min_length=4)
+    email: EmailStr = Field(min_length=8)
 
 class UserCreate(UserBase):
     password: str = Field(min_length=6)
