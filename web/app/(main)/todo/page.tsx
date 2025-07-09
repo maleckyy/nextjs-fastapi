@@ -1,4 +1,3 @@
-// 'use client'
 import PageTitle from '@/components/page-title'
 import React from 'react'
 import TodoDataTable from '@/components/todo/TodoDataTable';
