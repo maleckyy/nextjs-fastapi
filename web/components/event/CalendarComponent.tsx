@@ -43,7 +43,7 @@ export default function CalendarComponent({data, isSuccess, dialogRef}: PropsTyp
     }, [selectedDate, isSuccess, getEventsByDay])
     
     return (
-        <div className="calendar flex flex-rpw gap-4 lg:flex-col lg:gap-2">
+        <div className="calendar flex flex-col gap-4 md:flex-row lg:flex-col lg:min-w-[300px]">
             <Calendar
                 mode="multiple"
                 selected={eventDates}
@@ -56,7 +56,7 @@ export default function CalendarComponent({data, isSuccess, dialogRef}: PropsTyp
                 return setSelectedDate(day)
                 }}
                 onSelect={() => {}}
-                className="rounded-lg border lg:w-[320px] w-1/2 max-w-[320px]"
+                className="rounded-lg border w-full max-w-[400px]"
                 modifiers={{
                 highlighted: new Date()
                 }}
