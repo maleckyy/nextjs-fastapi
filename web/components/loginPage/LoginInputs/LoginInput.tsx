@@ -9,9 +9,10 @@ interface InputProps<T extends FieldValues> {
   error?: string;
   type?: string;
   defaultInputValue?: PathValue<T, Path<T>>
+  showLabel?: boolean
 }
 
-function AppInputField<T extends FieldValues>({ name, control, label, error, type = "text", defaultInputValue }: InputProps<T>) {
+function AppInputField<T extends FieldValues>({ name, control, label, error, type = "text", defaultInputValue, showLabel= false }: InputProps<T>) {
   return (
     <div className="mb-4">
       <label htmlFor={name} className="block mb-1 font-medium sr-only">
@@ -23,13 +24,16 @@ function AppInputField<T extends FieldValues>({ name, control, label, error, typ
         control={control}
         defaultValue={defaultInputValue ?? undefined}
         render={({ field }) => (
+          <>
+          { showLabel && <label className="text-gray-400">{label}</label>}
           <Input
             id={name}
             type={type}
             placeholder={label}
             {...field}
             value={field.value ?? ''}
-          />
+            />
+          </>
         )}
       />
 

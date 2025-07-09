@@ -4,7 +4,7 @@ import PageTitle from '@/components/page-title'
 import { Todo } from '@/types/todo/todo.type'
 
 import React from 'react'
-export default  function Dashboad() {
+export default async function Dashboad() {
   return (
     <section>
       <PageTitle title="Dashboard"/>

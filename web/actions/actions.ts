@@ -1,7 +1,7 @@
 "use server";
 import { cookies } from "next/headers";
 
-export async function createTokenCookie(value: string) {
+export async function createTokenCookie(value: string, age: number) {
   if (value === "") return;
   const cookie = await cookies()
   cookie.set({
@@ -10,6 +10,7 @@ export async function createTokenCookie(value: string) {
     httpOnly: true,
     secure: true,
     path: "/",
+    maxAge: age
   });
 }
 

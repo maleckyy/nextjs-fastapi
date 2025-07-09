@@ -3,6 +3,7 @@ import { createTokenCookie } from "@/actions/actions"
 import { useRefreshTokenMutation } from "@/api/auth/refresh/useRefreshTokenMutatnion"
 import { useAuthStore } from "@/store/authStore"
 import { setStringValueToLocalStorage } from "@/store/localStorage"
+import { LoginOutput } from "@/types/authTypes/login.type"
 import { useRouter } from "next/navigation"
 
 export function useTokenRefresh() {
@@ -14,13 +15,13 @@ export function useTokenRefresh() {
     if (!refreshToken) return
 
         refreshMutation.mutate(refreshToken, {
-        onSuccess: (response) => {
+        onSuccess: (response: LoginOutput) => {
             setStringValueToLocalStorage("token", response.access_token)
             setStringValueToLocalStorage("token_expire_datetime", response.expire_datetime)
             setStringValueToLocalStorage("refresh_token", response.refreshToken)
 
             setDetails(response.access_token, response.refreshToken, response.expire_datetime)
-            createTokenCookie(response.access_token)
+            createTokenCookie(response.access_token, response.token_expires_time)
         },
         onError: (err) => {
             console.error("[REFRESH ERROR]", err)

@@ -9,10 +9,11 @@ import { deleteTokenCookie } from '@/actions/actions'
 export default function LogoutButton() {
     const router = useRouter()
     const {clearToken} = useAuthStore()
-    function logoutUser() {
+    
+    async function logoutUser() {
         clearLocalStorageData()
         clearToken()
-        deleteTokenCookie()
+        await deleteTokenCookie()
         router.push("/login")
     }
 

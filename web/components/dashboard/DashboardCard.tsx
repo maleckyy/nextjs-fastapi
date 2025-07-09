@@ -1,3 +1,4 @@
+'use server'
 import { Card, CardContent, CardTitle } from '../ui/card'
 import Link from 'next/link'
 import { fetchWithAuth } from '@/api/axiosServer'

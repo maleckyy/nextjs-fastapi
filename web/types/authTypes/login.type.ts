@@ -9,6 +9,7 @@ export type UserToken = {
 export type LoginOutput = {
   access_token: string;
   expire_datetime: string;
+  token_expires_time: number
   user: UserToken;
   refreshToken: string
 };
@@ -24,3 +25,10 @@ export type LoginFormType = {
   username: string;
   password: string
 }
+
+export type RegisterFormType = {
+  username: string;
+  email: string;
+  password: string;
+}
+
