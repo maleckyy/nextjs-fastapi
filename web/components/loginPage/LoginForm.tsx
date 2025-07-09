@@ -35,7 +35,8 @@ export default function LoginForm() {
                 setStringValueToLocalStorage("token_expire_datetime", response.expire_datetime)
                 setStringValueToLocalStorage("refresh_token", response.refreshToken)
                 setDetails(response.access_token, response.refreshToken, response.expire_datetime)
-                await createTokenCookie(response.access_token)
+                console.log(response)
+                await createTokenCookie(response.access_token, response.token_expires_time)
                 router.push('/dashboard')
                 reset()
             },
