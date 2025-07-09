@@ -4,11 +4,12 @@ import TodoDataTable from '@/components/todo/TodoDataTable';
 import { QueryKeys } from '@/QueryKeys/queryKeys';
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import { fetchWithAuth } from '@/api/axiosServer';
+import { ApiEndpoints } from '@/api/routes/apiEndpoints';
 export default async function TodoPage() {
   const queryClient = new QueryClient()
 
   function getTodos() {
-    return fetchWithAuth('todo/all')
+    return fetchWithAuth(ApiEndpoints.TODO_ALL)
   }
   
   await queryClient.prefetchQuery({
