@@ -1,8 +1,8 @@
 import { CalendarDays, House, NotebookPen } from 'lucide-react'
 import React from 'react'
-import LogoutButton from './sidebar/logoutButton'
 import { NavOptionsType } from '@/types/navigationTypes/navigation.type'
 import SingleNavElement from './sidebar/singleNavElement'
+import SidebarOptionsButton from './sidebar/SidebarOptionsButton'
 export default function AppSidebar() {
 
   const navOptions: NavOptionsType[] = [
@@ -32,7 +32,7 @@ export default function AppSidebar() {
         )}
       </div>
       <div className='mt-0 items-center justify-center md:mt-auto md:w-full'>
-        <LogoutButton />
+        <SidebarOptionsButton />
       </div>
     </div>
   )
