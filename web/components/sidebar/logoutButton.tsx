@@ -9,21 +9,21 @@ import { LogOut } from 'lucide-react'
 import { createToast } from '@/lib/toastService'
 
 export default function LogoutButton() {
-    const router = useRouter()
-    const {clearToken} = useAuthStore()
-    
-    async function logoutUser() {
-        clearLocalStorageData()
-        clearToken()
-        deleteTokenCookie()
-        createToast("Wylogowano", "success")
-        router.push("/login")
-    }
+  const router = useRouter()
+  const { clearToken } = useAuthStore()
 
-    return (
-        <Button onClick={logoutUser} className='w-full cursor-pointer'>
-            <span className='hidden md:block'>Logout</span>
-            <LogOut className='block md:hidden text-bold' size={22} />
-        </Button>
-    )
+  async function logoutUser() {
+    clearLocalStorageData()
+    clearToken()
+    deleteTokenCookie()
+    createToast("Wylogowano", "success")
+    router.push("/login")
+  }
+
+  return (
+    <Button onClick={logoutUser} className='w-full cursor-pointer'>
+      <span className='hidden md:block'>Logout</span>
+      <LogOut className='block md:hidden text-bold' size={22} />
+    </Button>
+  )
 }

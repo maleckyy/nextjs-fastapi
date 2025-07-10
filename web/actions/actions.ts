@@ -15,6 +15,6 @@ export async function createTokenCookie(value: string, age: number) {
 }
 
 export async function deleteTokenCookie() {
-    const cookie = await cookies()
-    cookie.delete("auth_token")
+  const cookie = await cookies()
+  cookie.delete("auth_token")
 }

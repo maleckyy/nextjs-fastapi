@@ -8,16 +8,16 @@ import { createToast } from '@/lib/toastService'
 
 type PropsType = {
     events: EventOutput[]
-    refetch: ()=> void
+    refetch: () => void
     isLoading: boolean
 }
-export default function EventList({events, refetch}: PropsType) {
+export default function EventList({ events, refetch }: PropsType) {
 
     const deleteEventMutation = useDeleteEvent()
     function deleteEvent(id: string) {
         deleteEventMutation.mutate(id, {
             onSuccess: () => {
-                createToast ("Usunięto wydarzenie", "info")   
+                createToast("Usunięto wydarzenie", "info")
                 refetch()
             }
         })
@@ -27,9 +27,9 @@ export default function EventList({events, refetch}: PropsType) {
         <Table className='w-full'>
             <TableHeader>
                 <TableRow>
-                <TableHead className='w-[500px]'>Nazwa</TableHead>
-                <TableHead>Opis</TableHead>
-                <TableHead className="text-center">Akcje</TableHead>
+                    <TableHead className='w-[500px]'>Nazwa</TableHead>
+                    <TableHead>Opis</TableHead>
+                    <TableHead className="text-center">Akcje</TableHead>
                 </TableRow>
             </TableHeader>
             <TableBody>
@@ -44,8 +44,8 @@ export default function EventList({events, refetch}: PropsType) {
                         <TableCell>{item.description}</TableCell>
                         <TableCell>
                             <div className='flex flex-row gap-2 justify-center items-center'>
-                                <EditEventDialog refetch={refetch} eventItem={item}/>
-                                <DeleteEventPopover fn={()=> deleteEvent(item.id)} popoverText='Czy chcesz usunąć to wydarzenie?'/>
+                                <EditEventDialog refetch={refetch} eventItem={item} />
+                                <DeleteEventPopover fn={() => deleteEvent(item.id)} popoverText='Czy chcesz usunąć to wydarzenie?' />
                             </div>
                         </TableCell>
                     </TableRow>

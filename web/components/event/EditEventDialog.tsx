@@ -14,20 +14,20 @@ import { EventOutput } from "@/types/events/event.type";
 import { useEditEvent } from "@/api/event/useUpdateEvent";
 import { createToast } from "@/lib/toastService";
 
-type PropsType ={
+type PropsType = {
     refetch: () => void,
     eventItem: EventOutput
 }
 
-export default function EditEventDialog({refetch, eventItem}: PropsType) {
+export default function EditEventDialog({ refetch, eventItem }: PropsType) {
     const [open, setOpen] = React.useState(false);
-    
+
     const createEventSchema = z.object({
-        title: z.string({required_error: "Pole jest wymagane"}).min(3, "Tytuł jest zbyt krótki"),
+        title: z.string({ required_error: "Pole jest wymagane" }).min(3, "Tytuł jest zbyt krótki"),
         description: z.string().optional(),
         event_date: z.date()
     });
-    
+
     type CreateEventFormType = z.infer<typeof createEventSchema>;
 
     const updateEventMutatnion = useEditEvent()
@@ -41,7 +41,7 @@ export default function EditEventDialog({refetch, eventItem}: PropsType) {
         resolver: zodResolver(createEventSchema),
     });
 
-    function handleCreateEvent(formData: CreateEventFormType){
+    function handleCreateEvent(formData: CreateEventFormType) {
         const data = {
             title: formData.title,
             description: formData.description ?? '',
@@ -68,14 +68,14 @@ export default function EditEventDialog({refetch, eventItem}: PropsType) {
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger className='scale-hover cursor-pointer'><Pen size={24} className='mt-2'/></DialogTrigger>
-                <DialogContent>
+            <DialogTrigger className='scale-hover cursor-pointer'><Pen size={24} className='mt-2' /></DialogTrigger>
+            <DialogContent>
                 <DialogHeader>
                     <DialogTitle className='mb-2'>Edytuj wydarzenie</DialogTitle>
                     <DialogDescription aria-describedby={undefined}></DialogDescription>
                     <div className="flex flex-col">
-                        <AppInputField name="title" control={control} label='Nazwa wydarzenia' error={errors.title?.message} defaultInputValue={eventItem.title}/>
-                        <AppInputField name="description" control={control} label='Opis wydarzenia' error={errors.description?.message} defaultInputValue={eventItem.description ?? ''}/>
+                        <AppInputField name="title" control={control} label='Nazwa wydarzenia' error={errors.title?.message} defaultInputValue={eventItem.title} />
+                        <AppInputField name="description" control={control} label='Opis wydarzenia' error={errors.description?.message} defaultInputValue={eventItem.description ?? ''} />
                         <Controller
                             name='event_date'
                             control={control}
@@ -89,7 +89,7 @@ export default function EditEventDialog({refetch, eventItem}: PropsType) {
                                                 "w-full pl-3 text-left font-normal",
                                                 !field.value && "text-muted-foreground"
                                             )}
-                                            >
+                                        >
                                             {field.value ? (
                                                 <p>{new Date(field.value).toDateString()}</p>
                                             ) : (
@@ -108,8 +108,8 @@ export default function EditEventDialog({refetch, eventItem}: PropsType) {
 
                                     </PopoverContent>
                                 </Popover>
-                            )}                        
-                            />
+                            )}
+                        />
                         {errors && <div className="mt-1 text-sm text-red-500">{errors.event_date?.message}</div>}
                         <div className='flex justify-end mt-[16px]'>
                             <Button className='scale-hover cursor-pointer' onClick={handleSubmit(handleCreateEvent)} disabled={isSubmitting || !isDirty}>Edytuj zadanie</Button>

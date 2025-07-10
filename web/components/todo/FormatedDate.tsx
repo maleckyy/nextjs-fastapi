@@ -1,9 +1,9 @@
 import { formatDate } from '@/lib/formatDate'
 import React from 'react'
-type PropsType  = {
-    date: string
+type PropsType = {
+  date: string
 }
-export default function FormatedDate({date}:PropsType) {
+export default function FormatedDate({ date }: PropsType) {
   return (
     <>{formatDate(date)}</>
   )

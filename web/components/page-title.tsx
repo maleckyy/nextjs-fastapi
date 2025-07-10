@@ -1,7 +1,7 @@
 import React from 'react'
 
 type PropsType = {
-    title: string
+  title: string
 }
 
 export default function PageTitle({ title }: PropsType) {
