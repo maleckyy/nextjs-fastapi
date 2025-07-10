@@ -1,5 +1,5 @@
  export type NavOptionsType = {
-    title: string,
-    path: string,
-    iconNode: React.ReactNode
-  }
+  title: string,
+  path: string,
+  iconNode: React.ReactNode
+}
