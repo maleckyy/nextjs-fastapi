@@ -42,7 +42,7 @@ async def delete_todo_by_id(todo_id: UUID, db: db_dependency, current_user: mode
     
     db.delete(todo_to_delete)
     db.commit()
-    return f'Usunięto poprawnie todosa'
+    return 'Usunięto poprawnie todosa'
 
 
 
