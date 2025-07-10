@@ -4,6 +4,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '.
 import DeleteEventPopover from './DeleteEventPopover'
 import { useDeleteEvent } from '@/api/event/useDeleteEvent'
 import EditEventDialog from './EditEventDialog'
+import { createToast } from '@/lib/toastService'
 
 type PropsType = {
     events: EventOutput[]
@@ -16,7 +17,8 @@ export default function EventList({events, refetch}: PropsType) {
     function deleteEvent(id: string) {
         deleteEventMutation.mutate(id, {
             onSuccess: () => {
-              refetch()
+                createToast ("Usunięto wydarzenie", "info")   
+                refetch()
             }
         })
     }

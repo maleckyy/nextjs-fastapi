@@ -10,6 +10,7 @@ import { Button } from '../ui/button';
 import Link from 'next/link';
 import z from 'zod';
 import { useRegisterUser } from '@/api/auth/register/useRegisterUser';
+import { createToast } from '@/lib/toastService';
 
 export default function RegisterForm() {
 
@@ -36,7 +37,11 @@ export default function RegisterForm() {
 
         mutate(user, {
             onSuccess: () => {
-                router.push('login')
+                createToast("Utworzono konto", "success")
+                router.push('/login')
+            },
+            onError: () => {
+                createToast("Błąd", "error")
             }
         })
     }

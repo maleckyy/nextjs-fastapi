@@ -8,6 +8,7 @@ import { Button } from "../ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
 import { useUpdateMutatnion } from "@/api/todo/useUpdateTodo";
 import { Todo, TodoUpdate } from "@/types/todo/todo.type";
+import { createToast } from "@/lib/toastService";
 
 type PropsType ={
     refetch: () => void,
@@ -28,7 +29,7 @@ export default function UpdateTodoDialog({refetch, item}: PropsType) {
         reset,
         handleSubmit,
         control,
-        formState: { errors, isSubmitting },
+        formState: { errors, isSubmitting, isDirty },
     } = useForm<CreateTodoFormType>({
         resolver: zodResolver(createTodoSchema),
     });
@@ -48,6 +49,7 @@ export default function UpdateTodoDialog({refetch, item}: PropsType) {
 
         updateTodoMutatnion.mutate(data, {
             onSuccess: () => {
+                createToast("Zadanie edytowano", "success")
                 setOpen(false)
                 refetch()
                 reset({
@@ -75,7 +77,7 @@ export default function UpdateTodoDialog({refetch, item}: PropsType) {
                         <AppInputField name="title" control={control} label='Nazwa zadania' error={errors.title?.message} defaultInputValue={item.title}/>
                         <AppInputField name="description" control={control} label='Nazwa zadania' error={errors.description?.message} defaultInputValue={item.description}/>
                         <div className='flex justify-end'>
-                            <Button className='scale-hover cursor-pointer' onClick={handleSubmit(handleCreateTodo)} disabled={isSubmitting}>Dodaj zadanie</Button>
+                            <Button className='scale-hover cursor-pointer' onClick={handleSubmit(handleCreateTodo)} disabled={isSubmitting||!isDirty}>Dodaj zadanie</Button>
                         </div>
                     </div>
                 </DialogHeader>

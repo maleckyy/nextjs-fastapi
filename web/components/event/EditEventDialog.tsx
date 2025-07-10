@@ -12,6 +12,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Calendar } from "../ui/calendar";
 import { EventOutput } from "@/types/events/event.type";
 import { useEditEvent } from "@/api/event/useUpdateEvent";
+import { createToast } from "@/lib/toastService";
 
 type PropsType ={
     refetch: () => void,
@@ -58,6 +59,7 @@ export default function EditEventDialog({refetch, eventItem}: PropsType) {
                     description: eventItem.description,
                     event_date: eventItem.event_date
                 })
+                createToast("Edytowano wydarzenie", "success")
                 setOpen(false)
                 refetch()
             }

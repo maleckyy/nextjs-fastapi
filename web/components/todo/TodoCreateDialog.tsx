@@ -7,6 +7,7 @@ import z from "zod";
 import AppInputField from "../loginPage/LoginInputs/LoginInput";
 import { Button } from "../ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
+import { createToast } from "@/lib/toastService";
 
 type PropsType ={
     refetch: () => void
@@ -41,8 +42,9 @@ export default function CreateTodoDialog({refetch}: PropsType) {
         }
         createTodoMutation.mutate(data, {
             onSuccess: () => {
-                reset()
+                createToast("Utworzono nowe zadanie", "success")
                 setOpen(false)
+                reset()
                 refetch()
             }
         })

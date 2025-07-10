@@ -22,6 +22,7 @@ import { cn } from "@/lib/utils";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Calendar } from "../ui/calendar";
 import { useCreateEvent } from "@/api/event/useCreateEvent";
+import { createToast } from "@/lib/toastService";
 
 export type CreateEventDialogRef = {
   open: (day?: Date) => void;
@@ -87,6 +88,7 @@ const CreateEventDialog = forwardRef<CreateEventDialogRef, PropsType>(
 
       createEventMutation.mutate(data, {
         onSuccess: () => {
+          createToast("Utworzono wydarzenie", "success")
           reset();
           setOpen(false);
           refetch();

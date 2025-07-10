@@ -6,6 +6,7 @@ import { Button } from '../ui/button'
 import { useAuthStore } from '@/store/authStore'
 import { deleteTokenCookie } from '@/actions/actions'
 import { LogOut } from 'lucide-react'
+import { createToast } from '@/lib/toastService'
 
 export default function LogoutButton() {
     const router = useRouter()
@@ -15,6 +16,7 @@ export default function LogoutButton() {
         clearLocalStorageData()
         clearToken()
         deleteTokenCookie()
+        createToast("Wylogowano", "success")
         router.push("/login")
     }
 

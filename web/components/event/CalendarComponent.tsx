@@ -36,10 +36,10 @@ export default function CalendarComponent({data, isSuccess, dialogRef}: PropsTyp
 
 
     useEffect(() => {
-        if (isSuccess) {
+      if (isSuccess) {
         const eventsForDay = getEventsByDay(selectedDate)
         setSelectedEvents(eventsForDay)
-        }
+      }
     }, [selectedDate, isSuccess, getEventsByDay])
     
     return (
@@ -49,27 +49,27 @@ export default function CalendarComponent({data, isSuccess, dialogRef}: PropsTyp
                 selected={eventDates}
                 onDayClick={(day, modifiers: Modifiers, e:React.MouseEvent) => {
                 if (e.altKey && e.button === 0) {
-                    if (dialogRef.current) {
-                    dialogRef.current.open(day);
+                      if (dialogRef.current) {
+                      dialogRef.current.open(day);
                     }
                 }
                 return setSelectedDate(day)
                 }}
                 onSelect={() => {}}
-                className="rounded-lg border w-full max-w-[400px]"
-                modifiers={{
-                highlighted: new Date()
+                  className="rounded-lg border w-full max-w-[400px]"
+                  modifiers={{
+                  highlighted: new Date()
                 }}
                 modifiersClassNames={{
-                today: "bg-blue-500 text-white font-bold rounded-md border shadow-lg"
+                  today: "bg-blue-500 text-white font-bold rounded-md border shadow-lg"
                 }}
             />
             <div>
                 <h4 className='font-bold mb-1'>Wydarzenia w dniu {selectedDate.toDateString()}</h4>
                 {selectedEvents.length > 0 ? (
-                selectedEvents.map((item, index) => (
-                    <p key={item.id}>{index+1}.{item.title}</p>
-                ))
+                  selectedEvents.map((item, index) => (
+                      <p key={item.id}>{index+1}.{item.title}</p>
+                  ))
                 ) : (
                 <p>Brak wydarzeń dla wybranego dnia</p>
                 )}

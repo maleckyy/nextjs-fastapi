@@ -12,6 +12,7 @@ import { useLoginMutation } from '@/api/auth/login/useLoginMutation';
 import AppInputField from './LoginInputs/LoginInput';
 import Link from 'next/link';
 import { createTokenCookie } from '@/actions/actions';
+import { createToast } from '@/lib/toastService';
 
 export default function LoginForm() {
     const { setDetails } = useAuthStore()
@@ -31,17 +32,18 @@ export default function LoginForm() {
     const submitForm = (data: LoginFormType) => {
         loginMutation.mutate({ email: data.username, password: data.password },{
             onSuccess: async (response: LoginOutput) => {
+                createToast("Zalogowano", "success")
                 setStringValueToLocalStorage("token", response.access_token)
                 setStringValueToLocalStorage("token_expire_datetime", response.expire_datetime)
                 setStringValueToLocalStorage("refresh_token", response.refreshToken)
                 setDetails(response.access_token, response.refreshToken, response.expire_datetime)
-                console.log(response)
                 await createTokenCookie(response.access_token, response.token_expires_time)
                 router.push('/dashboard')
                 reset()
             },
             onError: (e) => {
                 console.log(e)
+                createToast("Błąd", "error")
             }
         });
     };

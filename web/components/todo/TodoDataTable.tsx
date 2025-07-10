@@ -11,10 +11,13 @@ import { useDeleteTodo } from '@/api/todo/useDeleteTodo';
 import UpdateTodoDialog from '@/components/todo/TodoUpdateDialog';
 import { useUpdateMutatnion } from '@/api/todo/useUpdateTodo';
 import { useGetTodo } from '@/api/todo/useGetTodo';
+import { createToast } from '@/lib/toastService';
 
 export default function TodoDataTable() {
-    const {data, isLoading, refetch} = useGetTodo()
+    const { data, isLoading, refetch } = useGetTodo()
     const useUpdateTodoMutation = useUpdateMutatnion()
+    const useDeleteTodoMutation = useDeleteTodo()
+
     function changeTodoStatus(item: Todo) {
         const updatedTodo: TodoUpdate = {
             id: item.id,
@@ -27,19 +30,29 @@ export default function TodoDataTable() {
 
         useUpdateTodoMutation.mutate(updatedTodo, {
             onSuccess: () => {
+                createToast("Status zmieniony", "success", "Status zadania został zmieniony")
                 refetch()
-            }
+            },
+            onError: (error) => {
+                console.log(error)
+                createToast("Błąd", "error", error.message)
+            },
         })
     }
     
-    const useDeleteTodoMutation = useDeleteTodo()
     function deleteTodo(item: Todo) {
         useDeleteTodoMutation.mutate(item.id, {
             onSuccess: () => {
-            refetch()
+                createToast("Usunięto zadanie", "info", `Zadanie o nazwie: ${item.title} zostało usunięte`)
+                refetch()
+            },
+            onError: (error) => {
+                console.log(error)
+                createToast("Błąd", "error", error.message)
             }
         })
     }
+
     return (
         <Table>
             <TableHeader>

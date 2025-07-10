@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import QueryProvider from "@/api/queryProvider";
 import AuthContextProvider from "@/store/authContext";
+import { Toaster } from "sonner";
 
 
 const geistSans = Geist({
@@ -27,10 +28,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-          >
+        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
             <main className="w-full">
+              <Toaster/>
               <AuthContextProvider>
                 <QueryProvider>
                   {children}
