@@ -22,15 +22,26 @@ async def create_new_user(db: db_dependency, user: UserCreate):
         raise HTTPException(status_code=409, detail="This username is already in use")
 
     hashed_pw = hash_password(user.password)
+
     new_user = models.Users(
         username=user.username,
         email=user.email,
         password_hash=hashed_pw
     )
 
+    user_data = models.UserDetails(
+        description= '',
+        phone_number= '',
+        address= '',
+        country= ''
+    )
+
+    new_user.details = user_data
+
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
+
     return new_user
 
 

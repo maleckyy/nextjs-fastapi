@@ -14,4 +14,3 @@ class User(UserBase):
     created_at: datetime
     class config:
         from_atttibute: True
-

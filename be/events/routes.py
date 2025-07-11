@@ -7,7 +7,7 @@ from .schemas import EventCreate, EventResponse, EventOutput
 from dependency import db_dependency
 
 
-router = APIRouter(prefix="/event", tags=["Eventss"], dependencies=[Depends(get_current_user)])
+router = APIRouter(prefix="/event", tags=["Events"], dependencies=[Depends(get_current_user)])
 
 @router.get('', response_model=list[EventResponse])
 async def get_events(db: db_dependency, current_user: models.Users = Depends(get_current_user)):
