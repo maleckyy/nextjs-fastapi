@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
-from .schemas import UserDetails, UserContent
+from .schemas import UserDetails, UserContent, UserDetailsOutput
 from dependency import db_dependency
 import models
 from fastapi import APIRouter, Depends
@@ -14,9 +14,9 @@ router = APIRouter(
     dependencies=[Depends(get_current_user)]
 )
 
-@router.get('', response_model=UserDetails)
+@router.get('', response_model=UserDetailsOutput)
 async def get_user_details(db: db_dependency, current_user: models.Users = Depends(get_current_user)):
-    return db.query(models.UserDetails).filter(models.UserDetails.user_id == current_user.id).first()
+    return db.query(models.Users).filter(models.Users.id == current_user.id).first()
 
 @router.put('', response_model=UserDetails)
 async def update_user_details(db: db_dependency, newData: UserContent, current_user: models.Users = Depends(get_current_user)):
@@ -30,6 +30,7 @@ async def update_user_details(db: db_dependency, newData: UserContent, current_u
     
     for key,value in newData.model_dump().items():
         setattr(detail_to_update, key, value)
+        
     db.commit()
     db.refresh(detail_to_update)
     return detail_to_update

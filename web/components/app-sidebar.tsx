@@ -1,4 +1,4 @@
-import { CalendarDays, House, NotebookPen } from 'lucide-react'
+import { CalendarDays, House, NotebookPen, User } from 'lucide-react'
 import React from 'react'
 import { NavOptionsType } from '@/types/navigationTypes/navigation.type'
 import SingleNavElement from './sidebar/singleNavElement'
@@ -20,6 +20,11 @@ export default function AppSidebar() {
       title: "Wydarzenia",
       path: "/events",
       iconNode: <CalendarDays />
+    },
+    {
+      title: "Profil",
+      path: "/profile",
+      iconNode: <User />
     },
   ]
 
