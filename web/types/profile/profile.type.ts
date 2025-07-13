@@ -1,9 +1,9 @@
 
 export type UserDetails = {
-  address?: string | undefined
-  country?: string | undefined
-  description?: string | undefined
-  phone_number?: string | undefined
+  address: string
+  country: string
+  description: string
+  phone_number: string
 }
 
 export type UserDetailsOutput = {

@@ -9,6 +9,7 @@ import { useForm } from 'react-hook-form'
 import AppInputField from '../loginPage/LoginInputs/LoginInput'
 import { useUpdateUserDetails } from '@/api/profile/useUpdateUserDetails'
 import { createToast } from '@/lib/toastService'
+import { updateUserDetailsSchema } from '@/schemas/userDetails.schema'
 type PropsType = {
   userDetails: UserDetails,
   refetch: () => void
@@ -16,13 +17,6 @@ type PropsType = {
 
 export default function UpdateDetailsDialog({ userDetails, refetch }: PropsType) {
   const [open, setOpen] = React.useState(false);
-
-  const updateUserDetailsSchema = z.object({
-    address: z.string().optional(),
-    country: z.string().optional(),
-    description: z.string().optional(),
-    phone_number: z.string().optional(),
-  });
 
   type UpdateUserDetailsFormType = z.infer<typeof updateUserDetailsSchema>;
 
@@ -47,8 +41,6 @@ export default function UpdateDetailsDialog({ userDetails, refetch }: PropsType)
   const useUpdateUserDetailsMutation = useUpdateUserDetails()
 
   function updateUserDetails(formData: UpdateUserDetailsFormType) {
-    console.log(formData)
-
     useUpdateUserDetailsMutation.mutate(formData, {
       onSuccess: () => {
         refetch()
@@ -80,12 +72,9 @@ export default function UpdateDetailsDialog({ userDetails, refetch }: PropsType)
         <div className='flex flex-col gap-0'>
           <AppInputField control={control} name='address' label='Adres' error={errors.address?.message} defaultInputValue={userDetails.address} showLabel />
           <AppInputField control={control} name='country' label='Kraj' error={errors.country?.message} defaultInputValue={userDetails.country} showLabel />
-          {/* zmienic na V textarea */}
-          <AppInputField control={control} name='description' label='Opis profilu' error={errors.description?.message} defaultInputValue={userDetails.description} showLabel />
+          <AppInputField control={control} name='description' label='Opis profilu' error={errors.description?.message} defaultInputValue={userDetails.description} showLabel type="textarea" />
           <AppInputField control={control} name='phone_number' label='Numer telefonu' error={errors.phone_number?.message} defaultInputValue={userDetails.phone_number} showLabel />
         </div>
-
-
         <DialogFooter>
           <DialogClose asChild>
             <Button variant="outline" onClick={resetFormToDefaults}>Anuluj</Button>
