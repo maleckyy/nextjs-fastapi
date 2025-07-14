@@ -10,5 +10,6 @@ export type UserDetailsOutput = {
   username: string
   id: string
   email: string
+  created_at: string
   details: UserDetails
 }
