@@ -1,6 +1,6 @@
 import uuid
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, String, Null, Time
+from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, String, Null, Text, Time
 from sqlalchemy.orm import relationship
 from database import Base
 from datetime import datetime, timezone
@@ -30,7 +30,13 @@ class Users(Base):
         "Events",
         back_populates="user",
         cascade="all, delete",
-        uselist=False
+    )
+
+    details = relationship(
+        "UserDetails", 
+        back_populates="user", 
+        uselist=False, 
+        cascade="all, delete-orphan"
     )
 
 class TodoList(Base):
@@ -65,3 +71,16 @@ class Events(Base):
 
     user_id = Column(UUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
     user = relationship("Users", back_populates="event")
+
+class UserDetails(Base):
+    __tablename__ = 'user_details'
+
+    user_id = Column(UUID(as_uuid=True), ForeignKey('users.id', ondelete='CASCADE'), primary_key=True)
+    description = Column(Text, nullable=True) # Długi tekst, np. "O mnie"
+    phone_number = Column(String(20), nullable=True)
+    address = Column(String, nullable=True)
+    country = Column(String, nullable=True)
+
+    # zdjecie ogarnac
+
+    user = relationship("Users", back_populates="details")

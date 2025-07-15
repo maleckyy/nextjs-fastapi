@@ -1,5 +1,6 @@
 // components/atoms/Input.tsx
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Control, Controller, FieldValues, Path, PathValue } from "react-hook-form";
 
 interface InputProps<T extends FieldValues> {
@@ -7,7 +8,7 @@ interface InputProps<T extends FieldValues> {
   control: Control<T>;
   label: string;
   error?: string;
-  type?: string;
+  type?: "text" | "number" | "password" | "textarea";
   defaultInputValue?: PathValue<T, Path<T>>
   showLabel?: boolean
 }
@@ -26,13 +27,23 @@ function AppInputField<T extends FieldValues>({ name, control, label, error, typ
         render={({ field }) => (
           <>
             {showLabel && <label className="text-gray-400">{label}</label>}
-            <Input
-              id={name}
-              type={type}
-              placeholder={label}
-              {...field}
-              value={field.value ?? ''}
-            />
+            {type !== "textarea" &&
+              <Input
+                id={name}
+                type={type}
+                placeholder={label}
+                {...field}
+                value={field.value ?? ''}
+              />}
+
+            {type === "textarea" &&
+              <Textarea
+                id={name}
+                placeholder={label}
+                {...field}
+                value={field.value ?? ''}
+              />
+            }
           </>
         )}
       />

@@ -13,5 +13,6 @@ export enum ApiEndpoints {
   TODO_LAST = '/todo',
 
   EVENTS = '/event',
-  EVENT_CREATE = '/event'
+  EVENT_CREATE = '/event',
+  USER_DETAILS = '/details'
 }
