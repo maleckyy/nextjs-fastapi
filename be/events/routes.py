@@ -53,5 +53,6 @@ async def edit_event_by_id(event_id: str, event: EventCreate, db: db_dependency,
     for key,value in event.model_dump().items():
         setattr(event_to_update, key, value)
 
-    print(event_to_update)
-    return "test"
+    db.commit()
+    db.refresh(event_to_update)
+    return event_to_update
