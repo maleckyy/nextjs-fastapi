@@ -1,7 +1,7 @@
 'use client'
 import { clearLocalStorageData } from '@/store/localStorage'
 import { useRouter } from 'next/navigation'
-import React from 'react'
+import React, { useContext } from 'react'
 import { Button } from '../ui/button'
 import { useAuthStore } from '@/store/authStore'
 import { deleteTokenCookie } from '@/actions/actions'
@@ -11,11 +11,14 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuPortal
 import Link from 'next/link'
 import { useManageTheme } from '@/hooks/useManageTheme'
 import { DropdownMenuGroup } from '@radix-ui/react-dropdown-menu'
+import { ActiveUserContext } from '@/store/activeUserContext'
 
 export default function SidebarOptionsButton() {
   const router = useRouter()
   const { clearToken } = useAuthStore()
   const { selectTheme } = useManageTheme()
+
+  const { activeUser } = useContext(ActiveUserContext)
 
   async function logoutUser() {
     createToast("Wylogowano", "success")
