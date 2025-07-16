@@ -2,7 +2,7 @@
 import React from 'react'
 import { Bar, BarChart } from 'recharts'
 import { type ChartConfig, ChartContainer } from "@/components/ui/chart"
-import { Card, CardTitle } from '../ui/card'
+import { Card, CardDescription } from '../ui/card'
 
 const chartData = [
   { month: "January", desktop: 186, mobile: 80 },
@@ -26,8 +26,8 @@ const chartConfig = {
 
 export default function DashboardChart() {
   return (
-    <Card className='md:max-h-[400px] w-full md:w-1/2 px-6'>
-      <CardTitle>jjs</CardTitle>
+    <Card className='md:max-h-[400px] w-full md:w-1/2 px-6 bg-card shadow-xs bg-gradient-to-t from-primary/5 to-card dark'>
+      <CardDescription className='text-primary'>Wykresy</CardDescription>
       <ChartContainer config={chartConfig} className="min-h-[120px]">
         <BarChart data={chartData}>
           <Bar dataKey="desktop" fill="var(--color-desktop)" radius={4} />

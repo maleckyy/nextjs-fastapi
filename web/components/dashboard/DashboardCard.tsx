@@ -1,5 +1,5 @@
 'use server'
-import { Card, CardContent, CardTitle } from '../ui/card'
+import { Card, CardContent, CardDescription } from '../ui/card'
 import Link from 'next/link'
 import { fetchWithAuth } from '@/api/axiosServer'
 import React from 'react'
@@ -23,20 +23,21 @@ export default async function GenericCard<T>({
   const data: T[] = await fetchWithAuth(endpoint)
 
   return (
-    <Card className="gap-4 w-full">
-      <CardTitle className="px-6">
-        <div className='flex flex-row justify-between items-center'>
-          {title}
+    <Card className="gap-4 w-full bg-card shadow-xs bg-gradient-to-t from-primary/5 to-card dark">
+      <CardDescription className="px-6">
+        <div className='flex flex-row justify-between items-center text-primary'>
+          <span className="text-base">{title}</span>
           {linkHref && <Link href={linkHref}>
-            <ExternalLink />
+            <ExternalLink size={18} />
           </Link>}
         </div>
-      </CardTitle>
+      </CardDescription>
       <CardContent>
         {data.length === 0 ? (<p>{noDataText}</p>) :
           (data.map((item, index) => renderItem(item, index)))
         }
       </CardContent>
     </Card>
+    //</div>
   )
 }

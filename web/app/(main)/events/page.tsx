@@ -23,10 +23,9 @@ export default function Events() {
       <PageTitle title="Wydarzenia" />
       <div className='flex flex-col lg:flex-row gap-4'>
         <CalendarComponent data={data} isSuccess={isSuccess} dialogRef={dialogRef} />
-
         <div className='flex flex-col gap-2 w-full'>
           <div className='flex justify-between items-center'>
-            <h3 className='text-2xl'>Wszystkie wydarzenia</h3>
+            <h3 className='text-md'>Wszystkie wydarzenia</h3>
             <span><CreateEventDialog ref={dialogRef} refetch={refetch} /></span>
           </div>
           {data ?
