@@ -1,4 +1,5 @@
 import React from 'react'
+import { SidebarTrigger } from './ui/sidebar'
 
 type PropsType = {
   title: string
@@ -6,8 +7,9 @@ type PropsType = {
 
 export default function PageTitle({ title }: PropsType) {
   return (
-    <section>
-      <h2 className='pb-4 text-2xl'>{title}</h2>
+    <section className='flex items-center gap-1'>
+      <SidebarTrigger className='mt-1' />
+      <h2 className='text-xl'>{title}</h2>
     </section>
   )
 }

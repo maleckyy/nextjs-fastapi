@@ -18,7 +18,7 @@ export default async function ProfilePage() {
 
   return (
     <HydrationBoundary state={dehydratedState}>
-      <section>
+      <section className='flex flex-col gap-4'>
         <PageTitle title={"Twój profil"} />
         <div>
           <ProfileContent />

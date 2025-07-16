@@ -2,13 +2,16 @@ import GenericCard from '@/components/dashboard/DashboardCard'
 import SingleCardElement from '@/components/dashboard/SingleTodo'
 import PageTitle from '@/components/page-title'
 import { Todo } from '@/types/todo/todo.type'
-
+import dynamic from 'next/dynamic'
 import React from 'react'
+
+const DashboardChartComponent = dynamic(() => import('../../../components/dashboard/DashboardChart'))
+
 export default async function Dashboad() {
   return (
-    <section>
+    <section className='flex flex-col gap-4'>
       <PageTitle title="Dashboard" />
-      <div className='flex flex-col md:flex-row gap-4'>
+      <div className='flex flex-col md:flex-row gap-4 lg:flex-nowrap flex-wrap'>
         <GenericCard<Todo>
           endpoint="/todo"
           title="Ostatnie zadania"
@@ -24,6 +27,10 @@ export default async function Dashboad() {
           linkHref="/events"
           noDataText='Brak nadchodzących wydarzeń'
         />
+      </div>
+      <div className='flex flex-col md:flex-row gap-4 md:flex-nowrap flex-wrap'>
+        <DashboardChartComponent />
+        <DashboardChartComponent />
       </div>
     </section>
   )

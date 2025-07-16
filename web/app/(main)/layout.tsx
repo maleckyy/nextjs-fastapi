@@ -10,13 +10,13 @@ export default async function RootLayout({
 }>) {
   return (
     <SidebarProvider>
-        <div className="flex flex-col w-full md:flex-row">
-        <AppSidebar/>
+      <div className="flex flex-col w-full md:flex-row">
+        <AppSidebar />
         <div className="w-full p-4">
-          <TokenWatcher/>
+          <TokenWatcher />
           {children}
         </div>
-    </div>
-      </SidebarProvider>
+      </div>
+    </SidebarProvider>
   );
 }
