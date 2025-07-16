@@ -43,7 +43,7 @@ export default function CalendarComponent({ data, isSuccess, dialogRef }: PropsT
   }, [selectedDate, isSuccess, getEventsByDay])
 
   return (
-    <div className="calendar flex flex-col gap-4 md:flex-row lg:flex-col lg:min-w-[300px]">
+    <div className="calendar flex flex-col sm:flex-row gap-4 lg:flex-col">
       <Calendar
         mode="multiple"
         selected={eventDates}
@@ -56,7 +56,7 @@ export default function CalendarComponent({ data, isSuccess, dialogRef }: PropsT
           return setSelectedDate(day)
         }}
         onSelect={() => { }}
-        className="rounded-lg border w-full max-w-[400px]"
+        className="[&_[role=gridcell].bg-accent]:bg-sidebar-primary [&_[role=gridcell].bg-accent]:text-sidebar-primary-foreground [&_[role=gridcell]]:w-[33px]"
         modifiers={{
           highlighted: new Date()
         }}
@@ -65,13 +65,13 @@ export default function CalendarComponent({ data, isSuccess, dialogRef }: PropsT
         }}
       />
       <div>
-        <h4 className='font-bold mb-1'>Wydarzenia w dniu {selectedDate.toDateString()}</h4>
+        <h4 className='mb-1 text-base font-medium'>Wydarzenia w dniu {selectedDate.toDateString()}</h4>
         {selectedEvents.length > 0 ? (
           selectedEvents.map((item, index) => (
-            <p key={item.id}>{index + 1}. {item.title}</p>
+            <p key={index} className='text-base text-accent-foreground font-normal'>{index + 1}. {item.title}</p>
           ))
         ) : (
-          <p>Brak wydarzeń dla wybranego dnia</p>
+          <span className='text-base text-accent-foreground font-normal'>Brak wydarzeń dla wybranego dnia</span>
         )}
       </div>
     </div>
