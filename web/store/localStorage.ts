@@ -1,5 +1,4 @@
 export function setStringValueToLocalStorage(key: string, value: string) {
-  console.log(key, value)
   localStorage.setItem(key, value)
 }
 

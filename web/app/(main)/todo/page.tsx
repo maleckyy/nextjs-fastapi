@@ -11,7 +11,7 @@ export default async function TodoPage() {
   function getTodos() {
     return fetchWithAuth(ApiEndpoints.TODO_ALL)
   }
-  
+
   await queryClient.prefetchQuery({
     queryKey: [QueryKeys.TODOS],
     queryFn: getTodos,
@@ -21,9 +21,9 @@ export default async function TodoPage() {
 
   return (
     <HydrationBoundary state={dehydratedState}>
-      <section>
-        <PageTitle title="Todos"/>
-        <TodoDataTable/>
+      <section className='flex flex-col gap-4'>
+        <PageTitle title="Todos" />
+        <TodoDataTable />
       </section>
     </HydrationBoundary>
   )

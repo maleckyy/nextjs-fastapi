@@ -3,7 +3,9 @@ import React from 'react'
 import { NavOptionsType } from '@/types/navigationTypes/navigation.type'
 import SingleNavElement from './sidebar/singleNavElement'
 import SidebarOptionsButton from './sidebar/SidebarOptionsButton'
-export default function AppSidebar() {
+import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarHeader, SidebarMenu } from './ui/sidebar'
+
+export default function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   const navOptions: NavOptionsType[] = [
     {
@@ -29,16 +31,22 @@ export default function AppSidebar() {
   ]
 
   return (
-    <div className='p-4 flex flex-row justify-between items-center g-4 px-6 bg-gray-800 text-white md:flex-col'>
-      <h1 className='text-1xl mb-0 md:mb-4 text-inherit text-center md:text-3xl sm:text-2xl'>PSPACe</h1>
-      <div className='flex flex-row md:flex-col gap-4 md:gap-2'>
-        {navOptions.map((item, index) =>
-          (<SingleNavElement key={index} item={item} />)
-        )}
-      </div>
-      <div className='mt-0 items-center justify-center md:mt-auto md:w-full'>
+    <Sidebar collapsible="offcanvas" {...props}>
+      <SidebarHeader><div className="text-base px-2 font-semibold pt-4">PSPACE</div></SidebarHeader>
+      <SidebarContent>
+        <SidebarGroup>
+          <SidebarGroupContent className="flex flex-col gap-2">
+            <SidebarMenu>
+              {navOptions.map((item, index) => (
+                <SingleNavElement key={index} item={item} />
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
+      <SidebarFooter className='pb-4'>
         <SidebarOptionsButton />
-      </div>
-    </div>
+      </SidebarFooter>
+    </Sidebar>
   )
 }

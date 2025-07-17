@@ -2,6 +2,6 @@ import React from 'react'
 
 export default function Settings() {
   return (
-    <div>Settings</div>
+    <section className='flex flex-col gap-4'></section>
   )
 }
