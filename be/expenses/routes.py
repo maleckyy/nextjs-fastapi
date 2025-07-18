@@ -3,7 +3,7 @@ from auth.routes import get_current_user
 from enums.expense_enum import ExpenseType
 from .schemas import ExpenseCreate, ExpenseOut, ExpenseSummary, ExpenseUpdate
 from dependency import db_dependency
-from sqlalchemy import extract, func
+from sqlalchemy import desc, extract, func
 from datetime import datetime
 import models
 
@@ -12,7 +12,7 @@ router = APIRouter(prefix="/expenses", tags=["Expenses"], dependencies=[Depends(
 
 @router.get('', response_model=list[ExpenseOut])
 async def get_expenses(db: db_dependency, current_user: models.Users = Depends(get_current_user)):
-    return db.query(models.Expense).filter(models.Expense.user_id == current_user.id).all()
+    return db.query(models.Expense).filter(models.Expense.user_id == current_user.id).order_by(desc(models.Expense.expense_date)).all()
 
 
 @router.post('', status_code=status.HTTP_201_CREATED)

@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation'
 import React from 'react'
 import { useForm } from 'react-hook-form';
-import AppInputField from '../loginPage/LoginInputs/LoginInput';
+import AppInputField from '../shared/Inputs/AppInput';
 import { Button } from '../ui/button';
 import Link from 'next/link';
 import z from 'zod';

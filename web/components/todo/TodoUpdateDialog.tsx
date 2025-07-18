@@ -3,7 +3,7 @@ import { Pen } from "lucide-react";
 import React from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
-import AppInputField from "../loginPage/LoginInputs/LoginInput";
+import AppInputField from "../shared/Inputs/AppInput";
 import { Button } from "../ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
 import { useUpdateMutatnion } from "@/api/todo/useUpdateTodo";

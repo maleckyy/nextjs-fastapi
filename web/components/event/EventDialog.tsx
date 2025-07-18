@@ -8,7 +8,7 @@ import React, {
 } from "react";
 import { Controller, useForm } from "react-hook-form";
 import z from "zod";
-import AppInputField from "../loginPage/LoginInputs/LoginInput";
+import AppInputField from "../shared/Inputs/AppInput";
 import { Button } from "../ui/button";
 import {
   Dialog,

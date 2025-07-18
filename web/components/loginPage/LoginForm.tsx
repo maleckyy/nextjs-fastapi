@@ -9,7 +9,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from '@/schemas/login.schema';
 import { useLoginMutation } from '@/api/auth/login/useLoginMutation';
-import AppInputField from './LoginInputs/LoginInput';
+import AppInputField from '../shared/Inputs/AppInput';
 import Link from 'next/link';
 import { createToast } from '@/lib/toastService';
 import { createTokenCookie } from '@/actions/actions';
