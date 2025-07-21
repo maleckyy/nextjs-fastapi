@@ -14,5 +14,8 @@ export enum ApiEndpoints {
 
   EVENTS = '/event',
   EVENT_CREATE = '/event',
-  USER_DETAILS = '/details'
+  USER_DETAILS = '/details',
+  EXPENSE_SUMMARY = "/expenses/monthly",
+  EXPENSE = '/expenses',
+  EXPENSE_DELETE = '/expenses',
 }

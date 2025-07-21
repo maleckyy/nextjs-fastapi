@@ -1,9 +1,8 @@
-// components/atoms/Input.tsx
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Control, Controller, FieldValues, Path, PathValue } from "react-hook-form";
 
-interface InputProps<T extends FieldValues> {
+type InputProps<T extends FieldValues> = {
   name: Path<T>;
   control: Control<T>;
   label: string;
@@ -34,6 +33,7 @@ function AppInputField<T extends FieldValues>({ name, control, label, error, typ
                 placeholder={label}
                 {...field}
                 value={field.value ?? ''}
+
               />}
 
             {type === "textarea" &&

@@ -23,7 +23,7 @@ export default async function GenericCard<T>({
   const data: T[] = await fetchWithAuth(endpoint)
 
   return (
-    <Card className="gap-4 w-full bg-card shadow-xs bg-gradient-to-t from-primary/5 to-card dark">
+    <Card className="gap-4 w-full bg-card shadow-xs">
       <CardDescription className="px-6">
         <div className='flex flex-row justify-between items-center text-primary'>
           <span className="text-base">{title}</span>
@@ -38,6 +38,5 @@ export default async function GenericCard<T>({
         }
       </CardContent>
     </Card>
-    //</div>
   )
 }

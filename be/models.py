@@ -1,7 +1,8 @@
 import uuid
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, String, Null, Text, Time
+from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, Numeric, String, Null, Text, Time, Enum
 from sqlalchemy.orm import relationship
+from enums.expense_enum import ExpenseType
 from database import Base
 from datetime import datetime, timezone
 
@@ -36,6 +37,12 @@ class Users(Base):
         "UserDetails", 
         back_populates="user", 
         uselist=False, 
+        cascade="all, delete-orphan"
+    )
+
+    expense = relationship(
+        "Expense", 
+        back_populates="user", 
         cascade="all, delete-orphan"
     )
 
@@ -84,3 +91,16 @@ class UserDetails(Base):
     # zdjecie ogarnac
 
     user = relationship("Users", back_populates="details")
+
+class Expense(Base):
+    __tablename__ = 'expense'
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    title = Column(String, nullable=False)
+    description = Column(String, nullable=True)
+    expense_date = Column(DateTime, nullable=False, default=datetime.utcnow)
+    expense_type = Column(Enum(ExpenseType, name="expense_type"), nullable=False)
+    amount = Column(Numeric(10, 2), nullable=False)
+
+    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
+    user = relationship("Users", back_populates="expense")
