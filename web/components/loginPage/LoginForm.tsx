@@ -14,11 +14,13 @@ import Link from 'next/link';
 import { createToast } from '@/lib/toastService';
 import { createTokenCookie } from '@/actions/actions';
 import { ActiveUserContext } from '@/store/activeUserContext';
+import AnimatedSpinner from '../shared/AnimatedSpinner';
 
 export default function LoginForm() {
   const { setDetails } = useAuthStore()
   const router = useRouter()
   const { refetchOnLogin } = useContext(ActiveUserContext)
+  const [isLoading, setIsLoading] = React.useState(false)
 
   const {
     reset,
@@ -32,6 +34,7 @@ export default function LoginForm() {
   const loginMutation = useLoginMutation();
 
   const submitForm = (data: LoginFormType) => {
+    setIsLoading(true)
     loginMutation.mutate({ email: data.username, password: data.password }, {
       onSuccess: async (response: LoginOutput) => {
         createToast("Zalogowano", "success")
@@ -43,10 +46,12 @@ export default function LoginForm() {
         refetchOnLogin()
         router.push('/dashboard')
         reset()
+        setIsLoading(false)
       },
       onError: (e) => {
         console.log(e)
         createToast("Błąd", "error")
+        setIsLoading(false)
       }
     });
   };
@@ -55,7 +60,7 @@ export default function LoginForm() {
     <section className='flex gap-2 justify-center flex-col'>
       <AppInputField name='username' control={control} label="Email" error={errors.username?.message} />
       <AppInputField name='password' control={control} label="Hasło" error={errors.password?.message} type='password' />
-      <Button onClick={handleSubmit(submitForm)} disabled={isSubmitting}>Zaloguj</Button>
+      <Button onClick={handleSubmit(submitForm)} disabled={isSubmitting}>{!isLoading ? ("Zaloguj") : (<AnimatedSpinner />)}</Button>
       <Link href='/register' className='text-gray-400 text-center'>Nie masz konta? Zarejestruj się</Link>
     </section>
   )
