@@ -31,6 +31,13 @@ export default function SummaryDashboardChart({ showLink = false }: PropsType) {
 
   const chartData = React.useMemo(() => {
     if (!data) return []
+
+    if (data.balance === 0) {
+      return [
+        { title: "Brak danych", amount: 1, fill: "#ccc" }
+      ]
+    }
+
     return [
       { title: "Wszystkie wydatki", amount: data.total_expense, fill: "red" },
       { title: "Przychody", amount: data.total_income, fill: "green" },
@@ -52,6 +59,10 @@ export default function SummaryDashboardChart({ showLink = false }: PropsType) {
         </div>
       </CardDescription>
       <CardContent>
+
+
+
+
         <ChartContainer
           config={chartConfig}
           className="mx-auto aspect-square max-h-[250px]"

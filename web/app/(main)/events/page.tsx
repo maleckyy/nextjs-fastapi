@@ -9,6 +9,7 @@ import { EventOutput } from '@/types/events/event.type'
 import EventList from '@/components/event/EventList'
 import CreateEventDialog, { CreateEventDialogRef } from '@/components/event/EventDialog'
 import CalendarComponent from '@/components/event/CalendarComponent'
+import AnimatedSpinner from '@/components/shared/AnimatedSpinner'
 
 export default function Events() {
   const dialogRef = useRef<CreateEventDialogRef>(null);
@@ -30,7 +31,7 @@ export default function Events() {
           </div>
           {data ?
             (<EventList events={data} refetch={refetch} isLoading={isLoading} />) :
-            (<p>ładowanie</p>)
+            (<AnimatedSpinner />)
           }
         </div>
       </div>
