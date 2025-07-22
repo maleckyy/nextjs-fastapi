@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation'
 import React, { useContext } from 'react'
 import { useAuthStore } from '@/store/authStore'
 import { deleteTokenCookie } from '@/actions/actions'
-import { EllipsisVertical, LogOut, Settings } from 'lucide-react'
+import { EllipsisVertical, LogOut, Settings, User } from 'lucide-react'
 import { createToast } from '@/lib/toastService'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuPortal, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger } from '../ui/dropdown-menu'
 import Link from 'next/link'
@@ -52,6 +52,13 @@ export default function SidebarOptionsButton() {
             <Link href='/settings'>
               Ustawienia
               <DropdownMenuShortcut><Settings /></DropdownMenuShortcut>
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem asChild className='cursor-pointer'>
+            <Link href='/profile'>
+              Profil
+              <DropdownMenuShortcut><User /></DropdownMenuShortcut>
             </Link>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
