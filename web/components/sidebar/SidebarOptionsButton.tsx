@@ -18,13 +18,14 @@ export default function SidebarOptionsButton() {
   const { clearToken } = useAuthStore()
   const { selectTheme } = useManageTheme()
   const { isMobile } = useSidebar()
-  const { activeUser } = useContext(ActiveUserContext)
+  const { activeUser, clearData } = useContext(ActiveUserContext)
 
   async function logoutUser() {
     createToast("Wylogowano", "success")
     clearLocalStorageData()
     clearToken()
     deleteTokenCookie()
+    clearData()
     router.push("/login")
   }
 

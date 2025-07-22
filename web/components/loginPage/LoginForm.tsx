@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useContext } from 'react'
 import { Button } from '../ui/button'
 import { useRouter } from 'next/navigation';
 import { LoginFormType, LoginOutput } from '@/types/authTypes/login.type';
@@ -13,10 +13,12 @@ import AppInputField from '../shared/Inputs/AppInput';
 import Link from 'next/link';
 import { createToast } from '@/lib/toastService';
 import { createTokenCookie } from '@/actions/actions';
+import { ActiveUserContext } from '@/store/activeUserContext';
 
 export default function LoginForm() {
   const { setDetails } = useAuthStore()
   const router = useRouter()
+  const { refetchOnLogin } = useContext(ActiveUserContext)
 
   const {
     reset,
@@ -37,7 +39,8 @@ export default function LoginForm() {
         setStringValueToLocalStorage("token_expire_datetime", response.expire_datetime)
         setStringValueToLocalStorage("refresh_token", response.refreshToken)
         setDetails(response.access_token, response.refreshToken, response.expire_datetime)
-        await createTokenCookie(response.access_token, response.token_expires_time)
+        createTokenCookie(response.access_token, response.token_expires_time)
+        refetchOnLogin()
         router.push('/dashboard')
         reset()
       },
