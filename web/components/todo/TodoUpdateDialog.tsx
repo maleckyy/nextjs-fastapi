@@ -9,6 +9,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { useUpdateMutatnion } from "@/api/todo/useUpdateTodo";
 import { Todo, TodoUpdate } from "@/types/todo/todo.type";
 import { createToast } from "@/lib/toastService";
+import { useIconSize } from "@/hooks/rwd-hooks/useIconSize";
 
 type PropsType = {
   refetch: () => void,
@@ -17,6 +18,7 @@ type PropsType = {
 
 export default function UpdateTodoDialog({ refetch, item }: PropsType) {
   const [open, setOpen] = React.useState(false);
+  const iconSize = useIconSize()
 
   const createTodoSchema = z.object({
     title: z.string({ required_error: "Pole jest wymagane" }).min(3, "Tytuł jest zbyt krótki"),
@@ -68,7 +70,7 @@ export default function UpdateTodoDialog({ refetch, item }: PropsType) {
         description: item.description
       })
     }}>
-      <DialogTrigger className='scale-hover cursor-pointer'><Pen size={24} className='mt-2' /></DialogTrigger>
+      <DialogTrigger className='scale-hover cursor-pointer'><Pen size={iconSize} className='mt-2' /></DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle className='mb-2'>Utwórz nowe zadanie</DialogTitle>

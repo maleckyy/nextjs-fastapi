@@ -43,7 +43,7 @@ export default function CalendarComponent({ data, isSuccess, dialogRef }: PropsT
   }, [selectedDate, isSuccess, getEventsByDay])
 
   return (
-    <div className="calendar flex flex-col sm:flex-row gap-4 lg:flex-col">
+    <div className="calendar flex flex-col sm:flex-row gap-4 lg:flex-col items-center sm:items-start">
       <Calendar
         mode="multiple"
         selected={eventDates}

@@ -1,9 +1,9 @@
-import { CalendarDays, DollarSign, House, NotebookPen, User } from 'lucide-react'
+import { CalendarDays, DollarSign, House, NotebookPen, SidebarClose, User } from 'lucide-react'
 import React from 'react'
 import { NavOptionsType } from '@/types/navigationTypes/navigation.type'
 import SingleNavElement from './sidebar/singleNavElement'
 import SidebarOptionsButton from './sidebar/SidebarOptionsButton'
-import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarHeader, SidebarMenu } from './ui/sidebar'
+import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarHeader, SidebarMenu, SidebarTrigger } from './ui/sidebar'
 
 export default function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
@@ -37,7 +37,7 @@ export default function AppSidebar({ ...props }: React.ComponentProps<typeof Sid
 
   return (
     <Sidebar collapsible="offcanvas" {...props}>
-      <SidebarHeader><div className="text-base px-2 font-semibold pt-4">PSPACE</div></SidebarHeader>
+      <SidebarHeader className='flex flex-row justify-between items-center  pt-4'><div className="text-base px-2 font-semibold">PSPACE</div><SidebarTrigger className='block md:hidden'><SidebarClose /></SidebarTrigger></SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent className="flex flex-col gap-2">

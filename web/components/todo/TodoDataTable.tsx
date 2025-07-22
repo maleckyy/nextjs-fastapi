@@ -14,11 +14,13 @@ import { useGetTodo } from '@/api/todo/useGetTodo';
 import { createToast } from '@/lib/toastService';
 import EmptyDataBox from '../shared/EmptyDataBox';
 import AnimatedSpinner from '../shared/AnimatedSpinner';
+import { useIconSize } from '@/hooks/rwd-hooks/useIconSize';
 
 export default function TodoDataTable() {
   const { data, isLoading, refetch } = useGetTodo()
   const useUpdateTodoMutation = useUpdateMutatnion()
   const useDeleteTodoMutation = useDeleteTodo()
+  const iconSize = useIconSize()
 
   function changeTodoStatus(item: Todo) {
     const updatedTodo: TodoUpdate = {
@@ -85,7 +87,7 @@ export default function TodoDataTable() {
               <TableCell className="text-center">
                 <div className='flex gap-2 justify-center'>
                   <UpdateTodoDialog refetch={refetch} item={item} />
-                  <TodoPopover iconNode={<Trash />} fn={() => deleteTodo(item)} popoverText='Czy napewno usunąć ten element?' />
+                  <TodoPopover iconNode={<Trash size={iconSize} />} fn={() => deleteTodo(item)} popoverText='Czy napewno usunąć ten element?' />
                 </div>
               </TableCell>
             </TableRow>
