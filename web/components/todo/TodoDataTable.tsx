@@ -12,6 +12,8 @@ import UpdateTodoDialog from '@/components/todo/TodoUpdateDialog';
 import { useUpdateMutatnion } from '@/api/todo/useUpdateTodo';
 import { useGetTodo } from '@/api/todo/useGetTodo';
 import { createToast } from '@/lib/toastService';
+import EmptyDataBox from '../shared/EmptyDataBox';
+import AnimatedSpinner from '../shared/AnimatedSpinner';
 
 export default function TodoDataTable() {
   const { data, isLoading, refetch } = useGetTodo()
@@ -65,12 +67,18 @@ export default function TodoDataTable() {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {isLoading ? ("Ładowanie") : (
-          data!.map((item: Todo) => {
-            return (<TableRow key={item.id}>
-              <TableCell className='flex justify-center items-center mt-1'><Checkbox className='cursor-pointer' checked={item.is_done} onCheckedChange={() => {
-                changeTodoStatus(item)
-              }} /></TableCell>
+        {isLoading ? (
+          <TableRow>
+            <TableCell colSpan={5} className="text-center py-4">
+              <AnimatedSpinner />
+            </TableCell>
+          </TableRow>
+        ) : data && data.length > 0 ? (
+          data.map((item: Todo) => (
+            <TableRow key={item.id}>
+              <TableCell className='flex justify-center items-center mt-1'>
+                <Checkbox className='cursor-pointer' checked={item.is_done} onCheckedChange={() => changeTodoStatus(item)} />
+              </TableCell>
               <TableCell className="font-medium">{item.title}</TableCell>
               <TableCell>{item.description}</TableCell>
               <TableCell><FormatedDate date={item.created_at} /></TableCell>
@@ -80,9 +88,14 @@ export default function TodoDataTable() {
                   <TodoPopover iconNode={<Trash />} fn={() => deleteTodo(item)} popoverText='Czy napewno usunąć ten element?' />
                 </div>
               </TableCell>
-            </TableRow>)
-          }
-          )
+            </TableRow>
+          ))
+        ) : (
+          <TableRow>
+            <TableCell colSpan={5}>
+              <EmptyDataBox emptyDataText="Brak zadań" />
+            </TableCell>
+          </TableRow>
         )}
       </TableBody>
     </Table>

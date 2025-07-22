@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { fetchWithAuth } from '@/api/axiosServer'
 import React from 'react'
 import { ExternalLink } from 'lucide-react'
+import EmptyDataBox from '../shared/EmptyDataBox'
 
 interface GenericCardProps<T> {
   endpoint: string
@@ -33,7 +34,7 @@ export default async function GenericCard<T>({
         </div>
       </CardDescription>
       <CardContent>
-        {data.length === 0 ? (<p>{noDataText}</p>) :
+        {data.length === 0 ? (<EmptyDataBox emptyDataText={noDataText} />) :
           (data.map((item, index) => renderItem(item, index)))
         }
       </CardContent>

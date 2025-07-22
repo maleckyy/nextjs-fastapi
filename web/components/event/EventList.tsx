@@ -5,52 +5,61 @@ import DeleteEventPopover from './DeleteEventPopover'
 import { useDeleteEvent } from '@/api/event/useDeleteEvent'
 import EditEventDialog from './EditEventDialog'
 import { createToast } from '@/lib/toastService'
+import EmptyDataBox from '../shared/EmptyDataBox'
 
 type PropsType = {
-    events: EventOutput[]
-    refetch: () => void
-    isLoading: boolean
+  events: EventOutput[]
+  refetch: () => void
+  isLoading: boolean
 }
 export default function EventList({ events, refetch }: PropsType) {
 
-    const deleteEventMutation = useDeleteEvent()
-    function deleteEvent(id: string) {
-        deleteEventMutation.mutate(id, {
-            onSuccess: () => {
-                createToast("Usunięto wydarzenie", "info")
-                refetch()
-            }
-        })
-    }
+  const deleteEventMutation = useDeleteEvent()
+  function deleteEvent(id: string) {
+    deleteEventMutation.mutate(id, {
+      onSuccess: () => {
+        createToast("Usunięto wydarzenie", "info")
+        refetch()
+      }
+    })
+  }
 
-    return (
-        <Table className='w-full'>
-            <TableHeader>
-                <TableRow>
-                    <TableHead className='w-[500px]'>Nazwa</TableHead>
-                    <TableHead>Opis</TableHead>
-                    <TableHead className="text-center">Akcje</TableHead>
-                </TableRow>
-            </TableHeader>
-            <TableBody>
-                {events.map((item: EventOutput) => (
-                    <TableRow key={item.id}>
-                        <TableCell>
-                            <div className='flex flex-col gap-1'>
-                                <span className='font-bold'>{item.title}</span>
-                                <span>{new Date(item.event_date).toDateString()}</span>
-                            </div>
-                        </TableCell>
-                        <TableCell>{item.description}</TableCell>
-                        <TableCell>
-                            <div className='flex flex-row gap-2 justify-center items-center'>
-                                <EditEventDialog refetch={refetch} eventItem={item} />
-                                <DeleteEventPopover fn={() => deleteEvent(item.id)} popoverText='Czy chcesz usunąć to wydarzenie?' />
-                            </div>
-                        </TableCell>
-                    </TableRow>
-                ))}
-            </TableBody>
-        </Table>
-    )
+  return (
+    <Table className='w-full'>
+      <TableHeader>
+        <TableRow>
+          <TableHead className='w-[500px]'>Nazwa</TableHead>
+          <TableHead>Opis</TableHead>
+          <TableHead className="text-center">Akcje</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {events.length > 0 ? (
+          events.map((item: EventOutput) => (
+            <TableRow key={item.id}>
+              <TableCell>
+                <div className='flex flex-col gap-1'>
+                  <span className='font-bold'>{item.title}</span>
+                  <span>{new Date(item.event_date).toDateString()}</span>
+                </div>
+              </TableCell>
+              <TableCell>{item.description}</TableCell>
+              <TableCell>
+                <div className='flex flex-row gap-2 justify-center items-center'>
+                  <EditEventDialog refetch={refetch} eventItem={item} />
+                  <DeleteEventPopover fn={() => deleteEvent(item.id)} popoverText='Czy chcesz usunąć to wydarzenie?' />
+                </div>
+              </TableCell>
+            </TableRow>
+          ))
+        ) : (
+          <TableRow>
+            <TableCell colSpan={3}>
+              <EmptyDataBox emptyDataText="Brak wydarzeń do wyświetlenia" />
+            </TableCell>
+          </TableRow>
+        )}
+      </TableBody>
+    </Table>
+  )
 }
