@@ -8,6 +8,8 @@ class UserContent(BaseModel):
     phone_number: str
     address: str
     country: str
+    first_name: str
+    last_name: str
 
 class UserDetails(UserContent):
     user_id: UUID

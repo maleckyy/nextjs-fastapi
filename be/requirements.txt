@@ -10,3 +10,4 @@ passlib[bcrypt]
 PyJWT
 pydantic[email]
 python-dotenv
+weasyprint jinja2

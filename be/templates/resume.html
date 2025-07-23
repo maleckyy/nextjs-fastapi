@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>CV</title>
+    <style>
+        body { font-family: sans-serif; margin: 2em; }
+        h1 { color: #333; }
+
+        @media print {
+            @page {
+                margin: 0;
+            }
+            .no-print {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <section>
+            <h1>{{ username }}</h1>
+        </section>
+        <button class="no-print" onclick="window.print()">Pobierz jako PDF</button>
+    </main>
+</body>
+</html>

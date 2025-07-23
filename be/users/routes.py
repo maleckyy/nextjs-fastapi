@@ -33,7 +33,9 @@ async def create_new_user(db: db_dependency, user: UserCreate):
         description= '',
         phone_number= '',
         address= '',
-        country= ''
+        country= '',
+        first_name = '',
+        last_name = '',
     )
 
     new_user.details = user_data

@@ -7,6 +7,7 @@ from todos import routes as todos_routes
 from events import routes as events_routes
 from details import routes as details_routes
 from expenses import routes as expenses_routes
+from details.resume import routes as user_resume_routes
 from auth.routes import oauth2_scheme
 from fastapi.middleware.cors import CORSMiddleware
 from config import origins_raw
@@ -14,7 +15,6 @@ from config import origins_raw
 
 app = FastAPI();
 oauth2_scheme = oauth2_scheme
-
 
 origins = [origin.strip() for origin in origins_raw.split(",") if origin.strip()]
 
@@ -44,3 +44,5 @@ app.include_router(events_routes.router)
 app.include_router(details_routes.router)
 
 app.include_router(expenses_routes.router)
+
+app.include_router(user_resume_routes.router)

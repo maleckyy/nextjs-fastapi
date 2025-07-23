@@ -83,10 +83,12 @@ class UserDetails(Base):
     __tablename__ = 'user_details'
 
     user_id = Column(UUID(as_uuid=True), ForeignKey('users.id', ondelete='CASCADE'), primary_key=True)
-    description = Column(Text, nullable=True) # Długi tekst, np. "O mnie"
-    phone_number = Column(String(20), nullable=True)
-    address = Column(String, nullable=True)
-    country = Column(String, nullable=True)
+    first_name = Column(String, nullable=False)
+    last_name = Column(String, nullable=False)
+    description = Column(Text, nullable=False)
+    phone_number = Column(String(20), nullable=False)
+    address = Column(String, nullable=False)
+    country = Column(String, nullable=False)
 
     # zdjecie ogarnac
 
