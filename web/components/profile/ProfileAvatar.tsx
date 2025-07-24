@@ -4,7 +4,7 @@ import React from 'react'
 type PropsType = {
   username: string,
   widthInPx?: number
-} & React.HTMLAttributes<HTMLDivElement>
+}
 export default function ProfileAvatar({ username, widthInPx = 60 }: PropsType) {
 
   const initials = getInitials(username)

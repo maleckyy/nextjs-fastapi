@@ -10,11 +10,11 @@ type InputProps<T extends FieldValues> = {
   type?: "text" | "number" | "password" | "textarea";
   defaultInputValue?: PathValue<T, Path<T>>
   showLabel?: boolean
-}
+} & React.HTMLAttributes<HTMLDivElement>
 
 function AppInputField<T extends FieldValues>({ name, control, label, error, type = "text", defaultInputValue, showLabel = false }: InputProps<T>) {
   return (
-    <div className="mb-4">
+    <div className="mb-4 w-full">
       <label htmlFor={name} className="block mb-1 font-medium sr-only">
         {label}
       </label>
@@ -33,7 +33,7 @@ function AppInputField<T extends FieldValues>({ name, control, label, error, typ
                 placeholder={label}
                 {...field}
                 value={field.value ?? ''}
-
+                className={showLabel ? 'mt-2' : ''}
               />}
 
             {type === "textarea" &&

@@ -4,6 +4,9 @@ export enum ApiEndpoints {
   USER_LOGIN = '/auth/token',
   USER_REFRESH_TOKEN = '/auth/refresh',
   USER_PROFILE = '/user/profile',
+  USER_DETAILS = '/details',
+  USER_GET_RESUME = '/details/resume',
+
   LOGOUT = '/auth/logout',
 
   TODO_ALL = '/todo/all',
@@ -14,7 +17,6 @@ export enum ApiEndpoints {
 
   EVENTS = '/event',
   EVENT_CREATE = '/event',
-  USER_DETAILS = '/details',
   EXPENSE_SUMMARY = "/expenses/monthly",
   EXPENSE = '/expenses',
   EXPENSE_DELETE = '/expenses',

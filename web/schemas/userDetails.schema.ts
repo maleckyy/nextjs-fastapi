@@ -5,4 +5,6 @@ export const updateUserDetailsSchema = z.object({
   country: z.string(),
   description: z.string(),
   phone_number: z.string(),
+  first_name: z.string(),
+  last_name: z.string()
 });
