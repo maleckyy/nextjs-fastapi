@@ -44,6 +44,7 @@ function AppInputField<T extends FieldValues>({ name, control, label, error, typ
                 placeholder={label}
                 {...field}
                 value={field.value ?? ''}
+                className={showLabel ? 'mt-2' : ''}
               />
             }
           </>

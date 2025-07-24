@@ -18,8 +18,8 @@ export default async function ProfileContent() {
   const data: UserDetailsOutput = await fetchWithAuth(ApiEndpoints.USER_DETAILS)
 
   return (
-    <div className='flex flex-row items-start gap-4 flex-1'>
-      <div className='flex justify-center flex-col gap-4 w-full md:w-1/3'>
+    <div className='flex flex-col lg:flex-row items-start gap-4 flex-1'>
+      <div className='flex justify-center flex-col gap-4 w-full lg:w-1/3'>
         <div className='flex flex-row items-start gap-4 w-full'>
           <div className='flex flex-row items-center gap-2'>
             <ProfileAvatar username={data.username} widthInPx={60} />
@@ -34,10 +34,10 @@ export default async function ProfileContent() {
                 <Ellipsis />
               </DropdownMenuTrigger>
               <DropdownMenuContent side='left'>
-                <DropdownMenuItem>
-                  <Link href="/profile/edit">Edytuj dane</Link>
+                <DropdownMenuItem >
+                  <Link href="/profile/edit" className='w-full'>Edytuj dane</Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
+                <DropdownMenuItem >
                   <UserResume />
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -54,8 +54,9 @@ export default async function ProfileContent() {
           <DetailsCard details={data.details} email={data.email} />
         </div>
       </div>
-      <Separator orientation='vertical' className='h-full' />
-      <div className='w-2/3 flex flex-col gap-4'>
+      <Separator orientation='vertical' className='h-full hidden lg:block' />
+      <Separator className='lg:hidden block' />
+      <div className='lg:w-2/3 flex flex-col gap-4 w-full'>
         <ProfileExperience />
         <Separator />
         <ProfileStack />

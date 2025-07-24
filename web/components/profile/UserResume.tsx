@@ -14,6 +14,6 @@ export default function UserResume() {
   }
 
   return (
-    <div onClick={downloadCV}>Pokaż CV</div>
+    <div onClick={downloadCV} className='w-full'>Pokaż CV</div>
   )
 }

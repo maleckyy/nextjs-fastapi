@@ -1,7 +1,11 @@
 import React from 'react'
 
-export default function SectionTitle({ title }: { title: string }) {
+type PropsType = {
+  title: string
+} & React.HTMLAttributes<HTMLDivElement>
+
+export default function SectionTitle({ title }: PropsType) {
   return (
-    <span className='truncate font-medium'>{title}</span>
+    <span className='truncate font-medium mb-2 lg:mb-1'>{title}</span>
   )
 }

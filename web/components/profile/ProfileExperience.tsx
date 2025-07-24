@@ -7,7 +7,7 @@ export default function ProfileExperience() {
   return (
     <section className='flex flex-col gap-2'>
       <div className='flex flex-row justify-between'>
-        <SectionTitle title="Historia zatrudnienia - dodawane nowego" />
+        <SectionTitle title="Historia zatrudnienia" />
         {/* popover */}
         <Plus />
       </div>

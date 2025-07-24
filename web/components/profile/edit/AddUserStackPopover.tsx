@@ -10,7 +10,7 @@ export default function AddUserStackPopover() {
       <PopoverTrigger asChild>
         <Plus />
       </PopoverTrigger>
-      <PopoverContent className="w-100" side='left'>
+      <PopoverContent side='left'>
         <div className="grid gap-4">
           <div className="space-y-2">
             <h4 className="leading-none font-medium">Edytuj umiejętności</h4>
