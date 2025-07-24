@@ -1,11 +1,16 @@
 import React from 'react'
 import { TableHeader, TableRow, TableHead, TableBody, TableCell, Table } from '../ui/table'
 import SectionTitle from '../shared/texts/SectionTitle'
+import { Plus } from 'lucide-react'
 
 export default function ProfileExperience() {
   return (
     <section className='flex flex-col gap-2'>
-      <SectionTitle title="Historia zatrudnienia - dodawane nowego" />
+      <div className='flex flex-row justify-between'>
+        <SectionTitle title="Historia zatrudnienia - dodawane nowego" />
+        {/* popover */}
+        <Plus />
+      </div>
       <div className='max-h-64 overflow-y-auto block'>
         <Table>
           <TableHeader className="sticky top-0 bg-secondary z-10 shadow-sm">

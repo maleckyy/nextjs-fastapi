@@ -1,28 +1,65 @@
-'use client'
 import React from 'react'
 import ProfileAvatar from './ProfileAvatar'
-import UpdateDetailsDialog from './UpdateDetailsDialog'
-import { useGetUserDetails } from '@/api/profile/useGetUserDetails'
+import { ApiEndpoints } from '@/api/routes/apiEndpoints'
+import { fetchWithAuth } from '@/api/axiosServer'
+import { Separator } from '../ui/separator'
+import { Ellipsis } from 'lucide-react'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu'
+import Link from 'next/link'
 import { replaceEmptyString } from '@/lib/replaceEmptyString'
 import DetailsCard from './DetailsCard'
+import { UserDetailsOutput } from '@/types/profile/profile.type'
+import ProfileExperience from './ProfileExperience'
+import UserResume from './UserResume'
+import ProfileStack from './ProfileStack'
 
-export default function ProfileContent() {
+export default async function ProfileContent() {
 
-  const { data, refetch } = useGetUserDetails()
+  const data: UserDetailsOutput = await fetchWithAuth(ApiEndpoints.USER_DETAILS)
+
   return (
-    <>
-      {data &&
-        <div className='flex justify-center flex-col items-center gap-2'>
-          <ProfileAvatar username={data.username} />
-          <div className='flex items-center gap-2'>
-            <h3 className='text-2xl'>{data.username}</h3>
-            <UpdateDetailsDialog userDetails={data.details} refetch={refetch} />
+    <div className='flex flex-row items-start gap-4 flex-1'>
+      <div className='flex justify-center flex-col gap-4 w-full md:w-1/3'>
+        <div className='flex flex-row items-start gap-4 w-full'>
+          <div className='flex flex-row items-center gap-2'>
+            <ProfileAvatar username={data.username} widthInPx={60} />
+            <div className='flex flex-col'>
+              <h3 className='truncate font-medium'>{data.details.first_name} {data.details.last_name}</h3>
+              <h4 className='text-muted-foreground truncate text-xs'>{data.username}</h4>
+            </div>
           </div>
-          <div>
-            <DetailsCard details={data.details} email={data.email} />
+          <div className='ml-auto'>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Ellipsis />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent side='left'>
+                <DropdownMenuItem>
+                  <Link href="/profile/edit">Edytuj dane</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <UserResume />
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
-          <div>{replaceEmptyString(data.details.description, "Brak opisu")}</div>
-        </div>}
-    </>
+        </div>
+        <div className='flex flex-col gap-2'>
+          <span className='truncate font-medium'>Opis</span>
+          <p>{replaceEmptyString(data.details.description, "Brak opisu")}</p>
+        </div>
+        <Separator />
+        <div className='flex flex-col gap-2'>
+          <span className='truncate font-medium'>Dane</span>
+          <DetailsCard details={data.details} email={data.email} />
+        </div>
+      </div>
+      <Separator orientation='vertical' className='h-full' />
+      <div className='w-2/3 flex flex-col gap-4'>
+        <ProfileExperience />
+        <Separator />
+        <ProfileStack />
+      </div>
+    </div>
   )
 }

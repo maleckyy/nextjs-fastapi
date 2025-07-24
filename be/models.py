@@ -40,6 +40,14 @@ class Users(Base):
         cascade="all, delete-orphan"
     )
 
+    user_stack = relationship(
+        "UserProfileStack", 
+        back_populates="user", 
+        uselist=False, 
+        cascade="all, delete-orphan"
+
+    )
+
     expense = relationship(
         "Expense", 
         back_populates="user", 
@@ -106,3 +114,10 @@ class Expense(Base):
 
     user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
     user = relationship("Users", back_populates="expense")
+
+class UserProfileStack(Base):
+    __tablename__ = "user_stack"
+
+    user_id = Column(UUID(as_uuid=True), ForeignKey('users.id', ondelete='CASCADE'), primary_key=True)
+    stack = Column(String, nullable=True)
+    user = relationship("Users", back_populates="user_stack")
