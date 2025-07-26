@@ -3,13 +3,22 @@
 <head>
     <meta charset="utf-8">
     <title>CV</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
     <style>
-        body { font-family: sans-serif; margin: 2em; }
+        body { font-family: sans-serif; margin: 2em auto; position: relative;}
         h1 { color: #333; }
+        main {
+            max-width: 800px;margin: 0 auto; padding: 0 2rem;
+        }
+        .absolute-btn { position:absolute; top: 0px; right: 2rem}
 
         @media print {
             @page {
                 margin: 0;
+            }
+            main {
+                box-shadow: none;
             }
             .no-print {
                 display: none;
@@ -18,11 +27,22 @@
     </style>
 </head>
 <body>
+    <button class="no-print absolute-btn" onclick="window.print()">Pobierz jako PDF</button>
     <main>
         <section>
-            <h1>{{ username }}</h1>
+            <h1>{{first_name}} {{last_name}}</h1>
+            <div>
+                <span><i class="fas fa-envelope"></i> {{email}}</span>
+                <span><i class="fa-solid fa-phone"></i>{{phone_number}}</span>
+            </div>
+            <h2 style="font-size: small; line-height: 150%;">{{description}}</h2>
         </section>
-        <button class="no-print" onclick="window.print()">Pobierz jako PDF</button>
+        <section>
+            sekcja doswiadczenia
+        </section>
+        <section>
+            <p style="text-transform: uppercase;">{{profile_stack}}</p>
+        </section>
     </main>
 </body>
 </html>
