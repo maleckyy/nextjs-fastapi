@@ -54,6 +54,12 @@ class Users(Base):
         cascade="all, delete-orphan"
     )
 
+    experience = relationship(
+        "UserProfileExperience", 
+        back_populates="user", 
+        cascade="all, delete-orphan"
+    )
+
 class TodoList(Base):
     __tablename__ = 'todo_list'
 
@@ -121,3 +127,15 @@ class UserProfileStack(Base):
     user_id = Column(UUID(as_uuid=True), ForeignKey('users.id', ondelete='CASCADE'), primary_key=True)
     stack = Column(String, nullable=True)
     user = relationship("Users", back_populates="user_stack")
+
+class UserProfileExperience(Base):
+    __tablename__ = "user_experience"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    position = Column(String, nullable=False)
+    description = Column(String, nullable=True)
+    starting_date = Column(DateTime, nullable=False, default=datetime.utcnow)
+    ending_date = Column(DateTime, nullable=True)
+
+    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
+    user = relationship("Users", back_populates="experience")

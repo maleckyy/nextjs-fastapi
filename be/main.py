@@ -9,6 +9,7 @@ from details import routes as details_routes
 from expenses import routes as expenses_routes
 from details.resume import routes as user_resume_routes
 from details.profileStack import routes as user_stack_routes
+from details.experience import routes as user_experience_routes
 from auth.routes import oauth2_scheme
 from fastapi.middleware.cors import CORSMiddleware
 from config import origins_raw
@@ -49,3 +50,5 @@ app.include_router(expenses_routes.router)
 app.include_router(user_resume_routes.router)
 
 app.include_router(user_stack_routes.router)
+
+app.include_router(user_experience_routes.router)
