@@ -39,6 +39,7 @@ export default function EditProfileForm() {
         last_name: userDetails.last_name
       })
     }
+    router.replace("/profile")
   }
 
   const useUpdateUserDetailsMutation = useUpdateUserDetails()

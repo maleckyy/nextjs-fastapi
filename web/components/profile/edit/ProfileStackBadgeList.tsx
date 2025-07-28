@@ -12,7 +12,7 @@ export default function ProfileStackBadgeList() {
     <div className="flex gap-2 flex-wrap">
       {
         data ? (
-          stackArray.map((item: string) => <Badge key={item} className='font-medium text-sm'>{item}</Badge>)
+          stackArray.map((item: string) => <Badge key={item} className='font-medium text-sm uppercase'>{item}</Badge>)
         ) : (
           <p>Brak</p>
         )
