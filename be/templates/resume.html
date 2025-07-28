@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>CV</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { font-family: sans-serif; margin: 2em auto; position: relative;}
         h1 { color: #333; }
@@ -26,41 +26,43 @@
         }
     </style>
 </head>
-<body>
-    <button class="no-print absolute-btn" onclick="window.print()">Pobierz jako PDF</button>
-    <main>
-        <section>
-            <h1>{{first_name}} {{last_name}}</h1>
-            <div>
+<body class="py-4">
+    <button class="no-print absolute-btn right-1 top-1 font-bold p-2" onclick="window.print()">Pobierz jako PDF</button>
+    <main class="flex flex-col gap-4">
+        <section class="flex flex-col gap-2">
+            <h1 class="font-normal text-4xl">{{first_name}} {{last_name}}</h1>
+            <div class="flex flex-row gap-2">
                 <span><i class="fas fa-envelope"></i> {{email}}</span>
-                <span><i class="fa-solid fa-phone"></i>{{phone_number}}</span>
+                <span><i class="fa-solid fa-phone"></i> {{phone_number}}</span>
             </div>
-            <h2 style="font-size: small; line-height: 150%;">{{description}}</h2>
+            <h2 class="text-md">{{description}}</h2>
         </section>
-        <section>
-            <h3>Doświadczenie</h3>
+        <hr>
+        <section class="flex flex-col gap-2">
+            <h3 class="text-2xl font-bold">Umiejętności</h3>
+            <p style="text-transform: uppercase; line-height: 150%;">{{profile_stack}}</p>
+        </section>
+        <hr>
+        <section class="flex flex-col gap-2">
+            <h3 class="text-2xl font-bold">Doświadczenie</h3>
             <ul>
                 {% for exp in experiences %}
                 <li style="margin-bottom: 8px;">
-                    <strong>{{ exp.position }}</strong>
+                    <strong class="capitalize">{{ exp.position }}</strong>
                     <small>
                     {{ exp.starting_date.strftime('%Y-%m-%d') }} - 
                     {% if exp.ending_date %}
                         {{ exp.ending_date.strftime('%Y-%m-%d') }}
                     {% else %}
-                        obecnie
+                        Obecnie
                     {% endif %}
                     </small>
                     {% if exp.description %}
-                        <p style="margin-block: 6px;">Opis: {{ exp.description }}</p>
+                        <p>Opis: {{ exp.description }}</p>
                     {% endif %}
                 </li>
                 {% endfor %}
             </ul>
-        </section>
-        <section>
-            <h3>Umiejętności</h3>
-            <p style="text-transform: uppercase; line-height: 150%;">{{profile_stack}}</p>
         </section>
     </main>
 </body>

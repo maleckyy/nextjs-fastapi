@@ -20,7 +20,10 @@ type PropsType = {
   experienceData: ExperienceOut | undefined
 }
 export default function ExperienceForm({ experienceData }: PropsType) {
-  const [switchValue, serSwitchValue] = useState(false)
+  const [switchValue, setSwitchValue] = useState(() => {
+    if (experienceData?.ending_date === null) return false
+    else return true
+  })
   const formSchema = profileExperienceSchema
   const queryClient = useQueryClient()
   const { closeDialog } = useExperienceDialog()
@@ -94,7 +97,7 @@ export default function ExperienceForm({ experienceData }: PropsType) {
       <Label className='mb-2'>Zatrudnienie zakończone?</Label>
       <div className="flex gap-2 items-center">
         <div className="flex items-center space-x-2">
-          <Switch id="experienceEndDate" checked={switchValue} onCheckedChange={serSwitchValue} />
+          <Switch id="experienceEndDate" checked={switchValue} onCheckedChange={setSwitchValue} />
           <Label htmlFor="experienceEndDate"></Label>
         </div>
         <AppDatePicker className="w-full" control={control} name='ending_date' label='s' error={errors.ending_date?.message} noMargin isDisabled={!switchValue} />
