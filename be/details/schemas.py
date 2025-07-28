@@ -1,3 +1,4 @@
+from typing import Optional
 from pydantic import BaseModel
 from uuid import UUID
 
@@ -10,6 +11,7 @@ class UserContent(BaseModel):
     country: str
     first_name: str
     last_name: str
+    photo_path: Optional[str] = None
 
 class UserDetails(UserContent):
     user_id: UUID
