@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>CV</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        body { font-family: sans-serif; margin: 2em auto; position: relative;}
+        h1 { color: #333; }
+        main {
+            max-width: 800px;margin: 0 auto; padding: 0 2rem;
+        }
+        .absolute-btn { position:absolute; top: 0px; right: 2rem}
+
+        @media print {
+            @page {
+                margin: 0;
+            }
+            main {
+                box-shadow: none;
+            }
+            .no-print {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="no-print absolute-btn" onclick="window.print()">Pobierz jako PDF</button>
+    <main>
+        <section>
+            <h1>{{first_name}} {{last_name}}</h1>
+            <div>
+                <span><i class="fas fa-envelope"></i> {{email}}</span>
+                <span><i class="fa-solid fa-phone"></i>{{phone_number}}</span>
+            </div>
+            <h2 style="font-size: small; line-height: 150%;">{{description}}</h2>
+        </section>
+        <section>
+            <h3>Doświadczenie</h3>
+            <ul>
+                {% for exp in experiences %}
+                <li style="margin-bottom: 8px;">
+                    <strong>{{ exp.position }}</strong>
+                    <small>
+                    {{ exp.starting_date.strftime('%Y-%m-%d') }} - 
+                    {% if exp.ending_date %}
+                        {{ exp.ending_date.strftime('%Y-%m-%d') }}
+                    {% else %}
+                        obecnie
+                    {% endif %}
+                    </small>
+                    {% if exp.description %}
+                        <p style="margin-block: 6px;">Opis: {{ exp.description }}</p>
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ul>
+        </section>
+        <section>
+            <h3>Umiejętności</h3>
+            <p style="text-transform: uppercase; line-height: 150%;">{{profile_stack}}</p>
+        </section>
+    </main>
+</body>
+</html>

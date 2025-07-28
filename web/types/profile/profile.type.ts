@@ -4,6 +4,8 @@ export type UserDetails = {
   country: string
   description: string
   phone_number: string
+  first_name: string
+  last_name: string
 }
 
 export type UserDetailsOutput = {

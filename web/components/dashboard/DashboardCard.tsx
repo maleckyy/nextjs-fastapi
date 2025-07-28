@@ -6,13 +6,13 @@ import React from 'react'
 import { ExternalLink } from 'lucide-react'
 import EmptyDataBox from '../shared/EmptyDataBox'
 
-interface GenericCardProps<T> {
+type GenericCardProps<T> = {
   endpoint: string
   title: string
   renderItem: (item: T, index: number) => React.ReactNode
   linkHref?: string
   noDataText: string
-}
+} & React.HTMLAttributes<HTMLDivElement>
 
 export default async function GenericCard<T>({
   endpoint,

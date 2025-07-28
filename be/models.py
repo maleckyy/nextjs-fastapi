@@ -40,8 +40,22 @@ class Users(Base):
         cascade="all, delete-orphan"
     )
 
+    user_stack = relationship(
+        "UserProfileStack", 
+        back_populates="user", 
+        uselist=False, 
+        cascade="all, delete-orphan"
+
+    )
+
     expense = relationship(
         "Expense", 
+        back_populates="user", 
+        cascade="all, delete-orphan"
+    )
+
+    experience = relationship(
+        "UserProfileExperience", 
         back_populates="user", 
         cascade="all, delete-orphan"
     )
@@ -83,10 +97,12 @@ class UserDetails(Base):
     __tablename__ = 'user_details'
 
     user_id = Column(UUID(as_uuid=True), ForeignKey('users.id', ondelete='CASCADE'), primary_key=True)
-    description = Column(Text, nullable=True) # Długi tekst, np. "O mnie"
-    phone_number = Column(String(20), nullable=True)
-    address = Column(String, nullable=True)
-    country = Column(String, nullable=True)
+    first_name = Column(String, nullable=False)
+    last_name = Column(String, nullable=False)
+    description = Column(Text, nullable=False)
+    phone_number = Column(String(20), nullable=False)
+    address = Column(String, nullable=False)
+    country = Column(String, nullable=False)
 
     # zdjecie ogarnac
 
@@ -104,3 +120,22 @@ class Expense(Base):
 
     user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
     user = relationship("Users", back_populates="expense")
+
+class UserProfileStack(Base):
+    __tablename__ = "user_stack"
+
+    user_id = Column(UUID(as_uuid=True), ForeignKey('users.id', ondelete='CASCADE'), primary_key=True)
+    stack = Column(String, nullable=True)
+    user = relationship("Users", back_populates="user_stack")
+
+class UserProfileExperience(Base):
+    __tablename__ = "user_experience"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    position = Column(String, nullable=False)
+    description = Column(String, nullable=True)
+    starting_date = Column(DateTime, nullable=False, default=datetime.utcnow)
+    ending_date = Column(DateTime, nullable=True)
+
+    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
+    user = relationship("Users", back_populates="experience")

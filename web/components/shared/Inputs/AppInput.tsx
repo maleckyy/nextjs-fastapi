@@ -1,5 +1,6 @@
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { cn } from "@/lib/utils";
 import { Control, Controller, FieldValues, Path, PathValue } from "react-hook-form";
 
 type InputProps<T extends FieldValues> = {
@@ -10,11 +11,12 @@ type InputProps<T extends FieldValues> = {
   type?: "text" | "number" | "password" | "textarea";
   defaultInputValue?: PathValue<T, Path<T>>
   showLabel?: boolean
-}
+  noMargin?: boolean
+} & React.HTMLAttributes<HTMLDivElement>
 
-function AppInputField<T extends FieldValues>({ name, control, label, error, type = "text", defaultInputValue, showLabel = false }: InputProps<T>) {
+function AppInputField<T extends FieldValues>({ name, control, label, error, type = "text", defaultInputValue, showLabel = false, noMargin = false }: InputProps<T>) {
   return (
-    <div className="mb-4">
+    <div className={cn(["w-full", noMargin ? 'mb-0' : "mb-4"])}>
       <label htmlFor={name} className="block mb-1 font-medium sr-only">
         {label}
       </label>
@@ -33,7 +35,7 @@ function AppInputField<T extends FieldValues>({ name, control, label, error, typ
                 placeholder={label}
                 {...field}
                 value={field.value ?? ''}
-
+                className={showLabel ? 'mt-2' : ''}
               />}
 
             {type === "textarea" &&
@@ -42,6 +44,7 @@ function AppInputField<T extends FieldValues>({ name, control, label, error, typ
                 placeholder={label}
                 {...field}
                 value={field.value ?? ''}
+                className={showLabel ? 'mt-2' : ''}
               />
             }
           </>
