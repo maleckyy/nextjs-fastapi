@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException, Response
 from jinja2 import Environment, FileSystemLoader
 from fastapi import APIRouter, Depends
+from sqlalchemy import nulls_last
 from auth.routes import get_current_user
 import models
 from dependency import db_dependency
@@ -24,9 +25,7 @@ def get_resume_html(db: db_dependency, current_user: models.Users = Depends(get_
     profile_stack = db.query(models.UserProfileStack).filter(models.UserProfileStack.user_id == current_user.id).first()
     formatted_stack = profile_stack.stack.replace(",", ", ")
 
-
-    print(profile_details)
-
+    experience_list = db.query(models.UserProfileExperience).filter(models.UserProfileExperience.user_id == current_user.id).order_by(nulls_last(models.UserProfileExperience.ending_date.asc())).all()
 
     template = env.get_template("resume.html")
     html = template.render(
@@ -36,5 +35,6 @@ def get_resume_html(db: db_dependency, current_user: models.Users = Depends(get_
         profile_stack=formatted_stack,
         email= current_user.email,
         phone_number= profile_details.phone_number,
+        experiences=experience_list
     )
     return Response(content=html, media_type="text/html")

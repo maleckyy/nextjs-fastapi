@@ -38,10 +38,29 @@
             <h2 style="font-size: small; line-height: 150%;">{{description}}</h2>
         </section>
         <section>
-            sekcja doswiadczenia
+            <h3>Doświadczenie</h3>
+            <ul>
+                {% for exp in experiences %}
+                <li style="margin-bottom: 8px;">
+                    <strong>{{ exp.position }}</strong>
+                    <small>
+                    {{ exp.starting_date.strftime('%Y-%m-%d') }} - 
+                    {% if exp.ending_date %}
+                        {{ exp.ending_date.strftime('%Y-%m-%d') }}
+                    {% else %}
+                        obecnie
+                    {% endif %}
+                    </small>
+                    {% if exp.description %}
+                        <p style="margin-block: 6px;">Opis: {{ exp.description }}</p>
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ul>
         </section>
         <section>
-            <p style="text-transform: uppercase;">{{profile_stack}}</p>
+            <h3>Umiejętności</h3>
+            <p style="text-transform: uppercase; line-height: 150%;">{{profile_stack}}</p>
         </section>
     </main>
 </body>
