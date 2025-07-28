@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy import nulls_last
 from .schemas import ExperienceCreate, ExperienceOut, ExperienceUpdate
 from dependency import db_dependency
 import models
@@ -15,7 +16,12 @@ router = APIRouter(
 
 @router.get('', response_model=list[ExperienceOut])
 async def get_profile_experience(db: db_dependency, current_user: models.Users = Depends(get_current_user)):
-    return db.query(models.UserProfileExperience).filter(models.UserProfileExperience.user_id == current_user.id).all()
+        return (
+        db.query(models.UserProfileExperience)
+        .filter(models.UserProfileExperience.user_id == current_user.id)
+        .order_by(nulls_last(models.UserProfileExperience.ending_date.asc()))
+        .all()
+    )
 
 @router.post('')
 async def add_profile_experience(db: db_dependency, experience_data: ExperienceCreate, current_user: models.Users = Depends(get_current_user)):

@@ -19,7 +19,7 @@ export function useDialog() {
 }
 
 export function ExpensesDialogProvider({ children, showDialog = false }: { children: ReactNode, showDialog?: boolean }) {
-  const [selectedItem, setSelectedItem] = useState<Expense>();
+  const [selectedItem, setSelectedItem] = useState<Expense | undefined>();
   const dialogRef = useRef<ExpenceDialogHandle>(null);
   const [refreshFlag, setRefreshFlag] = useState<boolean>(false)
 
@@ -28,6 +28,7 @@ export function ExpensesDialogProvider({ children, showDialog = false }: { child
   }
 
   function openDialog(item?: Expense) {
+    setSelectedItem(undefined)
     if (item) {
       setSelectedItem(item);
     }

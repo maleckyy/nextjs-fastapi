@@ -12,55 +12,58 @@ import { UserDetailsOutput } from '@/types/profile/profile.type'
 import ProfileExperience from './ProfileExperience'
 import UserResume from './UserResume'
 import ProfileStack from './ProfileStack'
+import { ExperienceDialogProvider } from '@/store/experience/ExperienceDialogContext'
 
 export default async function ProfileContent() {
 
   const data: UserDetailsOutput = await fetchWithAuth(ApiEndpoints.USER_DETAILS)
 
   return (
-    <div className='flex flex-col lg:flex-row items-start gap-4 flex-1'>
-      <div className='flex justify-center flex-col gap-4 w-full lg:w-1/3'>
-        <div className='flex flex-row items-start gap-4 w-full'>
-          <div className='flex flex-row items-center gap-2'>
-            <ProfileAvatar username={data.username} widthInPx={60} />
-            <div className='flex flex-col'>
-              <h3 className='truncate font-medium'>{data.details.first_name} {data.details.last_name}</h3>
-              <h4 className='text-muted-foreground truncate text-xs'>{data.username}</h4>
+    <ExperienceDialogProvider>
+      <div className='flex flex-col lg:flex-row items-start gap-4 flex-1'>
+        <div className='flex justify-center flex-col gap-4 w-full lg:w-1/3'>
+          <div className='flex flex-row items-start gap-4 w-full'>
+            <div className='flex flex-row items-center gap-2'>
+              <ProfileAvatar username={data.username} widthInPx={60} />
+              <div className='flex flex-col'>
+                <h3 className='truncate font-medium'>{data.details.first_name} {data.details.last_name}</h3>
+                <h4 className='text-muted-foreground truncate text-xs'>{data.username}</h4>
+              </div>
+            </div>
+            <div className='ml-auto'>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Ellipsis />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent side='left'>
+                  <DropdownMenuItem >
+                    <Link href="/profile/edit" className='w-full'>Edytuj dane</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem >
+                    <UserResume />
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
-          <div className='ml-auto'>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Ellipsis />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent side='left'>
-                <DropdownMenuItem >
-                  <Link href="/profile/edit" className='w-full'>Edytuj dane</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem >
-                  <UserResume />
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+          <div className='flex flex-col gap-2'>
+            <span className='truncate font-medium'>Opis</span>
+            <p>{replaceEmptyString(data.details.description, "Brak opisu")}</p>
+          </div>
+          <Separator />
+          <div className='flex flex-col gap-2'>
+            <span className='truncate font-medium'>Dane</span>
+            <DetailsCard details={data.details} email={data.email} />
           </div>
         </div>
-        <div className='flex flex-col gap-2'>
-          <span className='truncate font-medium'>Opis</span>
-          <p>{replaceEmptyString(data.details.description, "Brak opisu")}</p>
-        </div>
-        <Separator />
-        <div className='flex flex-col gap-2'>
-          <span className='truncate font-medium'>Dane</span>
-          <DetailsCard details={data.details} email={data.email} />
+        <Separator orientation='vertical' className='h-full hidden lg:block' />
+        <Separator className='lg:hidden block' />
+        <div className='lg:w-2/3 flex flex-col gap-4 w-full'>
+          <ProfileExperience />
+          <Separator />
+          <ProfileStack />
         </div>
       </div>
-      <Separator orientation='vertical' className='h-full hidden lg:block' />
-      <Separator className='lg:hidden block' />
-      <div className='lg:w-2/3 flex flex-col gap-4 w-full'>
-        <ProfileExperience />
-        <Separator />
-        <ProfileStack />
-      </div>
-    </div>
+    </ExperienceDialogProvider>
   )
 }

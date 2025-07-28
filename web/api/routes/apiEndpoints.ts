@@ -8,6 +8,7 @@ export enum ApiEndpoints {
   USER_GET_RESUME = '/details/resume',
 
   PROFILE_STACK = '/details/stack',
+  PROFILE_EXPERIENCE = '/details/experience',
 
   LOGOUT = '/auth/logout',
 

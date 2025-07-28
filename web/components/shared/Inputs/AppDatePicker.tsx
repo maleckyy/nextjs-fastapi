@@ -10,12 +10,14 @@ type InputProps<T extends FieldValues> = {
   control: Control<T>;
   label: string;
   error?: string;
-  defaultInputValue?: PathValue<T, Path<T>>
-}
+  defaultInputValue?: PathValue<T, Path<T>>,
+  noMargin?: boolean,
+  isDisabled?: boolean
+} & React.HTMLAttributes<HTMLDivElement>
 
-export default function AppDatePicker<T extends FieldValues>({ name, control, label, error, defaultInputValue }: InputProps<T>) {
+export default function AppDatePicker<T extends FieldValues>({ name, control, label, error, defaultInputValue, noMargin = false, isDisabled = false }: InputProps<T>) {
   return (
-    <div className="mb-4">
+    <div className={cn(["w-full", noMargin ? 'mb-0' : "mb-4"])}>
       <label htmlFor={name} className="block mb-1 font-medium sr-only">
         {label}
       </label>
@@ -27,6 +29,7 @@ export default function AppDatePicker<T extends FieldValues>({ name, control, la
           <Popover>
             <PopoverTrigger asChild>
               <Button
+                disabled={isDisabled}
                 variant={"outline"}
                 className={cn(
                   "w-full pl-3 text-left font-normal",
