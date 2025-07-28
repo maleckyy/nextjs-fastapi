@@ -30,14 +30,18 @@ export default function ActiveUserContextProvider({ children }: Props) {
 
   function refetchOnLogin() {
     refetch()
+    setActiveUser(data)
   }
 
   useEffect(() => {
     if (data) {
       setActiveUser(data)
     }
-    setHydrated(true);
   }, [data]);
+
+  useEffect(() => {
+    setHydrated(true)
+  }, []);
 
   if (!hydrated) {
     return null;
