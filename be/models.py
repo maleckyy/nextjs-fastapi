@@ -103,8 +103,7 @@ class UserDetails(Base):
     phone_number = Column(String(20), nullable=False)
     address = Column(String, nullable=False)
     country = Column(String, nullable=False)
-
-    # zdjecie ogarnac
+    photo_path = Column(String, nullable=True)
 
     user = relationship("Users", back_populates="details")
 

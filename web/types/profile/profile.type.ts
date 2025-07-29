@@ -6,6 +6,7 @@ export type UserDetails = {
   phone_number: string
   first_name: string
   last_name: string
+  photo_path?: string
 }
 
 export type UserDetailsOutput = {

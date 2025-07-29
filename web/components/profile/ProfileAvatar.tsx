@@ -1,17 +1,20 @@
+import { API_BASE_URL } from '@/env/API_URL'
 import { getInitials } from '@/lib/getInitials'
 import React from 'react'
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 
 type PropsType = {
   username: string,
-  widthInPx?: number
+  widthInPx?: number,
+  photoPath?: string,
+  preview?: string | null
 }
-export default function ProfileAvatar({ username, widthInPx = 60 }: PropsType) {
-
+export default function ProfileAvatar({ username, widthInPx = 60, photoPath, preview }: PropsType) {
   const initials = getInitials(username)
   return (
-    <div className='flex justify-center items-center rounded-[50%] aspect-square bg-accent'
-      style={{ width: `${widthInPx}px` }}>
-      <span className=''>{initials}</span>
-    </div>
+    <Avatar style={{ width: `${widthInPx}px`, height: `${widthInPx}px` }}>
+      <AvatarImage src={preview || `${API_BASE_URL}/${photoPath}`} alt='Profile Picture' />
+      <AvatarFallback delayMs={600}>{initials}</AvatarFallback>
+    </Avatar>
   )
 }

@@ -15,16 +15,14 @@ import ProfileStack from './ProfileStack'
 import { ExperienceDialogProvider } from '@/store/experience/ExperienceDialogContext'
 
 export default async function ProfileContent() {
-
   const data: UserDetailsOutput = await fetchWithAuth(ApiEndpoints.USER_DETAILS)
-
   return (
     <ExperienceDialogProvider>
       <div className='flex flex-col lg:flex-row items-start gap-4 flex-1'>
         <div className='flex justify-center flex-col gap-4 w-full lg:w-1/3'>
           <div className='flex flex-row items-start gap-4 w-full'>
             <div className='flex flex-row items-center gap-2'>
-              <ProfileAvatar username={data.username} widthInPx={60} />
+              <ProfileAvatar username={data.username} widthInPx={60} photoPath={data.details.photo_path} />
               <div className='flex flex-col'>
                 <h3 className='truncate font-medium'>{data.details.first_name} {data.details.last_name}</h3>
                 <h4 className='text-muted-foreground truncate text-xs'>{data.username}</h4>
