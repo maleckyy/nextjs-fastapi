@@ -9,6 +9,7 @@ export enum ApiEndpoints {
 
   PROFILE_STACK = '/details/stack',
   PROFILE_EXPERIENCE = '/details/experience',
+  UPLOAD_AVATAR = '/upload-avatar',
 
   LOGOUT = '/auth/logout',
 
