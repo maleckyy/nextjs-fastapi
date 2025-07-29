@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from auth.routes import get_current_user
-from .schemas import UserCreate, User
+from utils.passwordhashing.hasher import verify_password
+from .schemas import UpdateUser, UserCreate, User
 import models
 from dependency import db_dependency
 from utils.passwordhashing import hash_password
@@ -67,27 +68,39 @@ async def delete_user_by_id(db:db_dependency, current_user: models.Users = Depen
 
 
 @router.put('/update', dependencies=[Depends(get_current_user)])
-async def update_user_by_id(db:db_dependency, user:UserCreate, current_user: models.Users = Depends(get_current_user)):
+async def update_user_by_id(db:db_dependency, user:UpdateUser, current_user: models.Users = Depends(get_current_user)):
 
-    email_exists = db.query(models.Users).filter(
-        models.Users.email == user.email,
-        models.Users.id != current_user.id
-    ).first()
-    if email_exists:
-        raise HTTPException(status_code=409, detail="Email already in use")
+    if not any([user.username, user.email, user.password]):
+        raise HTTPException(status_code=400, detail="No data to update")
 
-    username_exists = db.query(models.Users).filter(
-        models.Users.username == user.username,
-        models.Users.id != current_user.id
-    ).first()
+
+    if user.email:
+        email_exists = db.query(models.Users).filter(
+            models.Users.email == user.email,
+            models.Users.id != current_user.id
+        ).first()
+        if email_exists:
+            raise HTTPException(status_code=409, detail="Email already in use")
+        current_user.email = user.email
+ 
+
+    if user.username:
+        username_exists = db.query(models.Users).filter(
+            models.Users.username == user.username,
+            models.Users.id != current_user.id
+        ).first()
+
+
     if username_exists:
         raise HTTPException(status_code=409, detail="Username already in use")
-
-    hashed_new_pw = hash_password(user.password)
-
     current_user.username = user.username
-    current_user.email = user.email
-    current_user.password_hash = hashed_new_pw
+
+
+    if user.password:
+        if verify_password(user.password, current_user.password_hash):
+            raise HTTPException(status_code=400, detail="New password must be different from current one")
+        hashed_new_pw = hash_password(user.password)
+        current_user.password_hash = hashed_new_pw
 
     db.commit()
     db.refresh(current_user)

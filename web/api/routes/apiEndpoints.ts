@@ -4,6 +4,7 @@ export enum ApiEndpoints {
   USER_LOGIN = '/auth/token',
   USER_REFRESH_TOKEN = '/auth/refresh',
   USER_PROFILE = '/user/profile',
+  USER_UPDATE_ACCOUNT = '/user/update',
   USER_DETAILS = '/details',
   USER_GET_RESUME = '/details/resume',
 

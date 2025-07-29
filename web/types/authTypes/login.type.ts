@@ -32,3 +32,9 @@ export type RegisterFormType = {
   password: string;
 }
 
+export type UpdateUserAccount = {
+  username?: string;
+  email?: string;
+  password?: string;
+}
+
