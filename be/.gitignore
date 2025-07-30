@@ -8,3 +8,4 @@ __pycache__/
 *.pyo
 /scripts
 uploads/images
+wait-for-postgres.sh
