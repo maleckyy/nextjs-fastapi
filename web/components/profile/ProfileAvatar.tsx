@@ -14,7 +14,7 @@ export default function ProfileAvatar({ username, widthInPx = 60, photoPath, pre
   return (
     <Avatar style={{ width: `${widthInPx}px`, height: `${widthInPx}px` }}>
       <AvatarImage src={preview || `${API_BASE_URL}/${photoPath}`} alt='Profile Picture' />
-      <AvatarFallback delayMs={600}>{initials}</AvatarFallback>
+      <AvatarFallback delayMs={25}>{initials}</AvatarFallback>
     </Avatar>
   )
 }

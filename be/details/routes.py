@@ -14,9 +14,12 @@ router = APIRouter(
     dependencies=[Depends(get_current_user)]
 )
 
+def get_user_details_by_id(db: db_dependency, user_id: str) -> UserDetailsOutput:
+    return db.query(models.Users).filter(models.Users.id == user_id).first()
+
 @router.get('', response_model=UserDetailsOutput)
 async def get_user_details(db: db_dependency, current_user: models.Users = Depends(get_current_user)):
-    return db.query(models.Users).filter(models.Users.id == current_user.id).first()
+    return get_user_details_by_id(db, current_user.id)
 
 @router.put('', response_model=UserDetails)
 async def update_user_details(db: db_dependency, newData: UserContent, current_user: models.Users = Depends(get_current_user)):
