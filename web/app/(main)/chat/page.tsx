@@ -1,75 +1,25 @@
-'use client'
-
-import ProfileAvatar from '@/components/profile/ProfileAvatar';
-import { cn } from '@/lib/utils';
-import { ActiveUserContext } from '@/store/activeUserContext'
-import { useContext, useEffect, useRef, useState } from 'react'
-
-type ChatClient = {
-  username: string;
-  avatarUrl: string;
-  user_id: string;
-};
-
-type ChatMessage = {
-  client: ChatClient;
-  message: string;
-};
+import AllUsersSidebar from '@/components/chat/AllUsersSidebar';
+import ChatComponent from '@/components/chat/ChatComponent';
+import PageTitle from '@/components/page-title';
+import SectionTitle from '@/components/shared/texts/SectionTitle';
+import { Separator } from '@/components/ui/separator';
+import { ChatContextProvider } from '@/store/chatContext/ActiveChatContext';
 
 export default function ChatPage() {
-
-  const { activeUser } = useContext(ActiveUserContext)
-  const currentUserId = activeUser?.id
-
-
-  const [messages, setMessages] = useState<ChatMessage[]>([])
-  const [input, setInput] = useState('')
-  const ws = useRef<WebSocket | null>(null)
-
-  useEffect(() => {
-    ws.current = new WebSocket(`ws://localhost:8000/chat?client_id=${activeUser?.id}`)
-    ws.current.onmessage = (event) => {
-      setMessages((prev) => [...prev, JSON.parse(event.data)])
-    }
-
-    return () => {
-      ws.current?.close()
-    }
-  }, [activeUser])
-
-  const sendMessage = () => {
-    if (ws.current && ws.current.readyState === WebSocket.OPEN && input) {
-      ws.current.send(input)
-      setInput('')
-    }
-  }
   return (
-    <div className="p-4">
-      <p className="py-4">ty {activeUser?.username + " | " + activeUser?.id}</p>
-
-      <input
-        className="border px-2 py-1 "
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
-      />
-      <button className="ml-2 px-3 py-1 bg-blue-500 text-white mb-2" onClick={sendMessage}>
-        Wyślij
-      </button>
-      <div className="mb-4 mt-2 flex flex-col gap-4">
-        {messages.length !== 0 && messages.map((msg, idx) => (
-          <div key={idx} className={cn("flex flex-col", currentUserId === msg.client.user_id ? "items-end" : "items-start")}>
-            <div className={cn('flex gap-2 items-center',
-              currentUserId === msg.client.user_id ? "flex-row-reverse" : "flex-row"
-            )}>
-              <ProfileAvatar username={msg.client.username} photoPath={msg.client.avatarUrl} widthInPx={30} />
-              {msg.message}
-            </div>
+    <section className='flex flex-col gap-4 h-full'>
+      <ChatContextProvider>
+        <PageTitle title='Chat' />
+        <div className='flex flex-1 flex-col md:flex-row gap-4 w-full h-full items-start'>
+          <div className='flex flex-col w-full lg:w-[300px] md:w-[200px] gap-0'>
+            <SectionTitle title='Użytkownicy' />
+            <AllUsersSidebar />
           </div>
-        ))}
-      </div>
-
-
-    </div>
+          <Separator orientation='vertical' className='hidden md:block' />
+          <Separator className='block md:hidden' />
+          <ChatComponent />
+        </div>
+      </ChatContextProvider>
+    </section>
   )
 }

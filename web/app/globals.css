@@ -154,3 +154,7 @@
 .cursor-pointer {
   cursor: pointer;
 }
+
+.text-area-resize-block { 
+  field-sizing: fixed !important;
+}
