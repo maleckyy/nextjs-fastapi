@@ -60,7 +60,7 @@ async def get_last_messages(room_id: str ,db: db_dependency, current_user: model
     room = db.query(models.ChatRoom).filter(models.ChatRoom.id == room_id).first()
 
     if current_user.id not in [participant.id for participant in room.participants]:
-        print("niema")
+        raise HTTPException(401)
 
     messages = db.query(models.ChatMessage).filter(models.ChatMessage.room_id == room_id).order_by(models.ChatMessage.timestamp).all()
 
