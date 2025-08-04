@@ -1,4 +1,4 @@
-import { CalendarDays, DollarSign, House, NotebookPen, SidebarClose, User } from 'lucide-react'
+import { CalendarDays, DollarSign, House, MessageCircle, NotebookPen, SidebarClose, User } from 'lucide-react'
 import React from 'react'
 import { NavOptionsType } from '@/types/navigationTypes/navigation.type'
 import SingleNavElement from './sidebar/singleNavElement'
@@ -32,6 +32,11 @@ export default function AppSidebar({ ...props }: React.ComponentProps<typeof Sid
       title: "Finanse",
       path: "/finance",
       iconNode: <DollarSign />
+    },
+    {
+      title: "Chat",
+      path: "/chat",
+      iconNode: <MessageCircle />
     },
   ]
 

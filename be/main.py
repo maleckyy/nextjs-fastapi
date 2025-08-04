@@ -1,5 +1,6 @@
-from fastapi import FastAPI
+from fastapi import Depends, FastAPI, HTTPException, WebSocket, WebSocketDisconnect
 from fastapi.staticfiles import StaticFiles
+from details.schemas import UserDetailsOutput
 import models
 from database import engine
 from users import routes as user_routes
@@ -11,11 +12,13 @@ from expenses import routes as expenses_routes
 from details.resume import routes as user_resume_routes
 from details.profileStack import routes as user_stack_routes
 from details.experience import routes as user_experience_routes
+from chat import routes as chat_routes
 from uploads.endpoint import routes as avatar_routes
-from auth.routes import oauth2_scheme
+from auth.routes import get_current_user, oauth2_scheme
 from fastapi.middleware.cors import CORSMiddleware
 from config import origins_raw
-
+from dependency import db_dependency
+from sqlalchemy.orm import Session
 
 app = FastAPI();
 oauth2_scheme = oauth2_scheme
@@ -56,5 +59,7 @@ app.include_router(user_stack_routes.router)
 app.include_router(user_experience_routes.router)
 
 app.include_router(avatar_routes.router)
+
+app.include_router(chat_routes.router)
 
 app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")

@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from auth.routes import get_current_user
+from details.schemas import UserDetailsOutput
 from utils.passwordhashing.hasher import verify_password
 from .schemas import UpdateUser, UserCreate, User
 import models
@@ -48,9 +49,13 @@ async def create_new_user(db: db_dependency, user: UserCreate):
     return new_user
 
 
-@router.get('', response_model=list[User], dependencies=[Depends(get_current_user)])
-async def get_all_users(db:db_dependency):
+@router.get('/all', response_model=list[UserDetailsOutput], dependencies=[Depends(get_current_user)])
+async def get_all_users(db: db_dependency):
     return db.query(models.Users).all()
+
+@router.get('/{user_id}', response_model=UserDetailsOutput, dependencies=[Depends(get_current_user)])
+async def get_user_by_id(user_id: str, db: db_dependency):
+    return db.query(models.Users).filter(models.Users.id == user_id).first()
 
 
 @router.get('/active', response_model=User, dependencies=[Depends(get_current_user)])
@@ -59,7 +64,7 @@ async def get_user(current_user: models.Users = Depends(get_current_user)):
 
 
 @router.delete('/delete', dependencies=[Depends(get_current_user)])
-async def delete_user_by_id(db:db_dependency, current_user: models.Users = Depends(get_current_user)):
+async def delete_user_by_id(db: db_dependency, current_user: models.Users = Depends(get_current_user)):
     user = current_user
 
     db.delete(user)
@@ -68,7 +73,7 @@ async def delete_user_by_id(db:db_dependency, current_user: models.Users = Depen
 
 
 @router.put('/update', dependencies=[Depends(get_current_user)])
-async def update_user_by_id(db:db_dependency, user:UpdateUser, current_user: models.Users = Depends(get_current_user)):
+async def update_user_by_id(db: db_dependency, user: UpdateUser, current_user: models.Users = Depends(get_current_user)):
 
     if not any([user.username, user.email, user.password]):
         raise HTTPException(status_code=400, detail="No data to update")

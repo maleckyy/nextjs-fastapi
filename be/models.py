@@ -1,10 +1,17 @@
 import uuid
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, Numeric, String, Null, Text, Time, Enum
+from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, Numeric, String, Null, Table, Text, Time, Enum
 from sqlalchemy.orm import relationship
 from enums.expense_enum import ExpenseType
 from database import Base
 from datetime import datetime, timezone
+
+chat_participants = Table(
+    "chat_participants",
+    Base.metadata,
+    Column("user_id", UUID(as_uuid=True), ForeignKey("users.id")),
+    Column("room_id", UUID(as_uuid=True), ForeignKey("chat_rooms.id"))
+)
 
 class Users(Base):
     __tablename__ = 'users'
@@ -59,6 +66,12 @@ class Users(Base):
         back_populates="user", 
         cascade="all, delete-orphan"
     )
+
+    chat_rooms = relationship(
+    "ChatRoom",
+    secondary=chat_participants,
+    back_populates="participants"
+)
 
 class TodoList(Base):
     __tablename__ = 'todo_list'
@@ -138,3 +151,28 @@ class UserProfileExperience(Base):
 
     user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
     user = relationship("Users", back_populates="experience")
+
+
+class ChatRoom(Base):
+    __tablename__ = "chat_rooms"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    participants = relationship(
+        "Users",
+        secondary=chat_participants,
+        back_populates="chat_rooms"
+    )
+
+class ChatMessage(Base):
+    __tablename__ = "chat_messages"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    room_id = Column(UUID(as_uuid=True), ForeignKey("chat_rooms.id"))
+    sender_id = Column(UUID(as_uuid=True), ForeignKey("users.id"))
+    content = Column(Text, nullable=False)
+    timestamp = Column(DateTime, default=datetime.utcnow)
+
+    room = relationship("ChatRoom", backref="messages")
+    sender = relationship("Users")

@@ -36,7 +36,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <main className="w-full">
+          <main className="w-full h-screen">
             <Toaster />
             <AuthContextProvider>
               <QueryProvider>
