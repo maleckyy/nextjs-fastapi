@@ -1,24 +1,12 @@
-import { api } from '@/api/axios'
-import { ApiEndpoints } from '@/api/routes/apiEndpoints'
 import { useChatContext } from '@/store/chatContext/ActiveChatContext'
-import { UserDetailsOutput } from '@/types/profile/profile.type'
-import { useQuery } from '@tanstack/react-query'
 import React from 'react'
 import ProfileAvatar from '../profile/ProfileAvatar'
 import AnimatedSpinner from '../shared/AnimatedSpinner'
+import { useGetUserById } from '@/api/chat/useGetUserById'
 
 export default function ChatHeader() {
   const { clientTargetId } = useChatContext()
-
-  async function getUserById() {
-    const response = await api.get(ApiEndpoints.USER + `/${clientTargetId}`)
-    return response.data
-  }
-
-  const { data } = useQuery<UserDetailsOutput>({
-    queryKey: ['chat-room-client-details', clientTargetId],
-    queryFn: getUserById
-  })
+  const { data } = useGetUserById(clientTargetId)
 
   return (
     <div>

@@ -9,10 +9,9 @@ import { Button } from '../ui/button';
 import { ChatMessage } from '@/types/chat/chat.type';
 import SingleMessage from './SingleMessage';
 import { Send } from 'lucide-react';
-import { Textarea } from '../ui/textarea';
 import ChatHeader from './ChatHeader';
 import EmptyDataBox from '../shared/EmptyDataBox';
-import { ScrollArea } from '../ui/scroll-area';
+import { AutoTextarea } from '../shared/Inputs/TextareaResize';
 
 export default function ChatComponent() {
   const { activeRoomId } = useChatContext()
@@ -55,81 +54,45 @@ export default function ChatComponent() {
       const inputOutput = input.trim()
       if (inputOutput !== '') {
         ws.current.send(input.trim())
-        const epmtyInput = ''
-        setInput(epmtyInput.trim())
-        const textarea = textareaRef.current;
-        if (textarea) textarea.style.height = '36px';
-        setTimeout(() => {
-          handleMessageHeight();
-        }, 10);
+        setInput('')
       }
     }
   }
 
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const maxTextAreaHeight = 100
-  const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setInput(e.target.value);
-
-    const textarea = textareaRef.current;
-    if (textarea) {
-      textarea.style.height = '36px';
-      const newHeight = Math.min(textarea.scrollHeight, maxTextAreaHeight);
-      textarea.style.height = newHeight + 'px';
-
-      if (textarea.scrollHeight > maxTextAreaHeight) {
-        textarea.style.overflowY = 'auto';
-      } else {
-        textarea.style.overflowY = 'hidden';
-      }
-      if (scrollRef.current) {
-        handleMessageHeight()
-      }
-    }
-  };
-
-  function handleMessageHeight() {
-    const textarea = textareaRef.current;
-    if (textarea) {
-      const newHeight = Math.min(textarea.scrollHeight, maxTextAreaHeight);
-      if (scrollRef.current) {
-        const heightDifference = newHeight - 36;
-        scrollRef.current.style.height = `calc(100vh - 184px - ${heightDifference}px)`;
-      }
+  function scrollToBottom() {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight
     }
   }
 
   useEffect(() => {
-    const viewport = scrollRef.current?.querySelector('[data-radix-scroll-area-viewport]')
-    if (viewport) {
-      viewport.scrollTop = viewport.scrollHeight
-    }
+    scrollToBottom()
   }, [messages])
 
   return (
-    <div className="w-full h-full flex flex-col justify-start gap-4">
+    <div className="w-full h-full flex flex-col justify-start gap-4 min-h-0">
       <ChatHeader />
-      {messages.length === 0 && <EmptyDataBox emptyDataText='Brak historii czatu' />}
-      {messages.length !== 0 && <ScrollArea className="max-h-[calc(100vh-184px)]" ref={scrollRef}>
-        <div className="flex flex-col gap-2 flex-1 justify-end pr-2">
-          {messages.length !== 0 && messages.map((msg, idx) => (
-            <SingleMessage message={msg} key={idx} currentUserId={currentUserId} />
-          ))}
-        </div>
-      </ScrollArea>}
 
-      <div className='mt-auto flex flex-row gap-4 items-end overflow-hidden'>
-        <Textarea
-          ref={textareaRef}
+      <div className='overflow-y-auto min-h-0 flex flex-col h-full flex-1 gap-2' ref={scrollRef}>
+        {messages.length !== 0 && messages.map((msg, idx) => (
+          <SingleMessage message={msg} key={idx} currentUserId={currentUserId} />
+        ))}
+        {messages.length === 0 && <EmptyDataBox emptyDataText='Brak historii czatu' />}
+      </div>
+
+      <div className='flex flex-row gap-4 items-end '>
+        <AutoTextarea
           value={input}
-          onChange={handleTextareaChange}
-          disabled={!activeRoomId}
-          className="resize-none w-full text-area-resize-block overflow-hidden"
-          style={{
-            minHeight: '36px',
-            maxHeight: '128px',
-            height: '36px'
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault()
+              sendMessage()
+            }
           }}
+          disabled={!activeRoomId}
+          minRows={1}
+          maxRows={5}
         />
         <Button onClick={sendMessage} disabled={input.trim().length === 0 || !activeRoomId} >
           Wyślij <Send />
@@ -138,3 +101,4 @@ export default function ChatComponent() {
     </div>
   )
 }
+

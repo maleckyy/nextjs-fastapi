@@ -12,3 +12,4 @@ pydantic[email]
 python-dotenv
 weasyprint jinja2
 websockets
+pydantic-ai
