@@ -24,6 +24,7 @@ export enum ApiEndpoints {
   EVENTS = '/event',
   EVENT_CREATE = '/event',
   EXPENSE_SUMMARY = "/expenses/monthly",
+  EXPENSE_STATS = "/expenses/stats/expenses-summary",
   EXPENSE = '/expenses',
   EXPENSE_DELETE = '/expenses',
 }

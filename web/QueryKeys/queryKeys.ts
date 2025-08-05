@@ -4,6 +4,7 @@ export enum QueryKeys {
   EVENTS = 'events',
   USER_DETAILS = 'details',
   EXPENSE_SUMMARY = 'expenses-sumamry',
+  EXPENSE_STATS = "expenses-stats-expenses-summary",
   PROFILE_STACK = 'profile-stack',
   PROFILE_EXPERIENCE = 'profile-experience'
 }
