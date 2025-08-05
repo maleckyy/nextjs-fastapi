@@ -6,6 +6,7 @@ from dependency import db_dependency
 from sqlalchemy import desc, extract, func
 from datetime import datetime
 import models
+from dateutil.relativedelta import relativedelta
 
 router = APIRouter(prefix="/expenses", tags=["Expenses"], dependencies=[Depends(get_current_user)])
 
@@ -88,3 +89,36 @@ async def get_monthly_summary( db: db_dependency, current_user: models.Users = D
         "month": f"{month:02}",
         "year": str(year)
     }
+
+
+@router.get("/stats/expenses-summary")
+def get_expenses_summary(db: db_dependency, current_user: models.Users = Depends(get_current_user)):
+    today = datetime.utcnow().replace(day=1)
+    months = [(today - relativedelta(months=i)) for i in reversed(range(6))]
+
+    results = (
+        db.query(
+            extract('year', models.Expense.expense_date).label('year'),
+            extract('month', models.Expense.expense_date).label('month'),
+            models.Expense.expense_type,
+            func.sum(models.Expense.amount).label('total')
+        )
+        .filter(
+            models.Expense.expense_date >= months[0],
+            models.Expense.user_id == current_user.id
+        )
+        .group_by('year', 'month', models.Expense.expense_type)
+        .all()
+    )
+
+    data = {f"{m.month:02d}-{m.year}": {"PRZYCHOD": 0, "WYDATEK": 0} for m in months}
+
+    for row in results:
+        label = f"{int(float(row.month)):02d}-{int(float(row.year))}"
+        if label in data:
+            data[label][row.expense_type.name] = float(row.total)
+
+    return [
+        {"month": int(month.split("-")[0]), "income": values["PRZYCHOD"], "expense": values["WYDATEK"]}
+        for month, values in sorted(data.items())
+    ]

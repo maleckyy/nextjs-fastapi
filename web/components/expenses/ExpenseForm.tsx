@@ -13,6 +13,8 @@ import { createToast } from '@/lib/toastService'
 import { useRouter } from 'next/navigation'
 import { useDialog } from '@/store/expenses/DialogContext'
 import { useUpdateExpense } from '@/api/expense/useUpdateExpense'
+import { QueryClient } from '@tanstack/react-query'
+import { QueryKeys } from '@/QueryKeys/queryKeys'
 
 type PropsType = {
   expenseData?: Expense
@@ -50,6 +52,8 @@ export default function ExpenseForm({ expenseData }: PropsType) {
   const useUpdateExpenseMutation = useUpdateExpense()
 
   function cleanAfterSuccessAction() {
+    const queryClient = new QueryClient()
+    queryClient.invalidateQueries({ queryKey: [QueryKeys.EXPENSE_STATS] })
     router.refresh()
     triggerExpenseDataRefetch()
     reset()

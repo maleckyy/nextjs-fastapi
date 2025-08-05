@@ -22,3 +22,9 @@ export type ExpenseCreate = {
 export type Expense = ExpenseCreate & {
   id: string;
 };
+
+export type ExpenseStats = {
+  month: number,
+  income: number,
+  expense: number
+}
