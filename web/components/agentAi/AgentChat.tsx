@@ -56,6 +56,7 @@ export default function AgentChat() {
           addToMessageList(data)
         }, onError: (e) => {
           createToast("Błąd", "error", e.message)
+          setLoadingAnwser(false)
         }
       })
     }

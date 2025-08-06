@@ -8,4 +8,5 @@ export type ChatClient = {
 export type ChatMessage = {
   client: ChatClient;
   message: string;
+  message_id: string;
 };

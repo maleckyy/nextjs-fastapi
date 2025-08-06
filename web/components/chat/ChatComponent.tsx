@@ -20,7 +20,6 @@ export default function ChatComponent() {
   const token = useAuthStore().token
 
   const scrollRef = useRef<HTMLDivElement>(null)
-
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [input, setInput] = useState('')
   const ws = useRef<WebSocket | null>(null)
@@ -74,8 +73,8 @@ export default function ChatComponent() {
       <ChatHeader />
 
       <div className='overflow-y-auto min-h-0 flex flex-col h-full flex-1 gap-2' ref={scrollRef}>
-        {messages.length !== 0 && messages.map((msg, idx) => (
-          <SingleMessage message={msg} key={idx} currentUserId={currentUserId} />
+        {messages.length !== 0 && messages.map((msg) => (
+          <SingleMessage message={msg} key={msg.message_id} currentUserId={currentUserId} />
         ))}
         {messages.length === 0 && <EmptyDataBox emptyDataText='Brak historii czatu' />}
       </div>

@@ -73,7 +73,8 @@ async def get_last_messages(room_id: str ,db: db_dependency, current_user: model
                 "avatarUrl": user.details.photo_path if user.details else None,
                 "user_id": str(user.id)
             },
-            "message": msg.content
+            "message": msg.content,
+            "message_id": msg.id
         })
 
     return response

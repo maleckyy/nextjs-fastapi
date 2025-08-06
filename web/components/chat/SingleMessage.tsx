@@ -7,7 +7,7 @@ type PropsType = {
   message: ChatMessage,
   currentUserId: string | undefined
 }
-export default function SingleMessage({ message, currentUserId }: PropsType) {
+function SingleMessage({ message, currentUserId }: PropsType) {
   return (
     <div className={cn("flex flex-col", currentUserId === message.client.user_id ? "items-end" : "items-start")}>
       <div className={cn('flex gap-2 items-end w-full',
@@ -23,3 +23,5 @@ export default function SingleMessage({ message, currentUserId }: PropsType) {
     </div>
   )
 }
+
+export default React.memo(SingleMessage)
