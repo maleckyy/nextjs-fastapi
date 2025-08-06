@@ -2,6 +2,11 @@ import { WEB_BASE_URL } from '@/env/API_URL';
 import { login } from '@/tests/helpers/loginHelper';
 import { expect, test } from '@playwright/test';
 
+test('should redirect unauthenticated user from / to /login', async ({ page }) => {
+  await page.goto(`${WEB_BASE_URL}`)
+  await expect(page).toHaveURL('/login')
+});
+
 test('does login form loads correctly', async ({ page }) => {
   await page.goto(`${WEB_BASE_URL}/login`)
   await expect(page.getByRole('heading', { name: 'LOGO' })).toBeVisible()

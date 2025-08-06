@@ -46,7 +46,7 @@ export default function AppSidebar({ ...props }: React.ComponentProps<typeof Sid
   ]
 
   return (
-    <Sidebar collapsible="offcanvas" {...props}>
+    <Sidebar collapsible="offcanvas" {...props} data-testid="app-sidebar">
       <SidebarHeader className='flex flex-row justify-between items-center  pt-4'><div className="text-base px-2 font-semibold">PSPACE</div><SidebarTrigger className='block md:hidden'><SidebarClose /></SidebarTrigger></SidebarHeader>
       <SidebarContent>
         <SidebarGroup>

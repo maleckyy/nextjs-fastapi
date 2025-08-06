@@ -20,11 +20,12 @@ export default async function GenericCard<T>({
   renderItem,
   linkHref,
   noDataText,
+  ...props
 }: GenericCardProps<T>) {
   const data: T[] = await fetchWithAuth(endpoint)
 
   return (
-    <Card className="gap-4 w-full bg-card shadow-xs">
+    <Card className="gap-4 w-full bg-card shadow-xs" {...props}>
       <CardDescription className="px-6">
         <div className='flex flex-row justify-between items-center text-primary'>
           <span className="text-base">{title}</span>
