@@ -5,13 +5,12 @@ import { useContext, useEffect, useRef, useState } from 'react'
 import { useChatContext } from '@/store/chatContext/ActiveChatContext';
 import { useAuthStore } from '@/store/authStore';
 import { api } from '@/api/axios';
-import { Button } from '../ui/button';
 import { ChatMessage } from '@/types/chat/chat.type';
 import SingleMessage from './SingleMessage';
-import { Send } from 'lucide-react';
 import ChatHeader from './ChatHeader';
 import EmptyDataBox from '../shared/EmptyDataBox';
-import { AutoTextarea } from '../shared/Inputs/TextareaResize';
+import ChatInputBox from './ChatInputBox';
+import { WEBSOCKET_URL } from '@/env/API_URL';
 
 export default function ChatComponent() {
   const { activeRoomId } = useChatContext()
@@ -21,7 +20,6 @@ export default function ChatComponent() {
 
   const scrollRef = useRef<HTMLDivElement>(null)
   const [messages, setMessages] = useState<ChatMessage[]>([])
-  const [input, setInput] = useState('')
   const ws = useRef<WebSocket | null>(null)
 
   const getLastMessages = useCallback(async () => {
@@ -38,7 +36,7 @@ export default function ChatComponent() {
   useEffect(() => {
     if (!activeUser || !activeRoomId || !token) return;
 
-    ws.current = new WebSocket(`ws://localhost:8000/chat?client_id=${activeUser?.id}&room_id=${activeRoomId}&token=${token}`)
+    ws.current = new WebSocket(`${WEBSOCKET_URL}?client_id=${activeUser?.id}&room_id=${activeRoomId}&token=${token}`)
     ws.current.onmessage = (event) => {
       setMessages((prev) => [...prev, JSON.parse(event.data)])
     }
@@ -48,12 +46,11 @@ export default function ChatComponent() {
     }
   }, [activeUser, activeRoomId, token])
 
-  const sendMessage = () => {
+  const sendMessage = (input: string) => {
     if (ws.current && ws.current.readyState === WebSocket.OPEN && input) {
       const inputOutput = input.trim()
       if (inputOutput !== '') {
         ws.current.send(input.trim())
-        setInput('')
       }
     }
   }
@@ -80,22 +77,7 @@ export default function ChatComponent() {
       </div>
 
       <div className='flex flex-row gap-4 items-end '>
-        <AutoTextarea
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" && !e.shiftKey) {
-              e.preventDefault()
-              sendMessage()
-            }
-          }}
-          disabled={!activeRoomId}
-          minRows={1}
-          maxRows={5}
-        />
-        <Button onClick={sendMessage} disabled={input.trim().length === 0 || !activeRoomId} >
-          Wyślij <Send />
-        </Button>
+        <ChatInputBox activeRoomId={activeRoomId} sendMessage={sendMessage} />
       </div>
     </div>
   )

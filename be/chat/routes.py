@@ -53,6 +53,7 @@ def format_message(message: models.ChatMessage, user: models.Users):
             "user_id": str(user.id)
         },
         "message": message.content,
+        "message_id": str(message.id)
     }
 
 @router.get("/messages/{room_id}")
@@ -74,7 +75,7 @@ async def get_last_messages(room_id: str ,db: db_dependency, current_user: model
                 "user_id": str(user.id)
             },
             "message": msg.content,
-            "message_id": msg.id
+            "message_id": str(msg.id)
         })
 
     return response
@@ -149,14 +150,14 @@ async def websocket_endpoint(websocket: WebSocket, room_id: str, client_id: str,
             db.commit()
             db.refresh(new_message)
 
-
             await manager.broadcast(room_id, {
                 "client" : {
                     "username": user.username,
                     "avatarUrl": user.details.photo_path,
                     "user_id": str(user.id)
                 },
-                "message": data
+                "message": data,
+                "message_id": str(new_message.id)
             })
     except WebSocketDisconnect:
         manager.disconnect(room_id, websocket)
