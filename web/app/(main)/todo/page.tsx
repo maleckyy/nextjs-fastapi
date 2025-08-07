@@ -22,7 +22,7 @@ export default async function TodoPage() {
   return (
     <HydrationBoundary state={dehydratedState}>
       <section className='flex flex-col gap-4'>
-        <PageTitle title="Todos" />
+        <PageTitle title="Todos" data-testid="todo-header" />
         <TodoDataTable />
       </section>
     </HydrationBoundary>

@@ -52,8 +52,8 @@ export default function CreateTodoDialog({ refetch }: PropsType) {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger className='scale-hover cursor-pointer'><CirclePlus size={24} className='mt-2' /></DialogTrigger>
-      <DialogContent>
+      <DialogTrigger className='scale-hover cursor-pointer' data-testid="create-todo-button"><CirclePlus size={24} className='mt-2' /></DialogTrigger>
+      <DialogContent data-testid="create-todo-dialog-content">
         <DialogHeader>
           <DialogTitle className='mb-2'>Utwórz nowe zadanie</DialogTitle>
           <DialogDescription aria-describedby={undefined}></DialogDescription>
@@ -61,7 +61,7 @@ export default function CreateTodoDialog({ refetch }: PropsType) {
             <AppInputField name="title" control={control} label='Nazwa zadania' error={errors.title?.message} />
             <AppInputField name="description" control={control} label='Nazwa zadania' error={errors.description?.message} />
             <div className='flex justify-end'>
-              <Button className='scale-hover cursor-pointer' onClick={handleSubmit(handleCreateTodo)} disabled={isSubmitting}>Dodaj zadanie</Button>
+              <Button className='scale-hover cursor-pointer' onClick={handleSubmit(handleCreateTodo)} disabled={isSubmitting} data-testid="create-todo-submit-button">Dodaj zadanie</Button>
             </div>
           </div>
         </DialogHeader>
