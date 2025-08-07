@@ -188,6 +188,7 @@ function Sidebar({
           data-slot="sidebar"
           data-mobile="true"
           className="bg-sidebar text-sidebar-foreground w-(--sidebar-width) p-0 [&>button]:hidden"
+          data-testid="app-sidebar"
           style={
             {
               "--sidebar-width": SIDEBAR_WIDTH_MOBILE,
@@ -213,6 +214,7 @@ function Sidebar({
       data-variant={variant}
       data-side={side}
       data-slot="sidebar"
+      data-testid="app-sidebar"
     >
       {/* This is what handles the sidebar gap on desktop */}
       <div

@@ -5,11 +5,11 @@ type PropsType = {
   title: string
 }
 
-export default function PageTitle({ title }: PropsType) {
+export default function PageTitle({ title, ...props }: PropsType) {
   return (
-    <header className='flex flex-col'>
+    <header className='flex flex-col' {...props}>
       <section className='flex items-center gap-1'>
-        <SidebarTrigger className='mt-0' />
+        <SidebarTrigger className='mt-0' data-test-id="sidebar-toggle-button" />
         <h1 className='text-base font-medium"'>{title}</h1>
       </section>
     </header>

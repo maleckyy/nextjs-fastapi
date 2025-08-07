@@ -38,6 +38,12 @@ export default function UpdateTodoDialog({ refetch, item }: PropsType) {
 
 
   const updateTodoMutatnion = useUpdateMutatnion()
+  function resetFormToDefaults() {
+    reset({
+      title: item.title,
+      description: item.description
+    })
+  }
 
   function handleCreateTodo(formData: CreateTodoFormType) {
     const data: TodoUpdate = {
@@ -54,10 +60,7 @@ export default function UpdateTodoDialog({ refetch, item }: PropsType) {
         createToast("Zadanie edytowano", "success")
         setOpen(false)
         refetch()
-        reset({
-          title: item.title,
-          description: item.description
-        })
+        resetFormToDefaults()
       }
     })
   }
@@ -65,13 +68,10 @@ export default function UpdateTodoDialog({ refetch, item }: PropsType) {
   return (
     <Dialog open={open} onOpenChange={(value: boolean) => {
       setOpen(value)
-      reset({
-        title: item.title,
-        description: item.description
-      })
+      resetFormToDefaults()
     }}>
-      <DialogTrigger className='scale-hover cursor-pointer'><Pen size={iconSize} className='mt-2' /></DialogTrigger>
-      <DialogContent>
+      <DialogTrigger className='scale-hover cursor-pointer' data-testid="edit-todo-dialog-button"><Pen size={iconSize} className='mt-2' /></DialogTrigger>
+      <DialogContent data-testid="edit-todo-dialog-content">
         <DialogHeader>
           <DialogTitle className='mb-2'>Utwórz nowe zadanie</DialogTitle>
           <DialogDescription aria-describedby={undefined}></DialogDescription>
@@ -79,7 +79,7 @@ export default function UpdateTodoDialog({ refetch, item }: PropsType) {
             <AppInputField name="title" control={control} label='Nazwa zadania' error={errors.title?.message} defaultInputValue={item.title} />
             <AppInputField name="description" control={control} label='Nazwa zadania' error={errors.description?.message} defaultInputValue={item.description} />
             <div className='flex justify-end'>
-              <Button className='scale-hover cursor-pointer' onClick={handleSubmit(handleCreateTodo)} disabled={isSubmitting || !isDirty}>Dodaj zadanie</Button>
+              <Button className='scale-hover cursor-pointer' onClick={handleSubmit(handleCreateTodo)} disabled={isSubmitting || !isDirty} data-testid="edit-todo-submit-button">Dodaj zadanie</Button>
             </div>
           </div>
         </DialogHeader>

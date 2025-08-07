@@ -30,9 +30,9 @@ export default function DashboardChart() {
   } satisfies ChartConfig
 
   return (
-    <Card className='md:max-h-[400px] w-full md:w-3/4 px-6 shadow-xs'>
+    <Card className='md:max-h-[400px] w-full md:w-3/4 px-6 shadow-xs' data-testid="user-expense-stats-card">
       <CardDescription className='text-primary'><span className="text-base">Ostatnie 6 miesięcy</span></CardDescription>
-      <ChartContainer config={chartConfig} className="min-h-[120px]">
+      <ChartContainer config={chartConfig} className="min-h-[120px]" data-testid="expense-stats-chart">
         <BarChart accessibilityLayer data={chartData}>
           <CartesianGrid vertical={false} />
           <XAxis

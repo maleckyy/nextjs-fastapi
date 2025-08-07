@@ -26,6 +26,7 @@ export default async function Dashboad() {
           renderItem={(item, index) => <SingleCardElement todo={item} key={index} />}
           linkHref="/todo"
           noDataText='Brak zadań'
+          data-testid="last-todos-card"
         />
 
         <GenericCard<Todo>
@@ -34,6 +35,7 @@ export default async function Dashboad() {
           renderItem={(item, index) => <SingleCardElement todo={item} key={index} />}
           linkHref="/events"
           noDataText='Brak nadchodzących wydarzeń'
+          data-testid="upcoming-events-card"
         />
       </div>
     </section>

@@ -58,7 +58,7 @@ export default function TodoDataTable() {
   }
 
   return (
-    <Table>
+    <Table data-testid="todo-data-table">
       <TableHeader>
         <TableRow>
           <TableHead className="text-center"></TableHead>
@@ -77,7 +77,7 @@ export default function TodoDataTable() {
           </TableRow>
         ) : data && data.length > 0 ? (
           data.map((item: Todo) => (
-            <TableRow key={item.id}>
+            <TableRow key={item.id} data-testid={"todo-row-" + item.id}>
               <TableCell className='flex justify-center items-center mt-1'>
                 <Checkbox className='cursor-pointer' checked={item.is_done} onCheckedChange={() => changeTodoStatus(item)} />
               </TableCell>

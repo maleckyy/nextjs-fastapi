@@ -4,50 +4,53 @@ import { NavOptionsType } from '@/types/navigationTypes/navigation.type'
 import SingleNavElement from './sidebar/singleNavElement'
 import SidebarOptionsButton from './sidebar/SidebarOptionsButton'
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarHeader, SidebarMenu, SidebarTrigger } from './ui/sidebar'
+import CustomSidebarHeader from './sidebar/SidebarHeader'
+
+export const navOptions: NavOptionsType[] = [
+  {
+    title: "Dashboard",
+    path: "/dashboard",
+    iconNode: <House />
+  },
+  {
+    title: "Todo",
+    path: "/todo",
+    iconNode: <NotebookPen />
+  },
+  {
+    title: "Wydarzenia",
+    path: "/events",
+    iconNode: <CalendarDays />
+  },
+  {
+    title: "Profil",
+    path: "/profile",
+    iconNode: <User />
+  },
+  {
+    title: "Finanse",
+    path: "/finance",
+    iconNode: <DollarSign />
+  },
+  {
+    title: "Chat",
+    path: "/chat",
+    iconNode: <MessageCircle />
+  },
+  {
+    title: "Agent AI",
+    path: "/agent-ai",
+    iconNode: <BotMessageSquare />
+  },
+]
 
 export default function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-
-  const navOptions: NavOptionsType[] = [
-    {
-      title: "Dashboard",
-      path: "/dashboard",
-      iconNode: <House />
-    },
-    {
-      title: "Todo",
-      path: "/todo",
-      iconNode: <NotebookPen />
-    },
-    {
-      title: "Wydarzenia",
-      path: "/events",
-      iconNode: <CalendarDays />
-    },
-    {
-      title: "Profil",
-      path: "/profile",
-      iconNode: <User />
-    },
-    {
-      title: "Finanse",
-      path: "/finance",
-      iconNode: <DollarSign />
-    },
-    {
-      title: "Chat",
-      path: "/chat",
-      iconNode: <MessageCircle />
-    },
-    {
-      title: "Agent AI",
-      path: "/agent-ai",
-      iconNode: <BotMessageSquare />
-    },
-  ]
-
   return (
-    <Sidebar collapsible="offcanvas" {...props}>
-      <SidebarHeader className='flex flex-row justify-between items-center  pt-4'><div className="text-base px-2 font-semibold">PSPACE</div><SidebarTrigger className='block md:hidden'><SidebarClose /></SidebarTrigger></SidebarHeader>
+    <Sidebar collapsible="icon" {...props}>
+      <SidebarHeader className='flex flex-row justify-between md:justify-start items-center pt-4'>
+        <CustomSidebarHeader />
+        <SidebarTrigger className='block md:hidden'><SidebarClose /></SidebarTrigger>
+      </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent className="flex flex-col gap-2">
