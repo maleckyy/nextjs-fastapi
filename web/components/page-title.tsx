@@ -9,7 +9,7 @@ export default function PageTitle({ title }: PropsType) {
   return (
     <header className='flex flex-col'>
       <section className='flex items-center gap-1'>
-        <SidebarTrigger className='mt-0' />
+        <SidebarTrigger className='mt-0' data-test-id="sidebar-toggle-button" />
         <h1 className='text-base font-medium"'>{title}</h1>
       </section>
     </header>
