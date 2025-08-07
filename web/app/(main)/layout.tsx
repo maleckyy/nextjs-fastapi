@@ -10,7 +10,7 @@ export default async function RootLayout({
 }>) {
   return (
     <SidebarProvider>
-      <div className="flex flex-col w-full md:flex-row p-4 min-h-0">
+      <div className="flex flex-col w-full md:flex-row md:px-4 min-h-0 py-4 px-2">
         <AppSidebar />
         <div className="w-full h-[calc(100vh-2rem)] min-h-0">
           <TokenWatcher />

@@ -5,6 +5,7 @@ import { QueryKeys } from '@/QueryKeys/queryKeys';
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import { fetchWithAuth } from '@/api/axiosServer';
 import { ApiEndpoints } from '@/api/routes/apiEndpoints';
+import PageSection from '@/components/shared/PageSection';
 export default async function TodoPage() {
   const queryClient = new QueryClient()
 
@@ -21,10 +22,12 @@ export default async function TodoPage() {
 
   return (
     <HydrationBoundary state={dehydratedState}>
-      <section className='flex flex-col gap-4'>
+      <PageSection>
         <PageTitle title="Todos" data-testid="todo-header" />
-        <TodoDataTable />
-      </section>
+        <div className='overflow-x-auto'>
+          <TodoDataTable />
+        </div>
+      </PageSection>
     </HydrationBoundary>
   )
 }

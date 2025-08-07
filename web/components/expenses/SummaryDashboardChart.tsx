@@ -49,7 +49,7 @@ export default function SummaryDashboardChart({ showLink = false }: PropsType) {
   }, [refreshFlag, refetch])
 
   return (
-    <Card className="md:max-h-[400px] w-full md:w-2/4 px-6 bg-card shadow-xs" data-testid="monthly-expenses-card">
+    <Card className="md:max-h-[400px] w-full md:w-2/4 lg:w-2/5 px-6 bg-card shadow-xs" data-testid="monthly-expenses-card">
       <CardDescription>
         <div className='flex flex-row justify-between items-center text-primary'>
           <span className="text-base">{data && getPolishMonthName(data.month) + " -"} Wydatki</span>
