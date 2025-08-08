@@ -27,7 +27,7 @@
     </style>
 </head>
 <body class="py-4">
-    <button class="no-print absolute-btn right-1 top-1 font-bold p-2" onclick="window.print()">Pobierz jako PDF</button>
+    <button class="no-print absolute-btn right-1 top-1 font-bold p-2" onclick="window.print()">Download PDF</button>
     <main class="flex flex-col gap-4">
         <section class="flex flex-col gap-2">
             <h1 class="font-normal text-4xl">{{first_name}} {{last_name}}</h1>
@@ -39,12 +39,12 @@
         </section>
         <hr>
         <section class="flex flex-col gap-2">
-            <h3 class="text-2xl font-bold">Umiejętności</h3>
+            <h3 class="text-2xl font-bold">Stack</h3>
             <p style="text-transform: uppercase; line-height: 150%;">{{profile_stack}}</p>
         </section>
         <hr>
         <section class="flex flex-col gap-2">
-            <h3 class="text-2xl font-bold">Doświadczenie</h3>
+            <h3 class="text-2xl font-bold">Experience</h3>
             <ul>
                 {% for exp in experiences %}
                 <li style="margin-bottom: 8px;">
@@ -54,11 +54,11 @@
                     {% if exp.ending_date %}
                         {{ exp.ending_date.strftime('%Y-%m-%d') }}
                     {% else %}
-                        Obecnie
+                        Present
                     {% endif %}
                     </small>
                     {% if exp.description %}
-                        <p>Opis: {{ exp.description }}</p>
+                        <p>Description: {{ exp.description }}</p>
                     {% endif %}
                 </li>
                 {% endfor %}

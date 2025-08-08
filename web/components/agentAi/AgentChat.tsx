@@ -87,7 +87,7 @@ export default function AgentChat() {
         <div ref={messagesEndRef} />
       </div>
 
-      <div className='flex flex-row gap-2 mt-auto justify-center pt-2 justify-self-end'>
+      <div className='flex md:flex-row flex-col gap-2 mt-auto justify-center pt-2 justify-self-end'>
         <AutoTextarea
           value={question}
           onChange={(e) => setQuestion(e.target.value)}

@@ -73,7 +73,8 @@ export default function ChatComponent() {
         {messages.length !== 0 && messages.map((msg) => (
           <SingleMessage message={msg} key={msg.message_id} currentUserId={currentUserId} />
         ))}
-        {messages.length === 0 && <EmptyDataBox emptyDataText='No chat history' />}
+        {clientTargetId && messages.length === 0 && <EmptyDataBox emptyDataText='No chat history' />}
+        {!clientTargetId && <p className='text-center text-accent-foreground'>Select conversation</p>}
       </div>
 
       <div className='flex flex-row gap-4 items-end '>

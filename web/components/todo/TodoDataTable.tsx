@@ -95,7 +95,7 @@ export default function TodoDataTable() {
         ) : (
           <TableRow>
             <TableCell colSpan={5}>
-              <EmptyDataBox emptyDataText="Brak zadań" />
+              <EmptyDataBox emptyDataText="No data" />
             </TableCell>
           </TableRow>
         )}
