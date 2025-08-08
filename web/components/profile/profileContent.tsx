@@ -35,7 +35,7 @@ export default async function ProfileContent() {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent side='left'>
                   <DropdownMenuItem >
-                    <Link href="/profile/edit" className='w-full'>Edytuj dane</Link>
+                    <Link href="/profile/edit" className='w-full'>Edit profile</Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem >
                     <UserResume />
@@ -45,12 +45,12 @@ export default async function ProfileContent() {
             </div>
           </div>
           <div className='flex flex-col gap-2'>
-            <span className='truncate font-medium'>Opis</span>
+            <span className='truncate font-medium'>About</span>
             <p>{replaceEmptyString(data.details.description, "Brak opisu")}</p>
           </div>
           <Separator />
           <div className='flex flex-col gap-2'>
-            <span className='truncate font-medium'>Dane</span>
+            <span className='truncate font-medium'>Details</span>
             <DetailsCard details={data.details} email={data.email} />
           </div>
         </div>

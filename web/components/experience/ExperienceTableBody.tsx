@@ -31,7 +31,7 @@ export default function ExperienceTableBody() {
               <ExperienceDescriptionPopover description={experience.description} />
             </TableCell>
             <TableCell>{new Date(experience.starting_date).toLocaleDateString()}</TableCell>
-            <TableCell>{experience.ending_date !== null ? (new Date(experience.ending_date!).toLocaleDateString()) : ("Obecnie")}</TableCell>
+            <TableCell>{experience.ending_date !== null ? (new Date(experience.ending_date!).toLocaleDateString()) : ("Active")}</TableCell>
             <TableCell className="flex justify-center"><ExperienceTableActionMenu experienceItem={experience} /></TableCell>
           </TableRow>
         })

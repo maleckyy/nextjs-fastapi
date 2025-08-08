@@ -65,19 +65,19 @@ export default function ExperienceForm({ experienceData }: PropsType) {
 
       useUpdateExperienceMutation.mutate(updateData, {
         onSuccess: () => {
-          createToast("Edytowano zatrudnienie", "success")
+          createToast("Experience updated", "success")
           cleanupAfterMutation()
         }, onError: (e) => {
-          createToast("Błąd", "error", e.message)
+          createToast("Error", "error", e.message)
         }
       })
     } else {
       useAddNewExperienceMutation.mutate(newExperienceData, {
         onSuccess: () => {
-          createToast("Dodano zatrudnienie", "success")
+          createToast("Experience created", "success")
           cleanupAfterMutation()
         }, onError: (e) => {
-          createToast("Błąd", "error", e.message)
+          createToast("Error", "error", e.message)
         }
       })
     }
@@ -86,15 +86,15 @@ export default function ExperienceForm({ experienceData }: PropsType) {
 
   return (
     <div className="flex flex-col">
-      <AppInputField name='position' control={control} defaultInputValue={experienceData?.position} label='Zajmowane stanowisko' error={errors.position?.message} />
-      <AppInputField name='description' type='textarea' control={control} defaultInputValue={experienceData?.description} label='Opis / Obowiązki' error={errors.description?.message} />
+      <AppInputField name='position' control={control} defaultInputValue={experienceData?.position} label='Role' error={errors.position?.message} />
+      <AppInputField name='description' type='textarea' control={control} defaultInputValue={experienceData?.description} label='Description / Responsibilities' error={errors.description?.message} />
 
       <div>
-        <Label className='mb-2'>Data podjęcia zatrudnienia</Label>
+        <Label className='mb-2'>Start date</Label>
         <AppDatePicker control={control} name='starting_date' label='s' error={errors.starting_date?.message} />
       </div>
 
-      <Label className='mb-2'>Zatrudnienie zakończone?</Label>
+      <Label className='mb-2'>Employment terminated?</Label>
       <div className="flex gap-2 items-center">
         <div className="flex items-center space-x-2">
           <Switch id="experienceEndDate" checked={switchValue} onCheckedChange={setSwitchValue} />
@@ -104,7 +104,7 @@ export default function ExperienceForm({ experienceData }: PropsType) {
       </div>
 
       <div className='flex justify-end mt-[16px]'>
-        <Button className='scale-hover cursor-pointer' onClick={handleSubmit(handleSubmitAction)} disabled={isSubmitting || !isDirty}>{experienceData ? ("Edytuj ") : ("Dodaj ")}doświadczenie</Button>
+        <Button className='scale-hover cursor-pointer' onClick={handleSubmit(handleSubmitAction)} disabled={isSubmitting || !isDirty}>{experienceData ? ("Update ") : ("Add ")}</Button>
       </div>
     </div>
   )
