@@ -1,13 +1,13 @@
 'use client'
 import { useGetProfileStackQuery } from '@/api/profile/profileStack/useGetProfileStack';
 import { useUpdateProfileStack } from '@/api/profile/profileStack/useUpdateProfileStack';
-import AppInputField from '@/components/shared/Inputs/AppInput'
+import { AutoTextarea } from '@/components/shared/Inputs/TextareaResize';
 import { createToast } from '@/lib/toastService';
 import { updateUserStackSchema } from '@/schemas/profileStack.scheme';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Save } from 'lucide-react'
 import React from 'react'
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import z from 'zod';
 
 export default function AddUserStackFormField() {
@@ -18,7 +18,6 @@ export default function AddUserStackFormField() {
   const {
     handleSubmit,
     control,
-    formState: { errors },
   } = useForm<UpdateUserStackSchema>({
     resolver: zodResolver(updateUserStackSchema),
     defaultValues: {
@@ -40,8 +39,15 @@ export default function AddUserStackFormField() {
   }
 
   return (
-    <div className="flex flex-row gap-2 items-center w-full">
-      <AppInputField name='stack' control={control} defaultValue={data?.stack} label='Stack' error={errors.stack?.message} noMargin />
+    <div className="flex flex-row gap-4 items-start w-full">
+      <Controller
+        control={control}
+        name="stack"
+        defaultValue={data?.stack}
+        render={({ field: { onChange, value } }) => {
+          return <AutoTextarea value={value} onChange={onChange} className='w-full break-normal' maxRows={5} />
+        }}
+      />
       <Save onClick={handleSubmit(updateUserStack)} />
     </div>
   )
