@@ -18,7 +18,7 @@ export default function EventList({ events, refetch }: PropsType) {
   function deleteEvent(id: string) {
     deleteEventMutation.mutate(id, {
       onSuccess: () => {
-        createToast("Usunięto wydarzenie", "info")
+        createToast("Event deleted", "info")
         refetch()
       }
     })
@@ -29,9 +29,9 @@ export default function EventList({ events, refetch }: PropsType) {
       <Table className='w-full'>
         <TableHeader>
           <TableRow>
-            <TableHead className='w-[500px]'>Nazwa</TableHead>
-            <TableHead>Opis</TableHead>
-            <TableHead className="text-center">Akcje</TableHead>
+            <TableHead className='w-[500px]'>Name</TableHead>
+            <TableHead>Description</TableHead>
+            <TableHead className="text-center">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -48,7 +48,7 @@ export default function EventList({ events, refetch }: PropsType) {
                 <TableCell>
                   <div className='flex flex-row gap-2 justify-center items-center'>
                     <EditEventDialog refetch={refetch} eventItem={item} />
-                    <DeleteEventPopover fn={() => deleteEvent(item.id)} popoverText='Czy chcesz usunąć to wydarzenie?' />
+                    <DeleteEventPopover fn={() => deleteEvent(item.id)} popoverText='Do you want to delete this event?' />
                   </div>
                 </TableCell>
               </TableRow>
@@ -56,7 +56,7 @@ export default function EventList({ events, refetch }: PropsType) {
           ) : (
             <TableRow>
               <TableCell colSpan={3}>
-                <EmptyDataBox emptyDataText="Brak wydarzeń do wyświetlenia" />
+                <EmptyDataBox emptyDataText="No events" />
               </TableCell>
             </TableRow>
           )}

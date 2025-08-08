@@ -38,7 +38,7 @@ const CreateEventDialog = forwardRef<CreateEventDialogRef, PropsType>(
     const [open, setOpen] = useState(false);
     const [initialDate, setInitialDate] = useState<Date | null>(null);
     const createEventSchema = z.object({
-      title: z.string({ required_error: "Pole jest wymagane" }).min(3, "Tytuł jest zbyt krótki"),
+      title: z.string({ required_error: "This field is required" }).min(3, "The title is too short"),
       description: z.string().optional(),
       event_date: z.date(),
     });
@@ -88,7 +88,7 @@ const CreateEventDialog = forwardRef<CreateEventDialogRef, PropsType>(
 
       createEventMutation.mutate(data, {
         onSuccess: () => {
-          createToast("Utworzono wydarzenie", "success")
+          createToast("Event created", "success")
           reset();
           setOpen(false);
           refetch();
@@ -104,20 +104,20 @@ const CreateEventDialog = forwardRef<CreateEventDialogRef, PropsType>(
 
         <DialogContent>
           <DialogHeader>
-            <DialogTitle className="mb-2">Utwórz nowe wydarzenie</DialogTitle>
+            <DialogTitle className="mb-2">Create new event</DialogTitle>
             <DialogDescription></DialogDescription>
 
             <div className="flex flex-col">
               <AppInputField
                 name="title"
                 control={control}
-                label="Nazwa zadania"
+                label="Event name"
                 error={errors.title?.message}
               />
               <AppInputField
                 name="description"
                 control={control}
-                label="Opis zadania"
+                label="Event description"
                 error={errors.description?.message}
               />
               <Controller
@@ -159,7 +159,7 @@ const CreateEventDialog = forwardRef<CreateEventDialogRef, PropsType>(
                   onClick={handleSubmit(handleCreateEvent)}
                   disabled={isSubmitting}
                 >
-                  Dodaj zadanie
+                  Add event
                 </Button>
               </div>
             </div>
