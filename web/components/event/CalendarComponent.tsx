@@ -65,13 +65,13 @@ export default function CalendarComponent({ data, isSuccess, dialogRef }: PropsT
         }}
       />
       <div>
-        <h4 className='mb-1 text-base font-medium'>Wydarzenia w dniu {selectedDate.toDateString()}</h4>
+        <h4 className='mb-1 text-base font-medium'>Events on {selectedDate.toDateString()}</h4>
         {selectedEvents.length > 0 ? (
           selectedEvents.map((item, index) => (
             <p key={index} className='text-base text-accent-foreground font-normal'>{index + 1}. {item.title}</p>
           ))
         ) : (
-          <span className='text-base text-accent-foreground font-normal'>Brak wydarzeń dla wybranego dnia</span>
+          <span className='text-base text-accent-foreground font-normal'>No events for the selected day</span>
         )}
       </div>
     </div>

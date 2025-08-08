@@ -28,10 +28,10 @@ export default function UploadProfileAvatar() {
     uploadAvatarToServerMutation.mutate(postFormData, {
       onSuccess: () => {
         refetch()
-        createToast("Ustawiono nowe zdjęcie profilowe", "success")
+        createToast("A new profile picture has been set", "success")
       },
       onError: (e) => {
-        createToast("Błąd", "error", e.message)
+        createToast("Error", "error", e.message)
       }
     })
   }
@@ -68,7 +68,7 @@ export default function UploadProfileAvatar() {
           )}
         />
         <Button onClick={handleSubmit(uploadAvatar)}>
-          Wyślij<Upload />
+          Save<Upload />
         </Button>
       </div>
     </div>

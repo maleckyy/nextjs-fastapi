@@ -16,11 +16,11 @@ export default async function ProfileExperience() {
         <Table>
           <TableHeader className="sticky top-0 bg-secondary z-10 shadow-sm">
             <TableRow>
-              <TableHead>Rola</TableHead>
-              <TableHead className="text-center">Opis</TableHead>
-              <TableHead>Data rozpoczęcia</TableHead>
-              <TableHead>Data zakończenia</TableHead>
-              <TableHead className="text-center">Akcja</TableHead>
+              <TableHead>Role</TableHead>
+              <TableHead className="text-center">Description</TableHead>
+              <TableHead>Start date</TableHead>
+              <TableHead>End date</TableHead>
+              <TableHead className="text-center">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <ExperienceTableBody />

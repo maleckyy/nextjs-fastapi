@@ -13,7 +13,7 @@ import ChatInputBox from './ChatInputBox';
 import { WEBSOCKET_URL } from '@/env/API_URL';
 
 export default function ChatComponent() {
-  const { activeRoomId } = useChatContext()
+  const { activeRoomId, clientTargetId } = useChatContext()
   const { activeUser } = useContext(ActiveUserContext)
   const currentUserId = activeUser?.id
   const token = useAuthStore().token
@@ -67,13 +67,13 @@ export default function ChatComponent() {
 
   return (
     <div className="w-full h-full flex flex-col justify-start gap-4 min-h-0">
-      <ChatHeader />
+      {clientTargetId && <ChatHeader />}
 
       <div className='overflow-y-auto min-h-0 flex flex-col h-full flex-1 gap-2' ref={scrollRef}>
         {messages.length !== 0 && messages.map((msg) => (
           <SingleMessage message={msg} key={msg.message_id} currentUserId={currentUserId} />
         ))}
-        {messages.length === 0 && <EmptyDataBox emptyDataText='Brak historii czatu' />}
+        {messages.length === 0 && <EmptyDataBox emptyDataText='No chat history' />}
       </div>
 
       <div className='flex flex-row gap-4 items-end '>

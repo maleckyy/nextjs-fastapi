@@ -40,11 +40,11 @@ export default function ExpenseForm({ expenseData }: PropsType) {
   const selectOptions = [
     {
       value: 0,
-      name: "Wydatek"
+      name: "Expense"
     },
     {
       value: 1,
-      name: "Przychód"
+      name: "Revenue"
     }
   ]
 
@@ -61,7 +61,6 @@ export default function ExpenseForm({ expenseData }: PropsType) {
   }
 
   function handleSubmitAction(formData: ExpenseFormType) {
-
     if (expenseData) {
       const updateData = {
         data: formData,
@@ -69,22 +68,22 @@ export default function ExpenseForm({ expenseData }: PropsType) {
       }
       useUpdateExpenseMutation.mutate(updateData, {
         onSuccess: () => {
-          createToast("Edytowano transakcję", "success")
+          createToast("Transaction updated", "success")
           cleanAfterSuccessAction()
         },
         onError: (error) => {
-          createToast("Błąd", "error", error.message)
+          createToast("Error", "error", error.message)
         }
       })
 
     } else {
       useAddNewExpenseMutation.mutate(formData, {
         onSuccess: () => {
-          createToast("Dodano nową transakcję", "success")
+          createToast("Add new transaction", "success")
           cleanAfterSuccessAction()
         },
         onError: (error) => {
-          createToast("Błąd", "error", error.message)
+          createToast("Error", "error", error.message)
         }
       })
     }
@@ -92,13 +91,13 @@ export default function ExpenseForm({ expenseData }: PropsType) {
 
   return (
     <div className="flex flex-col">
-      <AppInputField name="title" control={control} label="Nazwa transakcji" error={errors.title?.message} defaultInputValue={expenseData && expenseData.title} />
-      <AppInputField name="description" control={control} label="Opis" error={errors.description?.message} defaultInputValue={expenseData && expenseData.description} />
-      <AppDatePicker name="expense_date" control={control} label="Data transakcji" error={errors.expense_date?.message} defaultInputValue={expenseData && new Date(expenseData.expense_date)} />
-      <AppSelect name="expense_type" control={control} label="Rodzaj transakcji" error={errors.expense_type?.message} selectOptions={selectOptions} />
-      <AppInputField name="amount" type="number" control={control} label="Kwota" error={errors.amount?.message} defaultInputValue={expenseData && expenseData.amount} />
+      <AppInputField name="title" control={control} label="Transaction title" error={errors.title?.message} defaultInputValue={expenseData && expenseData.title} />
+      <AppInputField name="description" control={control} label="Description" error={errors.description?.message} defaultInputValue={expenseData && expenseData.description} />
+      <AppDatePicker name="expense_date" control={control} label="Transaction date" error={errors.expense_date?.message} defaultInputValue={expenseData && new Date(expenseData.expense_date)} />
+      <AppSelect name="expense_type" control={control} label="Type" error={errors.expense_type?.message} selectOptions={selectOptions} />
+      <AppInputField name="amount" type="number" control={control} label="Amout" error={errors.amount?.message} defaultInputValue={expenseData && expenseData.amount} />
       <div className='flex justify-end mt-[16px]'>
-        <Button className='scale-hover cursor-pointer' onClick={handleSubmit(handleSubmitAction)} disabled={isSubmitting || !isDirty}>{expenseData ? ("Edytuj ") : ("Dodaj ")}transakcję</Button>
+        <Button className='scale-hover cursor-pointer' onClick={handleSubmit(handleSubmitAction)} disabled={isSubmitting || !isDirty}>{expenseData ? ("Update ") : ("Add ")}</Button>
       </div>
     </div>
   )

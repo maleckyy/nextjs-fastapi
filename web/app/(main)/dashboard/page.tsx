@@ -1,3 +1,4 @@
+import { ApiEndpoints } from '@/api/routes/apiEndpoints'
 import GenericCard from '@/components/dashboard/DashboardCard'
 import SingleCardElement from '@/components/dashboard/SingleTodo'
 import PageTitle from '@/components/page-title'
@@ -23,19 +24,19 @@ export default async function Dashboad() {
         </div>
         <div className='flex flex-col md:flex-row gap-4 lg:flex-nowrap flex-wrap'>
           <GenericCard<Todo>
-            endpoint="/todo"
-            title="Ostatnie zadania"
+            endpoint={ApiEndpoints.TODO_LAST}
+            title="Recent tasks"
             renderItem={(item, index) => <SingleCardElement todo={item} key={index} />}
             linkHref="/todo"
-            noDataText='Brak zadań'
+            noDataText='No tasks'
             data-testid="last-todos-card"
           />
           <GenericCard<Todo>
-            endpoint="/event/upcoming"
-            title="Nadchodzące wydarzenia"
+            endpoint={ApiEndpoints.EVENTS_UPCOMING}
+            title="Upcoming events"
             renderItem={(item, index) => <SingleCardElement todo={item} key={index} />}
             linkHref="/events"
-            noDataText='Brak nadchodzących wydarzeń'
+            noDataText='No upcoming events'
             data-testid="upcoming-events-card"
           />
         </div>

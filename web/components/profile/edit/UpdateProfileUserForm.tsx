@@ -39,10 +39,10 @@ export default function UpdateProfileUserForm() {
     updateUserAccountMutation.mutate(newUserAccountData, {
       onSuccess: () => {
         refetchOnLogin()
-        createToast("Poprawnie zaktualizowano dane", "success")
+        createToast("Data updated correctly", "success")
       },
       onError: (e) => {
-        createToast("Błąd", "error", e.message)
+        createToast("Error", "error", e.message)
       }
     })
   }
@@ -51,15 +51,15 @@ export default function UpdateProfileUserForm() {
     <div>
       <form>
         <div className='flex flex-col md:flex-row md:gap-4 gap-0'>
-          <AppInputField name='username' control={control} label="Nowa nazwa użytkownika" error={errors.username?.message} showLabel />
+          <AppInputField name='username' control={control} label="Username" error={errors.username?.message} showLabel />
           <AppInputField name='email' control={control} label="Email" error={errors.email?.message} showLabel />
         </div>
         <div className='flex flex-col md:flex-row md:gap-4 gap-0'>
-          <AppInputField name='password' control={control} label="Nowe hasło" error={errors.password?.message} type='password' showLabel />
-          <AppInputField name='confirmPassword' control={control} label="Powtórz hasło" error={errors.confirmPassword?.message} type='password' showLabel />
+          <AppInputField name='password' control={control} label="New password" error={errors.password?.message} type='password' showLabel />
+          <AppInputField name='confirmPassword' control={control} label="Repeat new password" error={errors.confirmPassword?.message} type='password' showLabel />
         </div>
         <div className='flex justify-end'>
-          <Button onClick={handleSubmit(submitForm)} disabled={isSubmitting || !isDirty}>Zapisz zmiany</Button>
+          <Button onClick={handleSubmit(submitForm)} disabled={isSubmitting || !isDirty}>Save</Button>
         </div>
       </form>
     </div>

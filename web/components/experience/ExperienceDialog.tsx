@@ -29,7 +29,7 @@ const ExperienceDialog = forwardRef<ExperienceDialogHandle, PropsType>(
     return (
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="sm:max-w-[425px]" aria-describedby={undefined}>
-          <DialogTitle className="mb-2">{itemData ? ("Edytuj ") : ("Dodaj ")}doświadczenie</DialogTitle>
+          <DialogTitle className="mb-2">{itemData ? ("Edit ") : ("Add new ")}experience</DialogTitle>
           <ExperienceForm experienceData={itemData} />
         </DialogContent>
       </Dialog>

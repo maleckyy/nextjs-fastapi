@@ -10,10 +10,10 @@ export default function ChatPage() {
   return (
     <ChatContextProvider>
       <PageSection>
-        <PageTitle title='Chat' />
+        <PageTitle title='Chat' data-testid="chat-header" />
         <div className='flex flex-col md:flex-row gap-4 w-full h-full items-start max-h-[calc(100%-40px)]'>
           <div className='flex flex-col w-full lg:w-[300px] md:w-[200px] gap-0'>
-            <SectionTitle title='Użytkownicy' />
+            <SectionTitle title='All users' />
             <AllUsersSidebar />
           </div>
           <Separator orientation='vertical' className='hidden md:block' />

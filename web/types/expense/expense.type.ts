@@ -1,6 +1,6 @@
 export enum ExpenseType {
-  WYDATEK = "Wydatek",
-  PRZYCHOD = "Przychód",
+  EXPENSE = "Expense",
+  REVENUE = "Revenue",
 }
 
 export type ExpenseSummary = {

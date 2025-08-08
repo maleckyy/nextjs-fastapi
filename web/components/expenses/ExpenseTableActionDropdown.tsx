@@ -21,15 +21,11 @@ export default function ExpenseTableActionDropdown({ item }: PropsType) {
   function deleteExpense(id: string) {
     useDeleteExpenseMutation.mutate(id, {
       onSuccess: () => {
-        createToast("Usunięto transakcję", "success")
+        createToast("Transaction deleted", "info")
         router.refresh()
         triggerExpenseDataRefetch()
       }
     })
-  }
-
-  function openEditModal() {
-    openDialog(item)
   }
 
   return (
@@ -37,9 +33,9 @@ export default function ExpenseTableActionDropdown({ item }: PropsType) {
       <DropdownMenuTrigger asChild>
         <EllipsisVertical size={18} />
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56" align="start">
-        <DropdownMenuItem onClick={() => openEditModal()}><Pen /> Edytuj traksakcję</DropdownMenuItem>
-        <DropdownMenuItem onClick={() => deleteExpense(item.id)}><Trash /> Usuń transakcję</DropdownMenuItem>
+      <DropdownMenuContent className="w-26" align="start">
+        <DropdownMenuItem onClick={() => openDialog(item)}><Pen /> Edit</DropdownMenuItem>
+        <DropdownMenuItem onClick={() => deleteExpense(item.id)}><Trash /> Delete</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   )

@@ -22,6 +22,7 @@ export enum ApiEndpoints {
   TODO_LAST = '/todo',
 
   EVENTS = '/event',
+  EVENTS_UPCOMING = '/event/upcoming',
   EVENT_CREATE = '/event',
   EXPENSE_SUMMARY = "/expenses/monthly",
   EXPENSE_STATS = "/expenses/stats/expenses-summary",

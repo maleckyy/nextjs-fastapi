@@ -10,6 +10,7 @@ import EventList from '@/components/event/EventList'
 import CreateEventDialog, { CreateEventDialogRef } from '@/components/event/EventDialog'
 import CalendarComponent from '@/components/event/CalendarComponent'
 import AnimatedSpinner from '@/components/shared/AnimatedSpinner'
+import SectionTitle from '@/components/shared/texts/SectionTitle'
 
 export default function Events() {
   const dialogRef = useRef<CreateEventDialogRef>(null);
@@ -21,12 +22,12 @@ export default function Events() {
 
   return (
     <section className='flex flex-col gap-4'>
-      <PageTitle title="Wydarzenia" />
+      <PageTitle title="Calendar" />
       <div className='flex flex-col lg:flex-row gap-4'>
         <CalendarComponent data={data} isSuccess={isSuccess} dialogRef={dialogRef} />
         <div className='flex flex-col gap-2 w-full'>
           <div className='flex justify-between items-center'>
-            <h3 className='text-md'>Wszystkie wydarzenia</h3>
+            <SectionTitle title='All events' />
             <span><CreateEventDialog ref={dialogRef} refetch={refetch} /></span>
           </div>
           {data ?

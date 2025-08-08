@@ -5,7 +5,7 @@ export default function AgentAiPage() {
 
   return (
     <PageSection>
-      <PageTitle title='Twoj agent AI' />
+      <PageTitle title='AI Agent' data-testid="ai-agent-header" />
       <AgentChat />
     </PageSection>
   )

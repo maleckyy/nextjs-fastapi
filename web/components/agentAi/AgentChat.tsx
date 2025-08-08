@@ -55,7 +55,7 @@ export default function AgentChat() {
           setLoadingAnwser(false)
           addToMessageList(data)
         }, onError: (e) => {
-          createToast("Błąd", "error", e.message)
+          createToast("Errot", "error", e.message)
           setLoadingAnwser(false)
         }
       })
@@ -81,7 +81,7 @@ export default function AgentChat() {
             )
           })
         }
-        {messages.length == 0 && <EmptyDataBox emptyDataText='Brak wiadomości' />}
+        {messages.length == 0 && <EmptyDataBox emptyDataText='No chat history' />}
         {loadingAnwser && <AnimatedSpinner />}
 
         <div ref={messagesEndRef} />
@@ -101,7 +101,7 @@ export default function AgentChat() {
           maxRows={5}
           className='max-w-[500px]'
         />
-        <Button onClick={handleSubmit}>Zapytaj Ai</Button>
+        <Button onClick={handleSubmit}>Ask AI</Button>
       </div>
 
     </div>

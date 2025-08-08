@@ -37,7 +37,7 @@ export default function LoginForm() {
     setIsLoading(true)
     loginMutation.mutate({ email: data.username, password: data.password }, {
       onSuccess: async (response: LoginOutput) => {
-        createToast("Zalogowano", "success")
+        createToast("Logged in successfully", "success")
         setStringValueToLocalStorage("token", response.access_token)
         setStringValueToLocalStorage("token_expire_datetime", response.expire_datetime)
         setStringValueToLocalStorage("refresh_token", response.refreshToken)
@@ -50,7 +50,7 @@ export default function LoginForm() {
       },
       onError: (e) => {
         console.log(e)
-        createToast("Błąd", "error")
+        createToast("Error", "error")
         setIsLoading(false)
       }
     });
@@ -59,9 +59,9 @@ export default function LoginForm() {
   return (
     <section className='flex gap-2 justify-center flex-col'>
       <AppInputField name='username' control={control} label="Email" error={errors.username?.message} />
-      <AppInputField name='password' control={control} label="Hasło" error={errors.password?.message} type='password' />
-      <Button onClick={handleSubmit(submitForm)} disabled={isSubmitting}>{!isLoading ? ("Zaloguj") : (<AnimatedSpinner />)}</Button>
-      <Link href='/register' className='text-gray-400 text-center'>Nie masz konta? Zarejestruj się</Link>
+      <AppInputField name='password' control={control} label="Password" error={errors.password?.message} type='password' />
+      <Button onClick={handleSubmit(submitForm)} disabled={isSubmitting}>{!isLoading ? ("Log in") : (<AnimatedSpinner />)}</Button>
+      <Link href='/register' className='text-gray-400 text-center'>Don&apos;t have an account? Sign up</Link>
     </section>
   )
 }

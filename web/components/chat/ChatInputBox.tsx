@@ -32,7 +32,7 @@ export default function ChatInputBox({ activeRoomId, sendMessage }: PropsType) {
         maxRows={5}
       />
       <Button onClick={submitMessage} disabled={input.trim().length === 0 || !activeRoomId} >
-        Wyślij <Send />
+        Send <Send />
       </Button>
     </>
   )

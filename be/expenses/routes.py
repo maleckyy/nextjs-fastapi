@@ -67,7 +67,7 @@ async def get_monthly_summary( db: db_dependency, current_user: models.Users = D
     total_expense = db.query(func.coalesce(func.sum(models.Expense.amount), 0))\
         .filter(
             models.Expense.user_id == current_user.id,
-            models.Expense.expense_type == ExpenseType.WYDATEK,
+            models.Expense.expense_type == ExpenseType.EXPENSE,
             extract('year', models.Expense.expense_date) == year,
             extract('month', models.Expense.expense_date) == month
         ).scalar()
@@ -75,7 +75,7 @@ async def get_monthly_summary( db: db_dependency, current_user: models.Users = D
     total_income = db.query(func.coalesce(func.sum(models.Expense.amount), 0))\
         .filter(
             models.Expense.user_id == current_user.id,
-            models.Expense.expense_type == ExpenseType.PRZYCHOD,
+            models.Expense.expense_type == ExpenseType.REVENUE,
             extract('year', models.Expense.expense_date) == year,
             extract('month', models.Expense.expense_date) == month
         ).scalar()
@@ -111,7 +111,7 @@ def get_expenses_summary(db: db_dependency, current_user: models.Users = Depends
         .all()
     )
 
-    data = {f"{m.month:02d}-{m.year}": {"PRZYCHOD": 0, "WYDATEK": 0} for m in months}
+    data = {f"{m.month:02d}-{m.year}": {"REVENUE": 0, "EXPENSE": 0} for m in months}
 
     for row in results:
         label = f"{int(float(row.month)):02d}-{int(float(row.year))}"
@@ -119,6 +119,6 @@ def get_expenses_summary(db: db_dependency, current_user: models.Users = Depends
             data[label][row.expense_type.name] = float(row.total)
 
     return [
-        {"month": int(month.split("-")[0]), "income": values["PRZYCHOD"], "expense": values["WYDATEK"]}
+        {"month": int(month.split("-")[0]), "income": values["REVENUE"], "expense": values["EXPENSE"]}
         for month, values in sorted(data.items())
     ]

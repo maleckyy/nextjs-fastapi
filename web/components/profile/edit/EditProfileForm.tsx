@@ -47,35 +47,35 @@ export default function EditProfileForm() {
   function updateUserDetails(formData: UpdateUserDetailsFormType) {
     useUpdateUserDetailsMutation.mutate(formData, {
       onSuccess: () => {
-        createToast("Zaktualizowano dane!", "success")
+        createToast("Data updated", "success")
         router.replace('/profile')
         resetFormToDefaults()
       },
       onError: (e) => {
-        createToast("Coś poszło nie tak", "error", e.message)
+        createToast("Error", "error", e.message)
       }
     })
   }
 
   return (
     <section className='flex flex-col gap-4'>
-      <SectionTitle title="Edytuj dane swojego profilu" />
+      <SectionTitle title="Edit your profile information" />
 
       {userDetails &&
         <div className='flex flex-col gap-0'>
           <div className='flex flex-col md:flex-row w-full gap-4'>
-            <AppInputField control={control} name='first_name' label='Imię' error={errors.first_name?.message} defaultInputValue={userDetails.first_name} showLabel />
-            <AppInputField control={control} name='last_name' label='Nazwisko' error={errors.last_name?.message} defaultInputValue={userDetails.last_name} showLabel />
+            <AppInputField control={control} name='first_name' label='First name' error={errors.first_name?.message} defaultInputValue={userDetails.first_name} showLabel />
+            <AppInputField control={control} name='last_name' label='Last name' error={errors.last_name?.message} defaultInputValue={userDetails.last_name} showLabel />
           </div>
-          <AppInputField control={control} name='description' label='Opis profilu' error={errors.description?.message} defaultInputValue={userDetails.description} showLabel type="textarea" />
-          <AppInputField control={control} name='address' label='Adres' error={errors.address?.message} defaultInputValue={userDetails.address} showLabel />
-          <AppInputField control={control} name='country' label='Kraj' error={errors.country?.message} defaultInputValue={userDetails.country} showLabel />
-          <AppInputField control={control} name='phone_number' label='Numer telefonu' error={errors.phone_number?.message} defaultInputValue={userDetails.phone_number} showLabel />
+          <AppInputField control={control} name='description' label='About' error={errors.description?.message} defaultInputValue={userDetails.description} showLabel type="textarea" />
+          <AppInputField control={control} name='address' label='Address' error={errors.address?.message} defaultInputValue={userDetails.address} showLabel />
+          <AppInputField control={control} name='country' label='Country' error={errors.country?.message} defaultInputValue={userDetails.country} showLabel />
+          <AppInputField control={control} name='phone_number' label='Phone number' error={errors.phone_number?.message} defaultInputValue={userDetails.phone_number} showLabel />
         </div>
       }
       <div className='flex flex-col-reverse md:flex-row gap-4 justify-end'>
-        <Button variant="outline" onClick={resetFormToDefaults}>Anuluj</Button>
-        <Button type="submit" disabled={isSubmitting || !isDirty} onClick={handleSubmit(updateUserDetails)}>Zapisz zmiany</Button>
+        <Button variant="outline" onClick={resetFormToDefaults}>Cancel</Button>
+        <Button type="submit" disabled={isSubmitting || !isDirty} onClick={handleSubmit(updateUserDetails)}>Save</Button>
       </div>
 
     </section>

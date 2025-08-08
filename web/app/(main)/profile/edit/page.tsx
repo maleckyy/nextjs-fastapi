@@ -8,12 +8,12 @@ import React from 'react'
 export default async function EditProfilePage() {
   return (
     <section className='flex flex-col gap-4 h-full'>
-      <PageTitle title={"Edytuj Profil"} />
+      <PageTitle title={"Edit profile"} />
       <Tabs defaultValue="details">
         <TabsList className='p-0 mb-4'>
-          <TabsTrigger value="details">Dane</TabsTrigger>
-          <TabsTrigger value="image">Zdjęcie profilowe</TabsTrigger>
-          <TabsTrigger value="account">Konto</TabsTrigger>
+          <TabsTrigger value="details">About</TabsTrigger>
+          <TabsTrigger value="image">Avatar</TabsTrigger>
+          <TabsTrigger value="account">Account</TabsTrigger>
         </TabsList>
         <TabsContent value="details">
           <EditProfileForm />

@@ -59,7 +59,7 @@ export default function EditEventDialog({ refetch, eventItem }: PropsType) {
           description: eventItem.description,
           event_date: eventItem.event_date
         })
-        createToast("Edytowano wydarzenie", "success")
+        createToast("Event updated", "success")
         setOpen(false)
         refetch()
       }
@@ -71,11 +71,11 @@ export default function EditEventDialog({ refetch, eventItem }: PropsType) {
       <DialogTrigger className='scale-hover cursor-pointer'><Pen size={24} className='mt-2' /></DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className='mb-2'>Edytuj wydarzenie</DialogTitle>
+          <DialogTitle className='mb-2'>Edit event</DialogTitle>
           <DialogDescription aria-describedby={undefined}></DialogDescription>
           <div className="flex flex-col">
-            <AppInputField name="title" control={control} label='Nazwa wydarzenia' error={errors.title?.message} defaultInputValue={eventItem.title} />
-            <AppInputField name="description" control={control} label='Opis wydarzenia' error={errors.description?.message} defaultInputValue={eventItem.description ?? ''} />
+            <AppInputField name="title" control={control} label='Event title' error={errors.title?.message} defaultInputValue={eventItem.title} />
+            <AppInputField name="description" control={control} label='Event description' error={errors.description?.message} defaultInputValue={eventItem.description ?? ''} />
             <Controller
               name='event_date'
               control={control}
@@ -112,7 +112,7 @@ export default function EditEventDialog({ refetch, eventItem }: PropsType) {
             />
             {errors && <div className="mt-1 text-sm text-red-500">{errors.event_date?.message}</div>}
             <div className='flex justify-end mt-[16px]'>
-              <Button className='scale-hover cursor-pointer' onClick={handleSubmit(handleCreateEvent)} disabled={isSubmitting || !isDirty}>Edytuj zadanie</Button>
+              <Button className='scale-hover cursor-pointer' onClick={handleSubmit(handleCreateEvent)} disabled={isSubmitting || !isDirty}>Update</Button>
             </div>
           </div>
         </DialogHeader>

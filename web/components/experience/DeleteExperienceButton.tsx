@@ -15,18 +15,18 @@ export default function DeleteExperienceButton({ experienceId }: PropsType) {
   function deleteItem(id: string) {
     useDeleteExperienceMutation.mutate(id, {
       onSuccess: () => {
-        createToast("Usunięto", "success")
+        createToast("Experience deleted", "success")
         queryClient.invalidateQueries({ queryKey: [QueryKeys.PROFILE_EXPERIENCE] })
       },
       onError: (e) => {
-        createToast("Błąd", "error", e.message)
+        createToast("Error", "error", e.message)
       }
     })
   }
 
   return (
     <DropdownMenuItem onClick={() => deleteItem(experienceId)}>
-      <div>Usuń</div>
+      <div>Delete</div>
     </DropdownMenuItem>
   )
 }

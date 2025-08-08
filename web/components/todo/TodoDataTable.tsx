@@ -34,12 +34,12 @@ export default function TodoDataTable() {
 
     useUpdateTodoMutation.mutate(updatedTodo, {
       onSuccess: () => {
-        createToast("Status zmieniony", "success", "Status zadania został zmieniony")
+        createToast("Status changed", "success", "The status of the task has been changed.")
         refetch()
       },
       onError: (error) => {
         console.log(error)
-        createToast("Błąd", "error", error.message)
+        createToast("Error", "error", error.message)
       },
     })
   }
@@ -47,12 +47,12 @@ export default function TodoDataTable() {
   function deleteTodo(item: Todo) {
     useDeleteTodoMutation.mutate(item.id, {
       onSuccess: () => {
-        createToast("Usunięto zadanie", "info", `Zadanie o nazwie: ${item.title} zostało usunięte`)
+        createToast("Task deleted", "info", `The task named: ${item.title} has been deleted.`)
         refetch()
       },
       onError: (error) => {
         console.log(error)
-        createToast("Błąd", "error", error.message)
+        createToast("Error", "error", error.message)
       }
     })
   }
@@ -62,9 +62,9 @@ export default function TodoDataTable() {
       <TableHeader>
         <TableRow>
           <TableHead className="text-center"></TableHead>
-          <TableHead className="w-[150px]">Nazwa</TableHead>
-          <TableHead>Opis</TableHead>
-          <TableHead>Data utworzenia</TableHead>
+          <TableHead className="w-[150px]">Name</TableHead>
+          <TableHead>Description</TableHead>
+          <TableHead>Create date</TableHead>
           <TableHead className="text-center"><CreateTodoDialog refetch={refetch} /></TableHead>
         </TableRow>
       </TableHeader>
@@ -87,7 +87,7 @@ export default function TodoDataTable() {
               <TableCell className="text-center">
                 <div className='flex gap-2 justify-center'>
                   <UpdateTodoDialog refetch={refetch} item={item} />
-                  <TodoPopover iconNode={<Trash size={iconSize} />} fn={() => deleteTodo(item)} popoverText='Czy napewno usunąć ten element?' />
+                  <TodoPopover iconNode={<Trash size={iconSize} />} fn={() => deleteTodo(item)} popoverText='Are you sure you want to delete this todo?' />
                 </div>
               </TableCell>
             </TableRow>

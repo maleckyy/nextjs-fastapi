@@ -21,7 +21,7 @@ export default function UpdateTodoDialog({ refetch, item }: PropsType) {
   const iconSize = useIconSize()
 
   const createTodoSchema = z.object({
-    title: z.string({ required_error: "Pole jest wymagane" }).min(3, "Tytuł jest zbyt krótki"),
+    title: z.string({ required_error: "This field is required" }).min(3, "The title is too short."),
     description: z.string().optional(),
   });
 
@@ -57,7 +57,7 @@ export default function UpdateTodoDialog({ refetch, item }: PropsType) {
 
     updateTodoMutatnion.mutate(data, {
       onSuccess: () => {
-        createToast("Zadanie edytowano", "success")
+        createToast("Task edited", "success")
         setOpen(false)
         refetch()
         resetFormToDefaults()
@@ -73,13 +73,13 @@ export default function UpdateTodoDialog({ refetch, item }: PropsType) {
       <DialogTrigger className='scale-hover cursor-pointer' data-testid="edit-todo-dialog-button"><Pen size={iconSize} className='mt-2' /></DialogTrigger>
       <DialogContent data-testid="edit-todo-dialog-content">
         <DialogHeader>
-          <DialogTitle className='mb-2'>Utwórz nowe zadanie</DialogTitle>
+          <DialogTitle className='mb-2'>Create new todo</DialogTitle>
           <DialogDescription aria-describedby={undefined}></DialogDescription>
           <div className="flex flex-col gap-1">
-            <AppInputField name="title" control={control} label='Nazwa zadania' error={errors.title?.message} defaultInputValue={item.title} />
-            <AppInputField name="description" control={control} label='Nazwa zadania' error={errors.description?.message} defaultInputValue={item.description} />
+            <AppInputField name="title" control={control} label='Todo name' error={errors.title?.message} defaultInputValue={item.title} />
+            <AppInputField name="description" control={control} label='Todo description' error={errors.description?.message} defaultInputValue={item.description} />
             <div className='flex justify-end'>
-              <Button className='scale-hover cursor-pointer' onClick={handleSubmit(handleCreateTodo)} disabled={isSubmitting || !isDirty} data-testid="edit-todo-submit-button">Dodaj zadanie</Button>
+              <Button className='scale-hover cursor-pointer' onClick={handleSubmit(handleCreateTodo)} disabled={isSubmitting || !isDirty} data-testid="edit-todo-submit-button">Update task</Button>
             </div>
           </div>
         </DialogHeader>

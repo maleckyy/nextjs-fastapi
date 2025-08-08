@@ -30,18 +30,18 @@ export default function AddUserStackFormField() {
   function updateUserStack(formData: UpdateUserStackSchema) {
     updateProfileStackMutatnion.mutate(formData, {
       onSuccess: () => {
-        createToast("Zapisano nowe umiejętności", "success")
+        createToast("New skills saved", "success")
         refetch()
       },
       onError: (e) => {
-        createToast("Błąd", "error", e.message)
+        createToast("Error", "error", e.message)
       }
     })
   }
 
   return (
     <div className="flex flex-row gap-2 items-center w-full">
-      <AppInputField name='stack' control={control} defaultValue={data?.stack} label='Umiejętności' error={errors.stack?.message} noMargin />
+      <AppInputField name='stack' control={control} defaultValue={data?.stack} label='Stack' error={errors.stack?.message} noMargin />
       <Save onClick={handleSubmit(updateUserStack)} />
     </div>
   )

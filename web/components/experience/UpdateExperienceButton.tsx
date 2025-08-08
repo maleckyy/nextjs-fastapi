@@ -11,7 +11,7 @@ export default function UpdateExperienceButton({ experience }: PropsType) {
   const { openDialog } = useExperienceDialog()
   return (
     <DropdownMenuItem onClick={() => openDialog(experience)}>
-      <div >Edytuj</div>
+      <div >Edit</div>
     </DropdownMenuItem>
   )
 }

@@ -11,6 +11,7 @@ import Link from 'next/link';
 import z from 'zod';
 import { useRegisterUser } from '@/api/auth/register/useRegisterUser';
 import { createToast } from '@/lib/toastService';
+import AnimatedSpinner from '../shared/AnimatedSpinner';
 
 export default function RegisterForm() {
 
@@ -37,23 +38,23 @@ export default function RegisterForm() {
 
     mutate(user, {
       onSuccess: () => {
-        createToast("Utworzono konto", "success")
+        createToast("Account created", "success")
         router.push('/login')
       },
       onError: () => {
-        createToast("Błąd", "error")
+        createToast("Error", "error")
       }
     })
   }
 
   return (
     <section className='flex gap-0 justify-center flex-col'>
-      <AppInputField name='username' control={control} label="Nazwa użytkownika" error={errors.username?.message} showLabel />
+      <AppInputField name='username' control={control} label="Username" error={errors.username?.message} showLabel />
       <AppInputField name='email' control={control} label="Email" error={errors.email?.message} showLabel />
-      <AppInputField name='password' control={control} label="Hasło" error={errors.password?.message} type='password' showLabel />
-      <AppInputField name='confirmPassword' control={control} label="Powtórz hasło" error={errors.confirmPassword?.message} type='password' showLabel />
-      <Button onClick={handleSubmit(submitForm)} disabled={isSubmitting}>{!isPending ? 'Rejestruj' : 'Rejestrowanie...'}</Button>
-      <Link href='/login' className='text-gray-400 text-center mt-2'>Masz konto? Zaloguj się!</Link>
+      <AppInputField name='password' control={control} label="Password" error={errors.password?.message} type='password' showLabel />
+      <AppInputField name='confirmPassword' control={control} label="Repeat password" error={errors.confirmPassword?.message} type='password' showLabel />
+      <Button onClick={handleSubmit(submitForm)} disabled={isSubmitting}>{!isPending ? 'Register' : <AnimatedSpinner />}</Button>
+      <Link href='/login' className='text-gray-400 text-center mt-2'>Do you have an account? Log in!</Link>
     </section>
   )
 }
