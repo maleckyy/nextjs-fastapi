@@ -7,15 +7,15 @@ import { ExternalLink } from 'lucide-react'
 import Link from 'next/link'
 import { useDialog } from '@/store/expenses/DialogContext'
 import { useGetExpenseSummary } from '../../api/expense/useGetExpenseSummary'
-import { getPolishMonthName } from '@/lib/getPolishMonthName'
+import { getEnglishMonthName } from '@/lib/getEnglishMonthName'
 
 const chartConfig = {
   "Wszystkie wydatki": {
-    label: "Wszystkie wydatki",
+    label: "Expenses",
     color: "red",
   },
   "Przychody": {
-    label: "Przychody",
+    label: "Revenue",
     color: "green",
   },
 } satisfies ChartConfig;
@@ -34,13 +34,13 @@ export default function SummaryDashboardChart({ showLink = false }: PropsType) {
 
     if (data.balance === 0) {
       return [
-        { title: "Brak danych", amount: 1, fill: "#ccc" }
+        { title: "No data", amount: 1, fill: "#ccc" }
       ]
     }
 
     return [
-      { title: "Wszystkie wydatki", amount: data.total_expense, fill: "red" },
-      { title: "Przychody", amount: data.total_income, fill: "green" },
+      { title: "Expenses", amount: data.total_expense, fill: "red" },
+      { title: "Revenue", amount: data.total_income, fill: "green" },
     ]
   }, [data])
 
@@ -52,7 +52,7 @@ export default function SummaryDashboardChart({ showLink = false }: PropsType) {
     <Card className="md:max-h-[400px] w-full md:w-2/4 lg:w-2/5 px-6 bg-card shadow-xs" data-testid="monthly-expenses-card">
       <CardDescription>
         <div className='flex flex-row justify-between items-center text-primary'>
-          <span className="text-base">{data && getPolishMonthName(data.month) + " -"} Wydatki</span>
+          <span className="text-base">{data && getEnglishMonthName(data.month) + " -"} Balance</span>
           {showLink && <Link href='/finance'>
             <ExternalLink size={18} />
           </Link>}
@@ -91,14 +91,14 @@ export default function SummaryDashboardChart({ showLink = false }: PropsType) {
                           y={viewBox.cy}
                           className="fill-foreground text-3xl font-bold"
                         >
-                          {data && data.balance}zł
+                          ${data && data.balance}
                         </tspan>
                         <tspan
                           x={viewBox.cx}
                           y={(viewBox.cy || 0) + 24}
                           className="fill-muted-foreground"
                         >
-                          Balans
+                          Balance
                         </tspan>
                       </text>
                     )

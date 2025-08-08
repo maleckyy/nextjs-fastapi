@@ -13,22 +13,22 @@ export const navOptions: NavOptionsType[] = [
     iconNode: <House />
   },
   {
-    title: "Todo",
+    title: "Notes",
     path: "/todo",
     iconNode: <NotebookPen />
   },
   {
-    title: "Wydarzenia",
+    title: "Calendar",
     path: "/events",
     iconNode: <CalendarDays />
   },
   {
-    title: "Profil",
+    title: "Profile",
     path: "/profile",
     iconNode: <User />
   },
   {
-    title: "Finanse",
+    title: "Finance",
     path: "/finance",
     iconNode: <DollarSign />
   },

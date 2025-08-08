@@ -3,6 +3,7 @@ import React from 'react'
 import { useSidebar } from '../ui/sidebar'
 import { NotepadTextDashed } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { appName } from '@/env/STATIC_NAMES'
 
 export default function CustomSidebarHeader() {
   const { state } = useSidebar()
@@ -10,7 +11,7 @@ export default function CustomSidebarHeader() {
   return (
     <div className='flex flex-row justify-center gap-1 p-1'>
       <NotepadTextDashed />
-      <span className={cn(state === "collapsed" && "hidden", "base-font")}>PSPACE</span>
+      <span className={cn(state === "collapsed" && "hidden", "base-font")}>{appName}</span>
     </div>
   )
 }

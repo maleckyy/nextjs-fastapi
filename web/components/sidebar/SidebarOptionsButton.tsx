@@ -56,32 +56,32 @@ export default function SidebarOptionsButton() {
           side={isMobile ? "bottom" : "right"}>
           <DropdownMenuItem asChild className='cursor-pointer' data-testid="options-button">
             <Link href='/settings'>
-              Ustawienia
+              Settings
               <DropdownMenuShortcut><Settings /></DropdownMenuShortcut>
             </Link>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem asChild className='cursor-pointer' data-testid="profile-button">
             <Link href='/profile'>
-              Profil
+              Profile
               <DropdownMenuShortcut><User /></DropdownMenuShortcut>
             </Link>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
             <DropdownMenuSub>
-              <DropdownMenuSubTrigger>Motyw</DropdownMenuSubTrigger>
+              <DropdownMenuSubTrigger>Theme</DropdownMenuSubTrigger>
               <DropdownMenuPortal>
                 <DropdownMenuSubContent>
                   <DropdownMenuItem onClick={() => {
                     selectTheme("light")
                   }}>
-                    Jasny
+                    Light
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => {
                     selectTheme("dark")
                   }}>
-                    Ciemny
+                    Dark
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => {
                     selectTheme("system")
