@@ -30,7 +30,7 @@ const ExpenceDialog = forwardRef<ExpenceDialogHandle, PropsType>(
     return (
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="sm:max-w-[425px]" aria-describedby={undefined}>
-          <DialogTitle className="mb-2">{itemData ? ("Edytuj ") : ("Dodaj ")}transakcję</DialogTitle>
+          <DialogTitle className="mb-2">{itemData ? ("Edit ") : ("Add new ")}transaction</DialogTitle>
           <ExpenseForm expenseData={itemData} />
         </DialogContent>
       </Dialog>

@@ -1,5 +1,5 @@
 from enum import Enum
 
 class ExpenseType(int, Enum):
-    WYDATEK = 0
-    PRZYCHOD = 1
+    EXPENSE = 0
+    REVENUE = 1

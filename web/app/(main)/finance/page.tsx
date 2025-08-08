@@ -11,7 +11,7 @@ export default async function ExpensePage() {
   return (
     <ExpensesDialogProvider showDialog>
       <section className='flex flex-col gap-4'>
-        <PageTitle title='Finanse' />
+        <PageTitle title='Finance' data-testid="finance-header" />
         <div className='flex flex-col md:flex-row gap-4'>
           <ExpensesChartComponent />
           <ExpenseDataTable />

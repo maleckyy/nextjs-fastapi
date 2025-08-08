@@ -30,7 +30,7 @@ export default async function ExpensesTable() {
     <Card className='md:max-h-[400px] w-full md:w-3/4 px-6 shadow-xs'>
       <CardDescription className='text-primary text-base'>
         <div className='flex justify-between items-center'>
-          <span>Lista wszystkich traksakcji</span>
+          <span>List of all transactions</span>
           <AddExpenseButton />
         </div>
       </CardDescription>
@@ -38,10 +38,10 @@ export default async function ExpensesTable() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[100px]">Tytuł</TableHead>
-              <TableHead>Rodzaj</TableHead>
-              <TableHead>Data</TableHead>
-              <TableHead className="text-right">Kwota</TableHead>
+              <TableHead className="w-[100px]">Title</TableHead>
+              <TableHead>Type</TableHead>
+              <TableHead>Date</TableHead>
+              <TableHead className="text-right">Amount</TableHead>
               <TableHead className="w-[50px]"></TableHead>
             </TableRow>
           </TableHeader>
@@ -75,7 +75,7 @@ export default async function ExpensesTable() {
                     </Badge>
                   </TableCell>
                   <TableCell>{new Date(item.expense_date).toLocaleDateString()}</TableCell>
-                  <TableCell className="text-right">{item.amount}</TableCell>
+                  <TableCell className="text-right">${item.amount}</TableCell>
                   <TableCell>
                     <ExpenseTableActionDropdown item={item} />
                   </TableCell>
@@ -84,7 +84,7 @@ export default async function ExpensesTable() {
             ) : (
               <TableRow>
                 <TableCell colSpan={5} className="text-center py-6">
-                  <EmptyDataBox emptyDataText="Brak danych do wyświetlenia" />
+                  <EmptyDataBox emptyDataText="No data" />
                 </TableCell>
               </TableRow>
             )}

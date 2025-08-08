@@ -19,7 +19,7 @@ const AddExpenseButton = () => {
           <CirclePlus onClick={() => openDialog()} />
         </TooltipTrigger>
         <TooltipContent side='left'>
-          Dodaj traksakcję
+          Add transaction
         </TooltipContent>
       </Tooltip>
     </div>
