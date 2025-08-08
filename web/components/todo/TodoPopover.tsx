@@ -14,7 +14,7 @@ export default function TodoPopover({ iconNode, fn, popoverText }: PropsType) {
       <PopoverContent data-testid="delete-todo-popover-content">
         <div className='flex flex-col gap-2'>
           <p>{popoverText}</p>
-          <Button className='self-end cursor-pointer' onClick={() => fn()} data-testid="delete-todo-button">Usuń</Button>
+          <Button className='self-end cursor-pointer' onClick={() => fn()} data-testid="delete-todo-button">Delete</Button>
         </div>
       </PopoverContent>
     </Popover>
