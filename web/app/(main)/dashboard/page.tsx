@@ -1,9 +1,10 @@
 import { ApiEndpoints } from '@/api/routes/apiEndpoints'
 import GenericCard from '@/components/dashboard/DashboardCard'
-import SingleCardElement from '@/components/dashboard/SingleTodo'
+import SingleCardElement from '@/components/dashboard/SingleCardElement'
 import PageTitle from '@/components/page-title'
 import PageSection from '@/components/shared/PageSection'
 import { ExpensesDialogProvider } from '@/store/expenses/DialogContext'
+import { EventOutput } from '@/types/events/event.type'
 import { Todo } from '@/types/todo/todo.type'
 import dynamic from 'next/dynamic'
 import React from 'react'
@@ -26,15 +27,15 @@ export default async function Dashboad() {
           <GenericCard<Todo>
             endpoint={ApiEndpoints.TODO_LAST}
             title="Recent tasks"
-            renderItem={(item, index) => <SingleCardElement todo={item} key={index} />}
+            renderItem={(item, index) => <SingleCardElement title={item.title} description={item.description} key={index} index={index} />}
             linkHref="/todo"
             noDataText='No tasks'
             data-testid="last-todos-card"
           />
-          <GenericCard<Todo>
+          <GenericCard<EventOutput>
             endpoint={ApiEndpoints.EVENTS_UPCOMING}
             title="Upcoming events"
-            renderItem={(item, index) => <SingleCardElement todo={item} key={index} />}
+            renderItem={(item, index) => <SingleCardElement title={item.title} description={item.description} key={index} index={index} date={item.event_date} />}
             linkHref="/events"
             noDataText='No upcoming events'
             data-testid="upcoming-events-card"

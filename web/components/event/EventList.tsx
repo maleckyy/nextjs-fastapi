@@ -40,8 +40,8 @@ export default function EventList({ events, refetch }: PropsType) {
               <TableRow key={item.id}>
                 <TableCell>
                   <div className='flex flex-col gap-1'>
-                    <span className='font-bold'>{item.title}</span>
-                    <span>{new Date(item.event_date).toDateString()}</span>
+                    <span className='font-bold small-text-title'>{item.title}</span>
+                    <span className='small-text-description'>{new Date(item.event_date).toDateString()}</span>
                   </div>
                 </TableCell>
                 <TableCell>{item.description}</TableCell>

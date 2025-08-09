@@ -7,5 +7,10 @@ type PropsType = {
 }
 
 export default function SingleDetailElement({ text, node }: PropsType) {
-  return <span className='flex flex-row gap-2 items-center'>{node}{replaceEmptyString(text)}</span>
+  return <span className='flex flex-row gap-2 items-center'>
+    {node}
+    <span className="small-text-title">
+      {replaceEmptyString(text)}
+    </span>
+  </span>
 }

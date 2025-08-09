@@ -13,6 +13,7 @@ import { Calendar } from "../ui/calendar";
 import { EventOutput } from "@/types/events/event.type";
 import { useEditEvent } from "@/api/event/useUpdateEvent";
 import { createToast } from "@/lib/toastService";
+import { useIconSize } from "@/hooks/rwd-hooks/useIconSize";
 
 type PropsType = {
   refetch: () => void,
@@ -30,6 +31,7 @@ export default function EditEventDialog({ refetch, eventItem }: PropsType) {
 
   type CreateEventFormType = z.infer<typeof createEventSchema>;
 
+  const iconSize = useIconSize()
   const updateEventMutatnion = useEditEvent()
 
   const {
@@ -68,7 +70,7 @@ export default function EditEventDialog({ refetch, eventItem }: PropsType) {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger className='scale-hover cursor-pointer'><Pen size={24} className='mt-2' /></DialogTrigger>
+      <DialogTrigger className='scale-hover cursor-pointer'><Pen size={iconSize} className='mt-1' /></DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle className='mb-2'>Edit event</DialogTitle>

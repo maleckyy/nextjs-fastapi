@@ -27,8 +27,8 @@ export default function ProfileChatAvatarButton({ user }: PropsType) {
     )}>
       <ProfileAvatar username={user.username} photoPath={user.details.photo_path} widthInPx={40} />
       <div className='hidden md:block'>
-        <p>{user.details.first_name} {user.details.last_name}</p>
-        <span>{user.username}</span>
+        <p className='leading-none font-semibold'>{user.details.first_name} {user.details.last_name}</p>
+        <span className='text-muted-foreground text-sm'>{user.username}</span>
       </div>
     </div>
   )

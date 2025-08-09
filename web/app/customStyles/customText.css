@@ -1,0 +1,17 @@
+@layer components {
+  .small-text-title {
+    @apply text-accent-foreground leading-none text-sm;
+  }
+
+  .medium-text-title {
+    @apply text-accent-foreground  text-base;
+  }
+
+  .small-text-description {
+    @apply text-muted-foreground text-sm line-clamp-2;
+  }
+
+  .extra-small-text-description {
+    @apply text-muted-foreground text-xs;
+  }
+}

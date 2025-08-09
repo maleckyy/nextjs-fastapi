@@ -9,7 +9,7 @@ export default async function ProfileExperience() {
   return (
     <section className='flex flex-col gap-2'>
       <div className='flex flex-row justify-between'>
-        <SectionTitle title="Historia zatrudnienia" />
+        <SectionTitle title="Work experience" />
         <AddExperienceButton />
       </div>
       <div className='max-h-64 overflow-y-auto block'>

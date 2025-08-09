@@ -67,13 +67,13 @@ export default function SummaryDashboardChart({ showLink = false }: PropsType) {
           <PieChart>
             <ChartTooltip
               cursor={false}
-              content={<ChartTooltipContent hideLabel />}
+              content={<ChartTooltipContent hideLabel prefix='$' />}
             />
             <Pie
               data={chartData}
               dataKey="amount"
               nameKey="title"
-              innerRadius={60}
+              innerRadius={"55%"}
               strokeWidth={5}
             >
               <Label
@@ -89,7 +89,7 @@ export default function SummaryDashboardChart({ showLink = false }: PropsType) {
                         <tspan
                           x={viewBox.cx}
                           y={viewBox.cy}
-                          className="fill-foreground text-3xl font-bold"
+                          className="fill-foreground text-3xl md:text-2xl lg:text-3xl font-bold"
                         >
                           ${data && data.balance}
                         </tspan>

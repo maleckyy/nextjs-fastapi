@@ -7,7 +7,7 @@ export default function AddUserStackPopover() {
   return (
     <Popover >
       <PopoverTrigger asChild>
-        <Pen size={18} className='mb-1' />
+        <Pen size={18} className='mb-2' />
       </PopoverTrigger>
       <PopoverContent side='left' className='max-w-[400px]'>
         <div className="flex flex-col justify-start items-start gap-2">
