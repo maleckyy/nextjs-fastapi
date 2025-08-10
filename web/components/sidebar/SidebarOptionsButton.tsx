@@ -41,8 +41,8 @@ export default function SidebarOptionsButton() {
               {state === "expanded" ?
                 (<>
                   <div className='flex flex-col'>
-                    <span className='truncate font-medium'>{activeUser?.username}</span>
-                    <span className='text-muted-foreground truncate text-xs'>{activeUser?.email}</span>
+                    <span className='small-text-title font-medium'>{activeUser?.username}</span>
+                    <span className='extra-small-text-description'>{activeUser?.email}</span>
                   </div>
                   <EllipsisVertical size={18} />
                 </>) :

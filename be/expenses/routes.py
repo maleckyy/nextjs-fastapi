@@ -16,6 +16,11 @@ async def get_expenses(db: db_dependency, current_user: models.Users = Depends(g
     return db.query(models.Expense).filter(models.Expense.user_id == current_user.id).order_by(desc(models.Expense.expense_date)).all()
 
 
+@router.get('/recent-transaction', response_model=list[ExpenseOut])
+async def get_expenses(db: db_dependency, current_user: models.Users = Depends(get_current_user)):
+    return db.query(models.Expense).filter(models.Expense.user_id == current_user.id).order_by(desc(models.Expense.expense_date)).limit(3).all()
+
+
 @router.post('', status_code=status.HTTP_201_CREATED)
 async def add_new_expense(db: db_dependency, new_expense_data: ExpenseCreate, current_user: models.Users = Depends(get_current_user)):
     new_expense = models.Expense(**new_expense_data.dict(), user_id = current_user.id)

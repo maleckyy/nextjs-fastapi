@@ -27,5 +27,6 @@ export enum ApiEndpoints {
   EXPENSE_SUMMARY = "/expenses/monthly",
   EXPENSE_STATS = "/expenses/stats/expenses-summary",
   EXPENSE = '/expenses',
+  EXPENSE_RECENT_TRANSACTION = "/expenses/recent-transaction",
   EXPENSE_DELETE = '/expenses',
 }

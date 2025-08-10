@@ -14,7 +14,7 @@ export type ExpenseSummary = {
 export type ExpenseCreate = {
   title: string;
   description: string;
-  expense_date: string;
+  expense_date: Date;
   expense_type: 0 | 1;
   amount: string;
 }
