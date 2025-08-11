@@ -8,5 +8,15 @@ export type AgentAiAnwser = {
 
 export type AiMessage = {
   content: string,
-  messageType: "answer" | "question"
+  messageType: 0 | 1
+}
+
+export type ChatRoomOutput = {
+  id: string
+  name: string
+}
+
+export type SaveMessagePayload = {
+  roomId: string,
+  message: AiMessage
 }
