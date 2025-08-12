@@ -1,13 +1,14 @@
-import type { NextConfig } from "next";
+import withPWA from 'next-pwa';
 
-const nextConfig: NextConfig = {
-  /* config options here */
+const nextConfig = {
   experimental: {
-    serverActions: {}
+    serverActions: {},
   },
   images: {
-    domains: ["127.0.0.1", "localhost"],
-  }
+    domains: ['127.0.0.1', 'localhost'],
+  },
 };
 
-export default nextConfig;
+export default withPWA({
+  dest: 'public',
+})(nextConfig);

@@ -6,6 +6,7 @@ import AuthContextProvider from "@/store/authContext";
 import { Toaster } from "sonner";
 import { ThemeProvider } from "@/components/theme-provider";
 import ActiveUserContextProvider from "@/store/activeUserContext";
+import HeadMeta from "@/components/HeadMeta";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,6 +37,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <HeadMeta />
           <main className="w-full h-screen">
             <Toaster />
             <AuthContextProvider>

@@ -8,6 +8,13 @@ export function middleware(request: NextRequest) {
   const theme = request.cookies.get('theme')?.value
   const response = NextResponse.next()
 
+  if (
+    pathname.startsWith('/manifest.json') ||
+    pathname.startsWith('/icons/')
+  ) {
+    return NextResponse.next();
+  }
+
   if (!theme) {
     response.cookies.set({
       name: "theme",
