@@ -1,0 +1,14 @@
+{
+  "name": "Persona",
+  "short_name": "Persona",
+  "icons": [
+    {
+      "src": "/icons/app-icon.png",
+      "sizes": "200x200",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait"
+}
