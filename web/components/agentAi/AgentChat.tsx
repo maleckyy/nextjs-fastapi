@@ -16,7 +16,7 @@ export default function AgentChat() {
   const [messages, setMessages] = useState<AiMessage[]>([])
   const [loadingAnwser, setLoadingAnwser] = useState(false)
 
-  const { activeChat, openDrawer, setActiveChat } = useAiChatDrawerContext()
+  const { activeChat, setActiveChat } = useAiChatDrawerContext()
   const askAiMutation = useSendMessage()
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -71,7 +71,7 @@ export default function AgentChat() {
 
   return (
     <div className='flex flex-col justify-start h-full min-h-0'>
-      <AiChatHeader activeChat={activeChat} openDrawer={openDrawer} />
+      <AiChatHeader />
       <div className='overflow-y-auto min-h-0 flex flex-col h-full flex-1 scroll-smooth' ref={scrollContainerRef}>
         {messages && messages.length > 0 &&
           messages.map((message, index) => {

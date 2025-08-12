@@ -42,12 +42,12 @@ const ChatRoomDrawer = forwardRef<ChatRoomDrawerHandle>(
       <Drawer direction='right' open={open} onOpenChange={setOpen}>
         <DrawerContent>
           <DrawerHeader>
-            <PanelLeftOpen onClick={closeDrawer} size={18} className='cursor-pointer' />
+            <PanelLeftOpen onClick={closeDrawer} size={18} className='cursor-pointer scale-hover' />
             <DrawerTitle className='sr-only'>Chats</DrawerTitle>
           </DrawerHeader>
           <section className=' px-4 flex flex-col gap-4'>
-            <div className=' flex flex-row justify-start items-center gap-2' onClick={createRoom}>
-              <SquarePen size={18} />
+            <div className=' flex flex-row justify-start items-center gap-2 cursor-pointer' onClick={createRoom}>
+              <SquarePen size={18} className='mt-0.5' />
               <span className='medium-text-title font-medium'>New chat</span>
             </div>
             <Separator />

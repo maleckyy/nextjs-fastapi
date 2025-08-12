@@ -62,8 +62,7 @@ export function AiChatDrawerProvider({ children }: { children: ReactNode }) {
 
   const setActiveChat = useCallback((room: ChatRoomOutput | undefined) => {
     if (room) {
-      if (activeChat && room.id === activeChat.id) return
-
+      if (activeChat && room.id === activeChat.id && activeChat.name !== "New chat") return
       setActiveChatState(room)
       localStorage.setItem("ai-chat", JSON.stringify(room))
     } else {

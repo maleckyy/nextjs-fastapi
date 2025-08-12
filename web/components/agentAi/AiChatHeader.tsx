@@ -1,8 +1,10 @@
-import { ChatRoomOutput } from '@/types/agentAi/agent.type'
+import { useAiChatDrawerContext } from '@/store/agentAiStore/chatRoomDialogContext'
 import { PanelRightOpen } from 'lucide-react'
 import React from 'react'
 
-export default function AiChatHeader({ activeChat, openDrawer }: { activeChat: ChatRoomOutput | undefined, openDrawer: () => void }) {
+export default function AiChatHeader() {
+  const { activeChat, openDrawer } = useAiChatDrawerContext()
+
   return (
     <div className='flex flex-row justify-between items-center px-2 pb-2'>
       <div className='flex flex-col'>
@@ -13,7 +15,7 @@ export default function AiChatHeader({ activeChat, openDrawer }: { activeChat: C
           </>
         )}
       </div>
-      <PanelRightOpen onClick={openDrawer} size={18} className='cursor-pointer' />
+      <PanelRightOpen onClick={openDrawer} size={18} className='cursor-pointer scale-hover' />
     </div>
   )
 }
