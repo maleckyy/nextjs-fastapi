@@ -23,6 +23,32 @@ class Output(BaseModel):
 
 provider = OllamaProvider()
 
+def get_chat_history(chat_id, db, limit=10):
+    messages = (
+        db.query(models.AiChatMessage)
+        .filter(models.AiChatMessage.room_id == chat_id)
+        .order_by(models.AiChatMessage.timestamp.asc())
+        .limit(limit)
+        .all()
+    )
+    messages.reverse()
+    return [
+        {"role": "user" if m.message_type == MessageType(1) else "assistant", "content": m.content}
+        for m in messages
+    ]
+
+def build_prompt(chat_id, new_question, db):
+    messages = get_chat_history(chat_id, db, limit=10)
+
+    history_text = "Here is our conversation so far:\n"
+    for msg in messages:
+        if msg["role"] == "user":
+            history_text += f"User: {msg['content']}\n"
+        else:
+            history_text += f"Assistant : {msg['content']}\n"
+
+    history_text += f"User: {new_question}\Assistant :"
+    return history_text
 
 def create_chat_message(chat_id: str, message_data: MessageCreate ,db:db_dependency, current_user: models.Users = Depends(get_current_user)):
     room_exists = (
@@ -62,7 +88,9 @@ async def ask_question(chat_id: str, db:db_dependency,input: Input, current_user
 
     create_chat_message(chat_id, question_message_data, db, current_user)
 
-    answer = provider.complete(input.question)
+    prompt = build_prompt(chat_id, input.question, db)
+    answer = provider.complete(prompt)
+
     answer_message_data =  MessageCreate(
         content = answer,
         message_type = MessageType(0)
@@ -94,7 +122,7 @@ async def get_all_user_chats(db:db_dependency, current_user: models.Users = Depe
     return chats
     
 @router.get("/chat/{chat_id}", response_model=list[MessageOutput])
-async def get_chat_history(chat_id: str, db:db_dependency, current_user: models.Users = Depends(get_current_user)):
+async def get_user_chat_history(chat_id: str, db:db_dependency, current_user: models.Users = Depends(get_current_user)):
     messages = (
         db.query(models.AiChatMessage)
         .join(models.AiChatRoom, models.AiChatMessage.room_id == models.AiChatRoom.id)
