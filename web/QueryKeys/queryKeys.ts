@@ -6,7 +6,9 @@ export enum QueryKeys {
   EXPENSE_SUMMARY = 'expenses-sumamry',
   EXPENSE_STATS = "expenses-stats-expenses-summary",
   PROFILE_STACK = 'profile-stack',
-  PROFILE_EXPERIENCE = 'profile-experience'
+  PROFILE_EXPERIENCE = 'profile-experience',
+  AI_CHATS = "user-ai-chat",
+  AI_CHAT_HISTORY = 'message-history'
 }
 
 export enum MutationKeys {

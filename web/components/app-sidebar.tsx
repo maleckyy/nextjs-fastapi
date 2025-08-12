@@ -38,7 +38,7 @@ export const navOptions: NavOptionsType[] = [
     iconNode: <MessageCircle />
   },
   {
-    title: "Agent AI",
+    title: "AI Agent",
     path: "/agent-ai",
     iconNode: <BotMessageSquare />
   },
