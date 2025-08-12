@@ -1,59 +1,51 @@
 'use client'
 import React, { useEffect, useRef, useState } from 'react'
-import { Button } from '../ui/button'
 import AnimatedSpinner from '../shared/AnimatedSpinner'
 import { createToast } from '@/lib/toastService'
-import { AutoTextarea } from '../shared/Inputs/TextareaResize'
 import EmptyDataBox from '../shared/EmptyDataBox'
 import { useSendMessage } from '@/api/agentAi/useSendQuestionToAi'
-import { AgentAiAnwser, AgentAiQuestion, AiMessage } from '@/types/agentAi/agent.type'
-import { useAgentChatStore } from '@/store/agentAiStore/useAgentChatStore'
+import { AiMessage, AskAiPayload } from '@/types/agentAi/agent.type'
 import ChatMessage from './ChatMessage'
+import { useAiChatDrawerContext } from '@/store/agentAiStore/chatRoomDialogContext'
+import { useGetChatMessages } from '@/api/agentAi/useGetChatMessages'
+import ChatInputSection from './ChatInputSection'
+import AiChatHeader from './AiChatHeader'
 
 export default function AgentChat() {
 
-  const storeMessages = useAgentChatStore((state) => state.messages)
-  const addMessage = useAgentChatStore((state) => state.addMessage)
-  // temporarily on zustand store
-
-  const [question, setQuestion] = useState<string>('')
-  const [messages, setMessages] = useState<AiMessage[]>(storeMessages)
+  const [messages, setMessages] = useState<AiMessage[]>([])
   const [loadingAnwser, setLoadingAnwser] = useState(false)
+
+  const { activeChat, openDrawer, setActiveChat } = useAiChatDrawerContext()
+  const askAiMutation = useSendMessage()
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-  const sendMessageMutation = useSendMessage()
-
-  function addToMessageList(data: AgentAiAnwser | AgentAiQuestion) {
-    if ('answer' in data) {
-      const newListItem: AiMessage = {
-        content: data.answer,
-        messageType: "answer"
-      }
-      setMessages(prevVal => [...prevVal, newListItem])
-      addMessage(newListItem)
-    } else {
-      const newListItem: AiMessage = {
-        content: data.question,
-        messageType: "question"
-      }
-      setMessages(prevVal => [...prevVal, newListItem])
-      addMessage(newListItem)
+  function updateRoomNameOnce(title: string) {
+    if (activeChat && activeChat.name === "New chat") {
+      const newName = title.slice(0, 50)
+      const updatedChat = { ...activeChat, name: newName }
+      setActiveChat(updatedChat)
     }
   }
 
-  function handleSubmit() {
-    if (question.trim() !== '') {
+  function handleSubmit(question: string) {
+    const questionTrim = question.trim()
+    if (questionTrim !== '') {
       setLoadingAnwser(true)
-      const userQuestionData = { question: question.trim() }
-      addToMessageList(userQuestionData)
-      setQuestion('')
+      setMessages((prevVal) => [...prevVal, { content: questionTrim, messageType: 1 }])
 
-      sendMessageMutation.mutate(userQuestionData, {
+      const messagePayload: AskAiPayload = {
+        roomId: activeChat!.id,
+        question: questionTrim
+      }
+
+      askAiMutation.mutate(messagePayload, {
         onSuccess: (data) => {
           setLoadingAnwser(false)
-          addToMessageList(data)
+          setMessages((prevVal) => [...prevVal, data])
+          updateRoomNameOnce(questionTrim)
         }, onError: (e) => {
           createToast("Errot", "error", e.message)
           setLoadingAnwser(false)
@@ -66,44 +58,32 @@ export default function AgentChat() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  const { data: messageHistory, refetch: refetchMessagehistory } = useGetChatMessages(activeChat)
+
   useEffect(() => {
     scrollToBottom();
   }, [messages, loadingAnwser]);
 
+  useEffect(() => {
+    refetchMessagehistory()
+    setMessages(messageHistory || [])
+  }, [activeChat, refetchMessagehistory, setMessages, messageHistory])
 
   return (
     <div className='flex flex-col justify-start h-full min-h-0'>
-
+      <AiChatHeader activeChat={activeChat} openDrawer={openDrawer} />
       <div className='overflow-y-auto min-h-0 flex flex-col h-full flex-1 scroll-smooth' ref={scrollContainerRef}>
-        {messages.length > 0 &&
+        {messages && messages.length > 0 &&
           messages.map((message, index) => {
             return (<ChatMessage key={index} message={message} />
             )
           })
         }
-        {messages.length == 0 && <EmptyDataBox emptyDataText='No chat history' />}
+        {messages && messages.length == 0 && <EmptyDataBox emptyDataText='No chat history' />}
         {loadingAnwser && <AnimatedSpinner />}
-
         <div ref={messagesEndRef} />
       </div>
-
-      <div className='flex md:flex-row flex-col gap-2 mt-auto justify-center pt-2 justify-self-end'>
-        <AutoTextarea
-          value={question}
-          onChange={(e) => setQuestion(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" && !e.shiftKey) {
-              e.preventDefault()
-              handleSubmit()
-            }
-          }}
-          minRows={1}
-          maxRows={5}
-          className='max-w-[500px]'
-        />
-        <Button onClick={handleSubmit}>Ask AI</Button>
-      </div>
-
+      <ChatInputSection handleSubmit={handleSubmit} />
     </div>
   )
 }

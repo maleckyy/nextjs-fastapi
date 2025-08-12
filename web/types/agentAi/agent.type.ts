@@ -16,7 +16,7 @@ export type ChatRoomOutput = {
   name: string
 }
 
-export type SaveMessagePayload = {
-  roomId: string,
-  message: AiMessage
+export type AskAiPayload = {
+  question: string,
+  roomId: string
 }
