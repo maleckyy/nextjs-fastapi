@@ -15,6 +15,9 @@ router = APIRouter(
     tags=["auth"]
 )
 
+def get_use_by_id(id:str , db: db_dependency):
+    return db.query(models.Users).filter(models.Users.id == id).first()
+
 def get_user_by_email(email:str, db: db_dependency):
     return db.query(models.Users).filter(models.Users.email == email).first()
 
@@ -52,13 +55,14 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], db:db_
     )
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        email = payload.get("sub")
-        if email is None:
+        id = payload.get("sub")
+        if id is None:
             raise credentials_exception
-        token_data = TokenData(email=email)
+
     except jwt.InvalidTokenError:
         raise credentials_exception
-    user = get_user_by_email(email=token_data.email, db = db)
+
+    user = get_use_by_id(id , db)
     if user is None:
         raise credentials_exception
     return user
@@ -75,6 +79,7 @@ async def login_for_access_token(
         db: db_dependency
     ):
     user = authenticate_user(form_data.username, form_data.password, db)
+    print(user)
     if not user:
         raise HTTPException(
             status_code=401,
@@ -83,7 +88,7 @@ async def login_for_access_token(
         )
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(
-        data={"sub": user.email}, expires_delta=access_token_expires
+        data={"sub": str(user.id)}, expires_delta=access_token_expires
     )
     token = Token(access_token=access_token, token_type="bearer")
     token_object = models.UserToken()
@@ -155,7 +160,7 @@ async def refresh_access_token(
 
     expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     new_access_token = create_access_token(
-        data={"sub": user.email},
+        data={"sub": str(user.id)},
         expires_delta=expires
     )
 
