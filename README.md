@@ -66,7 +66,7 @@ The main motivation behind building this app was to expand my knowledge of React
 
   
 
-## 📦 Requirements
+## 📦 Environment
 
 - Node.js v21.6.2
 
