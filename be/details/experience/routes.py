@@ -26,7 +26,6 @@ async def get_profile_experience(db: db_dependency, current_user: models.Users =
 @router.post('')
 async def add_profile_experience(db: db_dependency, experience_data: ExperienceCreate, current_user: models.Users = Depends(get_current_user)):
     new_experience = models.UserProfileExperience(**experience_data.model_dump(), user_id = current_user.id)
-    print(new_experience)
     db.add(new_experience)
     db.commit()
     db.refresh(new_experience)

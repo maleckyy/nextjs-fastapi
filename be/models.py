@@ -1,7 +1,7 @@
 import uuid
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, Numeric, String, Null, Table, Text, Time, Enum
-from sqlalchemy.orm import relationship
+from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, Numeric, String, Table, Text, Enum
+from sqlalchemy.orm import relationship, backref
 from enums.ai_chat_message_type import MessageType
 from enums.expense_enum import ExpenseType
 from database import Base
@@ -10,8 +10,8 @@ from datetime import datetime, timezone
 chat_participants = Table(
     "chat_participants",
     Base.metadata,
-    Column("user_id", UUID(as_uuid=True), ForeignKey("users.id")),
-    Column("room_id", UUID(as_uuid=True), ForeignKey("chat_rooms.id"))
+    Column("user_id", UUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE")),
+    Column("room_id", UUID(as_uuid=True), ForeignKey("chat_rooms.id", ondelete="CASCADE"))
 )
 
 class Users(Base):
@@ -53,7 +53,6 @@ class Users(Base):
         back_populates="user", 
         uselist=False, 
         cascade="all, delete-orphan"
-
     )
 
     expense = relationship(
@@ -71,7 +70,7 @@ class Users(Base):
     chat_rooms = relationship(
         "ChatRoom",
         secondary=chat_participants,
-        back_populates="participants"
+        back_populates="participants",
     )
 
     ai_chat_rooms = relationship(
@@ -137,7 +136,7 @@ class Expense(Base):
     expense_type = Column(Enum(ExpenseType, name="expense_type"), nullable=False)
     amount = Column(Numeric(10, 2), nullable=False)
 
-    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
+    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
     user = relationship("Users", back_populates="expense")
 
 class UserProfileStack(Base):
@@ -156,7 +155,7 @@ class UserProfileExperience(Base):
     starting_date = Column(DateTime, nullable=False, default=datetime.utcnow)
     ending_date = Column(DateTime, nullable=True)
 
-    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
+    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
     user = relationship("Users", back_populates="experience")
 
 
@@ -169,19 +168,20 @@ class ChatRoom(Base):
     participants = relationship(
         "Users",
         secondary=chat_participants,
-        back_populates="chat_rooms"
+        back_populates="chat_rooms",
+        cascade="all, delete",
     )
 
 class ChatMessage(Base):
     __tablename__ = "chat_messages"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    room_id = Column(UUID(as_uuid=True), ForeignKey("chat_rooms.id"))
-    sender_id = Column(UUID(as_uuid=True), ForeignKey("users.id"))
+    room_id = Column(UUID(as_uuid=True), ForeignKey("chat_rooms.id", ondelete="CASCADE"))
+    sender_id = Column(UUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"))
     content = Column(Text, nullable=False)
     timestamp = Column(DateTime, default=datetime.utcnow)
 
-    room = relationship("ChatRoom", backref="messages")
+    room = relationship("ChatRoom", backref=backref("messages", cascade="all, delete-orphan"))
     sender = relationship("Users")
 
 
@@ -189,7 +189,7 @@ class AiChatRoom(Base):
     __tablename__ = "ai_chat_rooms"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
+    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
     name = Column(String, nullable=False)
     
     user = relationship("Users", back_populates="ai_chat_rooms")
@@ -201,7 +201,7 @@ class AiChatMessage(Base):
     __tablename__ = "ai_chat_messages"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    room_id = Column(UUID(as_uuid=True), ForeignKey("ai_chat_rooms.id"), nullable=False)
+    room_id = Column(UUID(as_uuid=True), ForeignKey("ai_chat_rooms.id", ondelete="CASCADE"), nullable=False)
     timestamp = Column(DateTime, default=datetime.utcnow, nullable=False)
     content = Column(String, nullable=False)
     message_type = Column(Enum(MessageType, name="message_type"), nullable=False)

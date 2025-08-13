@@ -79,7 +79,6 @@ async def login_for_access_token(
         db: db_dependency
     ):
     user = authenticate_user(form_data.username, form_data.password, db)
-    print(user)
     if not user:
         raise HTTPException(
             status_code=401,
@@ -143,7 +142,6 @@ async def refresh_access_token(
         db: db_dependency,
         current_user: models.Users = Depends(get_current_user)
     ):
-    print(refreshToken)
     token_object = db.query(models.UserToken).filter(
         models.UserToken.user_id == current_user.id
     ).first()
