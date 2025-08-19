@@ -7,6 +7,9 @@ import { Toaster } from "sonner";
 import { ThemeProvider } from "@/components/theme-provider";
 import ActiveUserContextProvider from "@/store/activeUserContext";
 import HeadMeta from "@/components/HeadMeta";
+import { SessionProvider } from "next-auth/react"
+import AppInitializer from "@/components/AppInitializer";
+import { appDescription, appName } from "@/env/STATIC_NAMES";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,8 +22,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "PSPACES",
-  description: "Zarządzaj sobą",
+  title: appName,
+  description: appDescription
 };
 
 export default function RootLayout({
@@ -29,27 +32,30 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <HeadMeta />
-          <main className="w-full h-screen">
-            <Toaster />
-            <AuthContextProvider>
+    <SessionProvider >
+      <html lang="en" suppressHydrationWarning>
+        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <HeadMeta />
+            <main className="w-full h-screen">
               <QueryProvider>
-                <ActiveUserContextProvider>
-                  {children}
-                </ActiveUserContextProvider>
+                <AuthContextProvider>
+                  <ActiveUserContextProvider>
+                    <AppInitializer />
+                    <Toaster />
+                    {children}
+                  </ActiveUserContextProvider>
+                </AuthContextProvider>
               </QueryProvider>
-            </AuthContextProvider>
-          </main>
-        </ThemeProvider>
-      </body>
-    </html>
+            </main>
+          </ThemeProvider>
+        </body>
+      </html>
+    </SessionProvider>
   );
 }

@@ -13,8 +13,3 @@ export async function createTokenCookie(value: string, age: number) {
     maxAge: age
   });
 }
-
-export async function deleteTokenCookie() {
-  const cookie = await cookies()
-  cookie.delete("auth_token")
-}

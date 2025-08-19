@@ -1,11 +1,11 @@
 import { API_BASE_URL } from "@/env/API_URL";
-import axios from "axios";
 import { useAuthStore } from "@/store/authStore";
+import axios from "axios";
 
 const getBaseUrl = () => {
   return API_BASE_URL
 };
-const excludedPaths = ['/auth/token', '/user/create'];
+const excludedPaths = ['/user/create', '/auth/login'];
 
 export const api = axios.create({
   baseURL: getBaseUrl(),
@@ -16,8 +16,9 @@ export const api = axios.create({
 });
 
 api.interceptors.request.use(
-  (config) => {
+  async (config) => {
     const token = useAuthStore.getState().token
+
     if (token && !excludedPaths.includes(config.url || '')) {
       config.headers.Authorization = `Bearer ${token}`;
     }

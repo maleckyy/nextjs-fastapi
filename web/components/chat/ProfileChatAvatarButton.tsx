@@ -14,7 +14,7 @@ export default function ProfileChatAvatarButton({ user }: PropsType) {
 
   async function getChatRoom() {
     if (clientTargetId === user.id) return
-    const response = await api.post("chat/room" + "?target_user_id=" + user.id,
+    const response = await api.post("/chat/room" + "?target_user_id=" + user.id,
       { target_user_id: user.id }
     )
     setRoom(response.data.room_id)

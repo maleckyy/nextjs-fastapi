@@ -1,9 +1,7 @@
 'use client'
-import { clearLocalStorageData } from '@/store/localStorage'
-import { useRouter } from 'next/navigation'
+import { clearLocalStorageData, setStringValueToLocalStorage } from '@/store/localStorage'
 import React, { useContext } from 'react'
 import { useAuthStore } from '@/store/authStore'
-import { deleteTokenCookie } from '@/actions/actions'
 import { CircleUserRound, EllipsisVertical, LogOut, Settings, User } from 'lucide-react'
 import { createToast } from '@/lib/toastService'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuPortal, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger } from '../ui/dropdown-menu'
@@ -12,21 +10,37 @@ import { useManageTheme } from '@/hooks/useManageTheme'
 import { DropdownMenuGroup } from '@radix-ui/react-dropdown-menu'
 import { ActiveUserContext } from '@/store/activeUserContext'
 import { SidebarMenuButton, useSidebar } from '../ui/sidebar'
+import { useLogoutUser } from '@/api/auth/logout/useLogoutUser'
 
 export default function SidebarOptionsButton() {
-  const router = useRouter()
   const { clearToken } = useAuthStore()
   const { selectTheme } = useManageTheme()
   const { isMobile, state } = useSidebar()
   const { activeUser, clearData } = useContext(ActiveUserContext)
-
-  async function logoutUser() {
-    createToast("Wylogowano", "success")
-    clearLocalStorageData()
+  const logoutMutation = useLogoutUser()
+  function clearClientData() {
+    clearLocalStorageData(["accessToken", "refreshToken", "userId"])
+    setStringValueToLocalStorage("loggedOut", "1")
     clearToken()
-    deleteTokenCookie()
     clearData()
-    router.push("/login")
+  }
+  async function logoutUser() {
+    try {
+      logoutMutation.mutate()
+      createToast("Logging out...", "info")
+      const res = await fetch("/api/logout", { method: "POST", cache: "no-store" });
+      if (!res.ok) throw new Error("signout failed");
+    } catch { }
+
+    try {
+      clearClientData()
+    } catch (e) {
+      console.error("Logout error:", e)
+      createToast("Logout failed", "error")
+    }
+
+    window.location.href = "/login";
+    createToast("Logged out", "success")
   }
 
   return (

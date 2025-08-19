@@ -6,7 +6,7 @@ import ProfileChatAvatarButton from './ProfileChatAvatarButton'
 import { ScrollArea, ScrollBar } from '../ui/scroll-area'
 
 export default async function AllUsersSidebar() {
-  const allUsers: UserDetailsOutput[] = await fetchWithAuth('user/all')
+  const allUsers: UserDetailsOutput[] = await fetchWithAuth('/user/all')
 
   return (
     <div className='flex 
