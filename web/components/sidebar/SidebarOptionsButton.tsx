@@ -11,6 +11,7 @@ import { DropdownMenuGroup } from '@radix-ui/react-dropdown-menu'
 import { ActiveUserContext } from '@/store/activeUserContext'
 import { SidebarMenuButton, useSidebar } from '../ui/sidebar'
 import { useLogoutUser } from '@/api/auth/logout/useLogoutUser'
+import { useRouter } from 'next/navigation'
 
 export default function SidebarOptionsButton() {
   const { clearToken } = useAuthStore()
@@ -18,6 +19,8 @@ export default function SidebarOptionsButton() {
   const { isMobile, state } = useSidebar()
   const { activeUser, clearData } = useContext(ActiveUserContext)
   const logoutMutation = useLogoutUser()
+  const router = useRouter()
+
   function clearClientData() {
     clearLocalStorageData(["accessToken", "refreshToken", "userId"])
     setStringValueToLocalStorage("loggedOut", "1")
@@ -38,8 +41,8 @@ export default function SidebarOptionsButton() {
       createToast("Logout failed", "error")
     }
 
-    window.location.href = "/login";
     createToast("Logged out", "success")
+    router.replace("/login")
   }
 
   return (

@@ -51,7 +51,7 @@ test('should option dropdown menu item redirects correctly', async ({ page }) =>
     await menuItemLink.click()
     await expect(page).toHaveURL(menuItem.path)
     if (menuItem.testidTitle === "logout-button") {
-      await expect(page.getByText('Wylogowano')).toBeVisible()
+      await expect(page.getByText('Logged out')).toBeVisible()
     }
   }
 });
@@ -61,7 +61,7 @@ test('should the sidebar collapse and expand', async ({ page }) => {
   const appSidebar = page.getByTestId('app-sidebar')
   await expect(appSidebar).toBeVisible()
   await expect(appSidebar).toHaveAttribute("data-state", "expanded")
-  const sidebarToggleButton = page.locator('[data-test-id="sidebar-toggle-button"]')
+  const sidebarToggleButton = page.locator('[data-testid="sidebar-toggle-button"]')
   await expect(sidebarToggleButton).toBeVisible()
   await sidebarToggleButton.click()
   await expect(appSidebar).toHaveAttribute("data-state", "collapsed")
