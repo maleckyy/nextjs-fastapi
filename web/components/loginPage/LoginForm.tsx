@@ -48,7 +48,7 @@ export default function LoginForm() {
       <AppInputField name='username' control={control} label="Email" error={errors.username?.message} />
       <AppInputField name='password' control={control} label="Password" error={errors.password?.message} type='password' />
       <Button onClick={handleSubmit(submitForm)} disabled={isSubmitting}>{!isLoading ? ("Log in") : (<AnimatedSpinner />)}</Button>
-      <Link href='/register' className='text-gray-400 text-center'>Don&apos;t have an account? Sign up</Link>
+      <Link href='/register' className='text-gray-400 text-center' data-testid="register-link">Don&apos;t have an account? Sign up</Link>
     </section>
   )
 }
