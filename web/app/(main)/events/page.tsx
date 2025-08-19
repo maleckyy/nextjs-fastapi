@@ -22,7 +22,7 @@ export default function Events() {
 
   return (
     <section className='flex flex-col gap-4'>
-      <PageTitle title="Calendar" />
+      <PageTitle title="Calendar" data-testid="event-header" />
       <div className='flex flex-col lg:flex-row gap-4'>
         <CalendarComponent data={data} isSuccess={isSuccess} dialogRef={dialogRef} />
         <div className='flex flex-col gap-2 w-full'>

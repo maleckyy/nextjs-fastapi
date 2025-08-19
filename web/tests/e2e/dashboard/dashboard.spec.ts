@@ -9,7 +9,7 @@ test('should redirect to login when accessing dashboard without login', async ({
 test('should display all dashboard sections after login', async ({ page }) => {
   await login(page)
   // loginHelper checks the correctness of the redirect to /dashboard
-  await expect(page.getByRole('heading', { name: 'Dashboard' })).toBeVisible()
+  await expect(page.getByTestId('dashboard-header').getByRole('heading', { name: 'Dashboard' })).toBeVisible()
   await expect(page.getByTestId('app-sidebar')).toBeVisible()
   await expect(page.getByTestId('user-expense-stats-card')).toBeVisible()
   await expect(page.getByRole('application')).toBeVisible()
@@ -24,7 +24,7 @@ test('does monthly expenses card redirect to /finance', async ({ page }) => {
   await expect(page.getByTestId('monthly-expenses-card')).toBeVisible()
   await expect(page.getByTestId('monthly-expenses-card').getByRole('link')).toBeVisible()
   await page.getByTestId('monthly-expenses-card').getByRole('link').click()
-  await expect(page.getByRole('heading', { name: 'Finanse' })).toBeVisible()
+  await expect(page.getByTestId('finance-header')).toBeVisible()
   await expect(page).toHaveURL('/finance')
 });
 
@@ -33,7 +33,7 @@ test('does last todos card redirect to /todo', async ({ page }) => {
   await expect(page.getByTestId('last-todos-card')).toBeVisible()
   await expect(page.getByTestId('last-todos-card').getByRole('link')).toBeVisible()
   await page.getByTestId('last-todos-card').getByRole('link').click()
-  await expect(page.getByRole('heading', { name: 'Todos' })).toBeVisible()
+  await expect(page.getByTestId('todo-header')).toBeVisible()
   await expect(page).toHaveURL('/todo')
 });
 
@@ -42,6 +42,6 @@ test('does upcoming events card redirect to /events', async ({ page }) => {
   await expect(page.getByTestId('upcoming-events-card')).toBeVisible()
   await expect(page.getByTestId('upcoming-events-card').getByRole('link')).toBeVisible()
   await page.getByTestId('upcoming-events-card').getByRole('link').click()
-  await expect(page.getByRole('heading', { name: 'Wydarzenia', exact: true })).toBeVisible()
+  await expect(page.getByTestId('event-header')).toBeVisible()
   await expect(page).toHaveURL('/events')
 });
