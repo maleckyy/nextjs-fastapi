@@ -27,7 +27,6 @@ export default function SidebarOptionsButton() {
   async function logoutUser() {
     try {
       logoutMutation.mutate()
-      createToast("Logging out...", "info")
       const res = await fetch("/api/logout", { method: "POST", cache: "no-store" });
       if (!res.ok) throw new Error("signout failed");
     } catch { }

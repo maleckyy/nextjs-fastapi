@@ -14,6 +14,11 @@ export default function AppInitializer() {
     if (typeof window === "undefined") return;
     const isLoggedOut = localStorage.getItem("loggedOut")
 
+    if (session?.user) {
+      const storedToken = useAuthStore.getState().token
+      if (storedToken === session.user.accessToken) return;
+    }
+
     if (isLoggedOut) return
     if (status === "authenticated" && session?.user) {
       localStorage.setItem("accessToken", session.user.accessToken)
@@ -23,7 +28,7 @@ export default function AppInitializer() {
       setDetails(session.user.accessToken, session.user.refreshToken, session.user.tokenExpiresTime)
       refetchOnLogin()
     }
-  }, [status, session, setToken, setDetails, refetchOnLogin])
+  }, [status, session?.user, setToken, setDetails, refetchOnLogin])
 
   return null
 }
