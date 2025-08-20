@@ -44,8 +44,8 @@ test('todo crud check', async ({ page }) => {
   await titleInput.fill(todoItem.title)
   await descriptionInput.fill(todoItem.description)
   await createTodoSubmitButton.click()
-  await expect(page.getByText('Utworzono nowe zadanie')).toBeVisible()
-  await expect(page.getByRole('listitem').filter({ hasText: 'Utworzono nowe zadanie' })).toBeVisible()
+  await expect(page.getByText('Todo created')).toBeVisible()
+  await expect(page.getByRole('listitem').filter({ hasText: 'Todo created' })).toBeVisible()
 
   // new element data-testid
   const newElement = page.locator('[data-testid^="todo-row"]').first();
@@ -82,7 +82,7 @@ test('todo crud check', async ({ page }) => {
   await expect(editSubmitButton).not.toBeDisabled()
   await editSubmitButton.click()
   await expect(editTodoDialog).not.toBeVisible()
-  await expect(page.getByRole('listitem').filter({ hasText: 'Zadanie edytowano' })).toBeVisible()
+  await expect(page.getByRole('listitem').filter({ hasText: 'Task edited' })).toBeVisible()
 
   // check if data is updated
   await expect(newTodoRow.getByRole('cell', { name: 'Todo Title' })).toHaveText(editedTodoItem.title)
@@ -97,7 +97,7 @@ test('todo crud check', async ({ page }) => {
   const deleteTodoSubmitButton = deleteTodoPopover.getByTestId('delete-todo-button')
   await expect(deleteTodoSubmitButton).toBeVisible()
   await deleteTodoSubmitButton.click()
-  await expect(page.getByRole('listitem').filter({ hasText: 'Usunięto zadanie' })).toBeVisible()
+  await expect(page.getByRole('listitem').filter({ hasText: 'Task deleted' })).toBeVisible()
   await expect(deleteTodoPopover).not.toBeVisible()
   await expect(newTodoRow).not.toBeVisible()
 });
