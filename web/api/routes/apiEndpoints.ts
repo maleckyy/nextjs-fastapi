@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-duplicate-enum-values */
 export enum ApiEndpoints {
   USER_CREATE = '/user/create',
-  USER_LOGIN = '/auth/token',
+  USER_LOGIN = '/auth/login',
+  USER_LOGOUT = '/auth/logout',
   USER_REFRESH_TOKEN = '/auth/refresh',
   USER = '/user',
   USER_PROFILE = '/user/profile',

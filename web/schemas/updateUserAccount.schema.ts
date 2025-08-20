@@ -1,27 +1,27 @@
 import { z } from "zod";
 
 export const updateUserAccountSchema = z.object({
-  username: z.string().min(4, "Nazwa użytkownika jest za krótka").optional(),
+  username: z.string().min(4, "Username is too short").optional(),
   email: z
     .string()
-    .min(8, "Email jest za krótki")
-    .email("Email jest niepoprawny")
+    .min(8, "Email is too short")
+    .email("Email is incorrect")
     .optional(),
-  password: z.string().min(6, "Hasło jest za krótkie").optional(),
+  password: z.string().min(6, "Password is too short").optional(),
   confirmPassword: z.string().optional(),
 }).superRefine((data, ctx) => {
   if (data.password) {
     if (!data.confirmPassword) {
       ctx.addIssue({
         path: ["confirmPassword"],
-        message: "Potwierdzenie hasła jest wymagane",
+        message: "Password confirmation is required",
         code: z.ZodIssueCode.custom,
       });
     }
     else if (data.password !== data.confirmPassword) {
       ctx.addIssue({
         path: ["confirmPassword"],
-        message: "Hasła nie są takie same",
+        message: "Passwords are not the same",
         code: z.ZodIssueCode.custom,
       });
     }
