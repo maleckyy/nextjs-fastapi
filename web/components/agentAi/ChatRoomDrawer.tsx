@@ -5,7 +5,7 @@ import { useAiChatDrawerContext } from '@/store/agentAiStore/chatRoomDialogConte
 import { Separator } from '../ui/separator';
 import { useDeleteChatById } from '@/api/agentAi/useDeleteChatById';
 import { createToast } from '@/lib/toastService';
-import { QueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import ChatRoomSingleElement from './ChatRoomSingleElement';
 
 export type ChatRoomDrawerHandle = {
@@ -25,7 +25,7 @@ const ChatRoomDrawer = forwardRef<ChatRoomDrawerHandle>(
     const { setActiveChat, closeDrawer, createRoom, ChatRoomList, activeChat, refetchChatRoomList } = useAiChatDrawerContext()
 
     const deleteChatMutation = useDeleteChatById()
-    const queryClient = new QueryClient()
+    const queryClient = useQueryClient()
 
     function deleteChat(roomId: string) {
       deleteChatMutation.mutate(roomId, {

@@ -3,6 +3,7 @@ export enum QueryKeys {
   LAST_TODOS = 'last-todo',
   EVENTS = 'events',
   USER_DETAILS = 'details',
+  EXPENSE = 'all-expenses',
   EXPENSE_SUMMARY = 'expenses-sumamry',
   EXPENSE_STATS = "expenses-stats-expenses-summary",
   PROFILE_STACK = 'profile-stack',

@@ -10,10 +10,9 @@ import AppSelect from '../shared/Inputs/AppSelect'
 import { Button } from '../ui/button'
 import { useAddNewExpense } from '@/api/expense/useAddNewExpense'
 import { createToast } from '@/lib/toastService'
-import { useRouter } from 'next/navigation'
 import { useDialog } from '@/store/expenses/DialogContext'
 import { useUpdateExpense } from '@/api/expense/useUpdateExpense'
-import { QueryClient } from '@tanstack/react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import { QueryKeys } from '@/QueryKeys/queryKeys'
 
 type PropsType = {
@@ -22,7 +21,6 @@ type PropsType = {
 
 export default function ExpenseForm({ expenseData }: PropsType) {
   const { closeDialog, triggerExpenseDataRefetch } = useDialog();
-  const router = useRouter()
   const formSchema = expenseSchema
 
   const {
@@ -50,12 +48,12 @@ export default function ExpenseForm({ expenseData }: PropsType) {
 
   const useAddNewExpenseMutation = useAddNewExpense()
   const useUpdateExpenseMutation = useUpdateExpense()
+  const queryClient = useQueryClient()
 
   function cleanAfterSuccessAction() {
-    const queryClient = new QueryClient()
-    queryClient.invalidateQueries({ queryKey: [QueryKeys.EXPENSE_STATS] })
-    router.refresh()
     triggerExpenseDataRefetch()
+    queryClient.invalidateQueries({ queryKey: [QueryKeys.EXPENSE_STATS] })
+    queryClient.invalidateQueries({ queryKey: [QueryKeys.EXPENSE] })
     reset()
     closeDialog()
   }

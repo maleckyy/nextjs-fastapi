@@ -22,7 +22,6 @@ export function ExpensesDialogProvider({ children, showDialog = false }: { child
   const [selectedItem, setSelectedItem] = useState<Expense | undefined>();
   const dialogRef = useRef<ExpenceDialogHandle>(null);
   const [refreshFlag, setRefreshFlag] = useState<boolean>(false)
-
   function triggerExpenseDataRefetch() {
     setRefreshFlag(oldVal => !oldVal)
   }

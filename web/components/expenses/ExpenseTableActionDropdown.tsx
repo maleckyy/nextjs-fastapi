@@ -6,23 +6,19 @@ import { EllipsisVertical, Pen, Trash } from 'lucide-react'
 import { useDialog } from '@/store/expenses/DialogContext'
 import { useDeleteExpense } from '@/api/expense/useDeleteExpense'
 import { createToast } from '@/lib/toastService'
-import { useRouter } from 'next/navigation'
 
 type PropsType = {
   item: Expense
 }
 
 export default function ExpenseTableActionDropdown({ item }: PropsType) {
-
   const { openDialog, triggerExpenseDataRefetch } = useDialog();
-  const router = useRouter()
 
   const useDeleteExpenseMutation = useDeleteExpense()
   function deleteExpense(id: string) {
     useDeleteExpenseMutation.mutate(id, {
       onSuccess: () => {
         createToast("Transaction deleted", "info")
-        router.refresh()
         triggerExpenseDataRefetch()
       }
     })
