@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import ProfileAvatar from '../ProfileAvatar'
 import { useGetUserDetails } from '@/api/profile/useGetUserDetails'
 import { Input } from '@/components/ui/input'
@@ -10,12 +10,13 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useUploadAvatarToServer } from '@/api/profile/profileAvatar/useUploadAvatarToServer'
 import { createToast } from '@/lib/toastService'
 import { AvatarFormData, avatarSchema } from '@/schemas/uploadAvatar.schema'
+import { ActiveUserContext } from '@/store/activeUserContext'
 
 export default function UploadProfileAvatar() {
 
   const { data, refetch } = useGetUserDetails()
   const [avatarPath, setAvatarPath] = useState<string | null>(null)
-
+  const { refetchOnLogin } = useContext(ActiveUserContext)
   const { control, handleSubmit } = useForm<AvatarFormData>({
     resolver: zodResolver(avatarSchema),
   })
@@ -28,6 +29,7 @@ export default function UploadProfileAvatar() {
     uploadAvatarToServerMutation.mutate(postFormData, {
       onSuccess: () => {
         refetch()
+        refetchOnLogin()
         createToast("A new profile picture has been set", "success")
       },
       onError: (e) => {

@@ -6,6 +6,5 @@ export const useGetProfileStackQuery = () => {
   return useQuery({
     queryFn: getProfileStack,
     queryKey: [QueryKeys.PROFILE_STACK],
-    retry: false,
   })
 }

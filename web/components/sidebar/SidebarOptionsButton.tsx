@@ -2,7 +2,7 @@
 import { clearLocalStorageData, setStringValueToLocalStorage } from '@/store/localStorage'
 import React, { useContext } from 'react'
 import { useAuthStore } from '@/store/authStore'
-import { CircleUserRound, EllipsisVertical, LogOut, Settings, User } from 'lucide-react'
+import { EllipsisVertical, LogOut, Settings, User } from 'lucide-react'
 import { createToast } from '@/lib/toastService'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuPortal, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger } from '../ui/dropdown-menu'
 import Link from 'next/link'
@@ -12,6 +12,8 @@ import { ActiveUserContext } from '@/store/activeUserContext'
 import { SidebarMenuButton, useSidebar } from '../ui/sidebar'
 import { useLogoutUser } from '@/api/auth/logout/useLogoutUser'
 import { useRouter } from 'next/navigation'
+import ProfileAvatar from '../profile/ProfileAvatar'
+import { useGetUserDetails } from '@/api/profile/useGetUserDetails'
 
 export default function SidebarOptionsButton() {
   const { clearToken } = useAuthStore()
@@ -20,7 +22,7 @@ export default function SidebarOptionsButton() {
   const { activeUser, clearData } = useContext(ActiveUserContext)
   const logoutMutation = useLogoutUser()
   const router = useRouter()
-
+  const { data: userDetails } = useGetUserDetails()
   function clearClientData() {
     clearLocalStorageData(["accessToken", "refreshToken", "userId"])
     setStringValueToLocalStorage("loggedOut", "1")
@@ -53,19 +55,20 @@ export default function SidebarOptionsButton() {
             size="lg"
             className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
           >
-            <div className='flex flex-row justify-between w-full items-center'>
-              {state === "expanded" ?
-                (<>
-                  <div className='flex flex-col'>
-                    <span className='small-text-title font-medium'>{activeUser?.username}</span>
-                    <span className='extra-small-text-description'>{activeUser?.email}</span>
-                  </div>
-                  <EllipsisVertical size={18} />
-                </>) :
-                (
-                  <CircleUserRound className='w-full' />
-                )}
-            </div>
+            {
+              activeUser &&
+              <div className='flex flex-row justify-between w-full items-center cursor-pointer'>
+                <ProfileAvatar username={activeUser.username} widthInPx={32} photoPath={userDetails?.details.photo_path} />
+                {state === "expanded" &&
+                  (<>
+                    <div className='flex flex-col'>
+                      <span className='small-text-title font-medium'>{activeUser.username}</span>
+                      <span className='extra-small-text-description'>{activeUser.email}</span>
+                    </div>
+                    <EllipsisVertical size={18} />
+                  </>)}
+              </div>
+            }
           </SidebarMenuButton>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-56" align="end"

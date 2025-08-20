@@ -14,7 +14,7 @@ export default function ProfileStackBadgeList() {
         data ? (
           stackArray.map((item: string) => <Badge key={item} className='font-medium text-sm uppercase'>{item}</Badge>)
         ) : (
-          <p>Brak</p>
+          <p>No data</p>
         )
       }
     </div>
