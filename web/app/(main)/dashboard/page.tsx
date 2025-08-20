@@ -3,6 +3,7 @@ import GenericCard from '@/components/dashboard/DashboardCard'
 import SingleCardElementWithAmount from '@/components/dashboard/SingleCardElementWithAmount'
 import SingleCardElementWithDate from '@/components/dashboard/SingleCardElementWithDate'
 import PageTitle from '@/components/page-title'
+import PageContent from '@/components/shared/PageContent'
 import PageSection from '@/components/shared/PageSection'
 import { ExpensesDialogProvider } from '@/store/expenses/DialogContext'
 import { EventOutput } from '@/types/events/event.type'
@@ -18,7 +19,7 @@ export default async function Dashboad() {
   return (
     <PageSection>
       <PageTitle title="Dashboard" data-testid="dashboard-header" />
-      <div className='overflow-y-auto'>
+      <PageContent>
         <div className='flex flex-col md:flex-row gap-4 md:flex-nowrap flex-wrap pb-4'>
           <ExpensesDialogProvider>
             <ExpensesChartComponent showLink />
@@ -51,7 +52,7 @@ export default async function Dashboad() {
             data-testid="recent-transaction-card"
           />
         </div>
-      </div>
+      </PageContent>
     </PageSection>
   )
 }

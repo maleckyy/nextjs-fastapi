@@ -2,6 +2,8 @@ import { fetchWithAuth } from '@/api/axiosServer'
 import { ApiEndpoints } from '@/api/routes/apiEndpoints'
 import PageTitle from '@/components/page-title'
 import ProfileContent from '@/components/profile/profileContent'
+import PageContent from '@/components/shared/PageContent'
+import PageSection from '@/components/shared/PageSection'
 import { QueryKeys } from '@/QueryKeys/queryKeys'
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query'
 import React from 'react'
@@ -18,10 +20,12 @@ export default async function ProfilePage() {
 
   return (
     <HydrationBoundary state={dehydratedState}>
-      <section className='flex flex-col gap-4 h-full'>
+      <PageSection>
         <PageTitle title={"Profile"} data-testid="profile-header" />
-        <ProfileContent />
-      </section>
+        <PageContent>
+          <ProfileContent />
+        </PageContent>
+      </PageSection>
     </HydrationBoundary>
   )
 }

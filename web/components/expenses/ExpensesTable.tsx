@@ -27,7 +27,7 @@ export default async function ExpensesTable() {
   const data: Expense[] = await fetchWithAuth(ApiEndpoints.EXPENSE)
 
   return (
-    <Card className='md:max-h-[400px] w-full md:w-3/4 px-6 shadow-xs'>
+    <Card className='max-h-[400px] w-full md:w-full px-6 shadow-xs'>
       <CardDescription className='text-primary text-base'>
         <div className='flex justify-between items-center'>
           <span>List of all transactions</span>
@@ -36,7 +36,7 @@ export default async function ExpensesTable() {
       </CardDescription>
       <div className="overflow-x-auto">
         <Table>
-          <TableHeader>
+          <TableHeader className="sticky top-0 bg-secondary z-10 shadow-sm">
             <TableRow>
               <TableHead className="w-[100px]">Title</TableHead>
               <TableHead>Type</TableHead>

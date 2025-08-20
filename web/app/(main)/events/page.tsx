@@ -11,6 +11,8 @@ import CreateEventDialog, { CreateEventDialogRef } from '@/components/event/Even
 import CalendarComponent from '@/components/event/CalendarComponent'
 import AnimatedSpinner from '@/components/shared/AnimatedSpinner'
 import SectionTitle from '@/components/shared/texts/SectionTitle'
+import PageContent from '@/components/shared/PageContent'
+import PageSection from '@/components/shared/PageSection'
 
 export default function Events() {
   const dialogRef = useRef<CreateEventDialogRef>(null);
@@ -21,21 +23,23 @@ export default function Events() {
   })
 
   return (
-    <section className='flex flex-col gap-4'>
+    <PageSection>
       <PageTitle title="Calendar" data-testid="event-header" />
-      <div className='flex flex-col lg:flex-row gap-4'>
-        <CalendarComponent data={data} isSuccess={isSuccess} dialogRef={dialogRef} />
-        <div className='flex flex-col gap-2 w-full'>
-          <div className='flex justify-between items-center'>
-            <SectionTitle title='All events' />
-            <span><CreateEventDialog ref={dialogRef} refetch={refetch} /></span>
+      <PageContent>
+        <div className='flex flex-col lg:flex-row gap-4'>
+          <CalendarComponent data={data} isSuccess={isSuccess} dialogRef={dialogRef} />
+          <div className='flex flex-col gap-2 w-full'>
+            <div className='flex justify-between items-center'>
+              <SectionTitle title='All events' />
+              <span><CreateEventDialog ref={dialogRef} refetch={refetch} /></span>
+            </div>
+            {data ?
+              (<EventList events={data} refetch={refetch} isLoading={isLoading} />) :
+              (<AnimatedSpinner />)
+            }
           </div>
-          {data ?
-            (<EventList events={data} refetch={refetch} isLoading={isLoading} />) :
-            (<AnimatedSpinner />)
-          }
         </div>
-      </div>
-    </section>
+      </PageContent>
+    </PageSection>
   )
 }

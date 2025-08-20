@@ -25,7 +25,7 @@ export default function ChatInputSection({ handleSubmit }: { handleSubmit: (ques
         maxRows={5}
         className='md:max-w-[500px] w-full'
       />
-      <Button onClick={submitQuestion}>Ask AI</Button>
+      <Button onClick={submitQuestion} className='h-[38]'>Ask AI</Button>
     </div>
   )
 }
