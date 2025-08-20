@@ -16,9 +16,9 @@ export default function SingleCardElementWithAmount({ title, description, index,
     <div>
       {index !== 0 && <Separator className='my-2' />}
       <div className='flex flex-row gap-1 justify-between min-w-0'>
-        <div className='flex flex-col gap-1'>
+        <div className='flex flex-col gap-1 justify-center'>
           <h4 className='small-text-title'>{title}</h4>
-          <h5 className='small-text-description'>{description}</h5>
+          {description && <h5 className='small-text-description'>{description}</h5>}
         </div>
         {amount && <span className='shrink-0'>
           <Badge
