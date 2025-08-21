@@ -30,4 +30,5 @@ class ExpenseSummary(BaseModel):
     total_expense: float
     balance: float
     month: str
-    year: str  
+    year: str
+    trend: int

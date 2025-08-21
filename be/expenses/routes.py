@@ -87,12 +87,42 @@ async def get_monthly_summary( db: db_dependency, current_user: models.Users = D
 
     balance = total_income - total_expense
 
+    prev_month = month - 1
+    prev_year = year
+    if prev_month == 0:
+        prev_month = 12
+        prev_year -= 1
+
+    prev_total_expense = db.query(func.coalesce(func.sum(models.Expense.amount), 0))\
+        .filter(
+            models.Expense.user_id == current_user.id,
+            models.Expense.expense_type == ExpenseType.EXPENSE,
+            extract('year', models.Expense.expense_date) == prev_year,
+            extract('month', models.Expense.expense_date) == prev_month
+        ).scalar()
+
+    prev_total_income = db.query(func.coalesce(func.sum(models.Expense.amount), 0))\
+        .filter(
+            models.Expense.user_id == current_user.id,
+            models.Expense.expense_type == ExpenseType.REVENUE,
+            extract('year', models.Expense.expense_date) == prev_year,
+            extract('month', models.Expense.expense_date) == prev_month
+        ).scalar()
+
+    prev_balance = prev_total_income - prev_total_expense
+
+    if prev_balance != 0:
+        trend = int(((balance - prev_balance) / prev_balance) * 100)
+    else:
+        trend = 0
+
     return {
         "total_income": float(total_income),
         "total_expense": float(total_expense),
         "balance": float(balance),
         "month": f"{month:02}",
-        "year": str(year)
+        "year": str(year),
+        "trend": trend
     }
 
 
