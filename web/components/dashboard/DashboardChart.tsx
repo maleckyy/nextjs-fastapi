@@ -30,7 +30,7 @@ export default function DashboardChart() {
   } satisfies ChartConfig
 
   return (
-    <Card className="md:max-h-[400px] w-full md:w-2/4 lg:w-3/5 px-6 shadow-xs" data-testid="user-expense-stats-card">
+    <Card className="md:max-h-[400px] w-full md:w-2/4 lg:w-3/5 px-6 shadow-xs gap-2" data-testid="user-expense-stats-card">
       <CardDescription className="text-primary"><span className="text-base">Financial statistics</span></CardDescription>
       <div className="flex-1 min-h-[200px] h-full">
         <ChartContainer config={chartConfig} data-testid="expense-stats-chart" className="w-full h-full" >

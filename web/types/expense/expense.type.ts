@@ -9,6 +9,7 @@ export type ExpenseSummary = {
   balance: number;
   month: string;
   year: string;
+  trend: number
 };
 
 export type ExpenseCreate = {
