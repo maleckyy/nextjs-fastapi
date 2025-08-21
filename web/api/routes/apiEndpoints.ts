@@ -30,6 +30,7 @@ export enum ApiEndpoints {
   EXPENSE = '/expenses',
   EXPENSE_RECENT_TRANSACTION = "/expenses/recent-transaction",
   EXPENSE_DELETE = '/expenses',
+  EXPENSE_FINANCIAL_MONTHLY_RAPORT = "/expenses/financial-report",
 
   AGENT_AI_CREATE_CHAT = '/agent-ai/chat'
 }

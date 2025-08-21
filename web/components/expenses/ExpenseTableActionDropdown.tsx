@@ -27,7 +27,7 @@ export default function ExpenseTableActionDropdown({ item }: PropsType) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <EllipsisVertical size={18} />
+        <EllipsisVertical size={18} className='mx-auto' />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-26" align="start">
         <DropdownMenuItem onClick={() => openDialog(item)}><Pen /> Edit</DropdownMenuItem>

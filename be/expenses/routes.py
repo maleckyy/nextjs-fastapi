@@ -1,15 +1,17 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+import calendar
+from fastapi import APIRouter, Depends, HTTPException, Response, status
 from auth.routes import get_current_user
 from enums.expense_enum import ExpenseType
 from .schemas import ExpenseCreate, ExpenseOut, ExpenseSummary, ExpenseUpdate
 from dependency import db_dependency
 from sqlalchemy import desc, extract, func
 from datetime import datetime
+from jinja2 import Environment, FileSystemLoader
 import models
 from dateutil.relativedelta import relativedelta
 
 router = APIRouter(prefix="/expenses", tags=["Expenses"], dependencies=[Depends(get_current_user)])
-
+env = Environment(loader=FileSystemLoader("templates"))
 
 @router.get('', response_model=list[ExpenseOut])
 async def get_expenses(db: db_dependency, current_user: models.Users = Depends(get_current_user)):
@@ -157,3 +159,24 @@ def get_expenses_summary(db: db_dependency, current_user: models.Users = Depends
         {"month": int(month.split("-")[0]), "income": values["REVENUE"], "expense": values["EXPENSE"]}
         for month, values in sorted(data.items())
     ]
+
+@router.get("/financial-report")
+async def get_financial_report(db: db_dependency, current_user: models.Users = Depends(get_current_user)):
+    now = datetime.now()
+    year = now.year
+    month = now.month
+    month_name = calendar.month_name[now.month] 
+
+    expenses = db.query(models.Expense).filter(
+            models.Expense.user_id == current_user.id,
+            extract('year', models.Expense.expense_date) == year,
+            extract('month', models.Expense.expense_date) == month
+        ).all()
+    
+    template = env.get_template("finance-report.html")
+    html = template.render(
+        expenses_list = expenses,
+        month_name = month_name
+    )
+
+    return Response(content=html, media_type="text/html")
