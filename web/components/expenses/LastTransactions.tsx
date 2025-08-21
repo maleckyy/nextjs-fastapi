@@ -2,12 +2,12 @@
 import { api } from '@/api/axios'
 import React from 'react'
 import { Button } from '../ui/button'
+import { ApiEndpoints } from '@/api/routes/apiEndpoints'
 
 export default function LastTransactionsButton() {
 
-  async function getttt() {
-    const res = await api.get("/expenses/financial-report")
-    console.log(res.data)
+  async function getRaportFromServer() {
+    const res = await api.get(ApiEndpoints.EXPENSE_FINANCIAL_MONTHLY_RAPORT)
     const html = res.data;
     const blob = new Blob([html], { type: 'text/html' });
     const url = URL.createObjectURL(blob);
@@ -16,6 +16,6 @@ export default function LastTransactionsButton() {
 
 
   return (
-    <Button onClick={getttt}>Monthly Report</Button>
+    <Button onClick={getRaportFromServer}>Monthly Report</Button>
   )
 }
