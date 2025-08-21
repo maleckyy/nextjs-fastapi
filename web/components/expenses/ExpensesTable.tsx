@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/table"
 import AddExpenseButton from './AddExpenseButton'
 import dynamic from 'next/dynamic'
+import LastTransactionsButton from './LastTransactions'
 
 const ExpensesTableBodyComponent = dynamic(() => import("../../components/expenses/ExpensesTableBody"))
 export default async function ExpensesTable() {
@@ -16,7 +17,7 @@ export default async function ExpensesTable() {
       <CardDescription className='text-primary text-base'>
         <div className='flex justify-between items-center'>
           <span>List of all transactions</span>
-          <AddExpenseButton />
+          <LastTransactionsButton />
         </div>
       </CardDescription>
       <div className="overflow-x-auto">
@@ -27,7 +28,7 @@ export default async function ExpensesTable() {
               <TableHead>Type</TableHead>
               <TableHead>Date</TableHead>
               <TableHead className="text-right">Amount</TableHead>
-              <TableHead className="w-[50px]"></TableHead>
+              <TableHead className="w-[50px] text-center"><AddExpenseButton /></TableHead>
             </TableRow>
           </TableHeader>
           <ExpensesTableBodyComponent />

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Financial Report - {{month_name}}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: sans-serif; margin: 2em auto; position: relative;}
+        h1 { color: #333; }
+        main {
+            max-width: 800px;margin: 0 auto; padding: 0 2rem;
+        }
+        .absolute-btn { position:absolute; top: 0px; right: 2rem}
+thead {
+  border-bottom: 2px solid #ccc;
+}
+        @media print {
+            @page {
+                margin: 0;
+            }
+            main {
+                box-shadow: none;
+            }
+            .no-print {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body class="py-4">
+    <button class="no-print absolute-btn right-1 top-1 font-bold p-2" onclick="window.print()">Download PDF</button>
+    <main class="flex flex-col gap-4">
+        <section class="flex flex-col gap-2">
+            <h1 class="font-normal text-4xl">Financial Report - {{month_name}}</h1>
+        </section>
+
+        <section>
+            <table class="border-separate border-spacing-y-3 border-spacing-x-0 w-full">
+                <thead >
+                    <tr>
+                        <th class="text-sm font-bold text-left">Title</th>
+                        <th class="text-sm text-left">Description</th>
+                        <th class="text-sm">Date</th>
+                        <th class="text-sm">Type</th>
+                        <th class="text-sm text-right">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for exp in expenses_list %}
+                    <tr class="py-4">
+                        <td class="text-sm font-bold">{{exp.title}}</td>
+                        <td class="description text-sm">{{exp.description}}</td>
+                        <td>{{exp.expense_date.strftime("%d-%m-%Y")}}</td>
+                        <td class="expense-type expense text-center text-sm">{{exp.expense_type.name}}</td>
+                        <td class="text-sm text-right font-extrabold">
+                            {% if exp.expense_type.name == "EXPENSE" %}
+                                -${{ exp.amount }}
+                            {% else %}
+                                ${{ exp.amount }}
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </section>
+    </main>
+</body>
+</html>

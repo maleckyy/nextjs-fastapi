@@ -16,7 +16,7 @@ const AddExpenseButton = () => {
     <div>
       <Tooltip>
         <TooltipTrigger>
-          <CirclePlus onClick={() => openDialog()} />
+          <CirclePlus onClick={() => openDialog()} className='mt-1' />
         </TooltipTrigger>
         <TooltipContent side='left'>
           Add transaction

@@ -53,7 +53,7 @@ export default function ExpensesTableBody() {
             </TableCell>
             <TableCell>{new Date(item.expense_date).toLocaleDateString()}</TableCell>
             <TableCell className="text-right">${item.amount}</TableCell>
-            <TableCell>
+            <TableCell className='text-center'>
               <ExpenseTableActionDropdown item={item} />
             </TableCell>
           </TableRow>
