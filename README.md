@@ -48,7 +48,7 @@ The main motivation behind building this app was to expand my knowledge of React
 
 -  **PWA** - Progressive Web App with installable features and responsive design (offline mode not implemented yet).
 
-  
+- **Accessibility** - Complies with WCAG guidelines; tested with WAVE Web Accessibility Evaluation Tool.
 
 
   

@@ -52,8 +52,8 @@ export default function SummaryDashboardChart({ showLink = false }: PropsType) {
     <Card className="md:max-h-[400px] w-full md:w-2/4 lg:w-2/5 px-6 bg-card shadow-xs gap-0" data-testid="monthly-expenses-card">
       <CardDescription>
         <div className='flex flex-row justify-between items-center text-primary'>
-          <span className="text-base">{data && getEnglishMonthName(data.month) + " -"} Balance</span>
-          {showLink && <Link href='/finance'>
+          <h3 className="text-base">{data && getEnglishMonthName(data.month) + " -"} Balance</h3>
+          {showLink && <Link href='/finance' aria-label="Finance page link">
             <ExternalLink size={18} />
           </Link>}
         </div>
@@ -61,7 +61,7 @@ export default function SummaryDashboardChart({ showLink = false }: PropsType) {
       <CardContent>
         <ChartContainer
           config={chartConfig}
-          className="mx-auto aspect-square max-h-[320px]"
+          className="mx-auto aspect-square max-h-[310px]"
           data-testid="monthly-expenses-chart"
         >
           <PieChart>

@@ -18,7 +18,7 @@ export default function ExperienceTableBody() {
 
   const { data } = useQuery({
     queryKey: [QueryKeys.PROFILE_EXPERIENCE],
-    queryFn: getExperience
+    queryFn: getExperience,
   })
 
   return (

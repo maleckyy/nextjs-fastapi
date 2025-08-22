@@ -45,10 +45,12 @@ export default function AddUserStackFormField() {
         name="stack"
         defaultValue={data?.stack}
         render={({ field: { onChange, value } }) => {
-          return <AutoTextarea value={value} onChange={onChange} className='w-full break-normal' maxRows={5} />
+          return <AutoTextarea value={value} onChange={onChange} className='w-full break-normal' maxRows={5} aria-label='User stack' />
         }}
       />
-      <Save onClick={handleSubmit(updateUserStack)} />
+      <button aria-label="Save stack changes" onClick={handleSubmit(updateUserStack)} >
+        <Save />
+      </button>
     </div>
   )
 }

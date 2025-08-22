@@ -8,6 +8,7 @@ import AppInputField from "../shared/Inputs/AppInput";
 import { Button } from "../ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
 import { createToast } from "@/lib/toastService";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 type PropsType = {
   refetch: () => void
@@ -52,7 +53,16 @@ export default function CreateTodoDialog({ refetch }: PropsType) {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger className='scale-hover cursor-pointer' data-testid="create-todo-button"><CirclePlus size={24} className='mt-2' /></DialogTrigger>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <DialogTrigger className='scale-hover cursor-pointer' data-testid="create-todo-button" aria-disabled tabIndex={undefined}>
+            <CirclePlus size={24} className='mt-2' aria-label="Create new task" />
+          </DialogTrigger>
+        </TooltipTrigger>
+        <TooltipContent side="left">
+          <p>Create now task</p>
+        </TooltipContent>
+      </Tooltip >
       <DialogContent data-testid="create-todo-dialog-content">
         <DialogHeader>
           <DialogTitle className='mb-2'>Create new todo</DialogTitle>

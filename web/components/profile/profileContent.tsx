@@ -32,22 +32,22 @@ export default async function ProfileContent() {
             <div className='ml-auto'>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Ellipsis />
+                  <button aria-label="Profile dropdown button" >
+                    <Ellipsis />
+                  </button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent side='left'>
-                  <DropdownMenuItem >
+                  <DropdownMenuItem asChild>
                     <Link href="/profile/edit" className='w-full'>Edit profile</Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem >
-                    <UserResume />
-                  </DropdownMenuItem>
+                  <UserResume />
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
           </div>
           <div className='flex flex-col gap-2'>
             <SectionTitle title='About' />
-            <p>{replaceEmptyString(data.details.description, "Brak opisu")}</p>
+            <>{replaceEmptyString(data.details.description, "No data")}</>
           </div>
           <Separator />
           <div className='flex flex-col gap-2'>

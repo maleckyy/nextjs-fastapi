@@ -11,7 +11,7 @@ export default function CustomSidebarHeader() {
   return (
     <div className='flex flex-row justify-center gap-1 p-1'>
       <NotepadTextDashed />
-      <span className={cn(state === "collapsed" && "hidden", "base-font")}>{appName}</span>
+      <h1 className={cn(state === "collapsed" && "hidden", "base-font")}>{appName}</h1>
     </div>
   )
 }

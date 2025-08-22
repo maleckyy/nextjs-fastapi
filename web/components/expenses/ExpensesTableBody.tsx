@@ -30,7 +30,7 @@ export default function ExpensesTableBody() {
               {item.description ? (
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <span>{item.title}</span>
+                    <button>{item.title}</button>
                   </TooltipTrigger>
                   <TooltipContent side='right'>
                     <p>{item.description}</p>

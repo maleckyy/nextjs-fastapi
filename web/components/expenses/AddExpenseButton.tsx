@@ -15,8 +15,10 @@ const AddExpenseButton = () => {
   return (
     <div>
       <Tooltip>
-        <TooltipTrigger>
-          <CirclePlus onClick={() => openDialog()} className='mt-1' />
+        <TooltipTrigger asChild>
+          <button aria-label="Add new transaction" onClick={() => openDialog()} >
+            <CirclePlus className='mt-1' />
+          </button>
         </TooltipTrigger>
         <TooltipContent side='left'>
           Add transaction

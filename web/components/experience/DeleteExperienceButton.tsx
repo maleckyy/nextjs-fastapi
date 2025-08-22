@@ -25,7 +25,7 @@ export default function DeleteExperienceButton({ experienceId }: PropsType) {
   }
 
   return (
-    <DropdownMenuItem onClick={() => deleteItem(experienceId)}>
+    <DropdownMenuItem onClick={() => deleteItem(experienceId)} asChild>
       <div>Delete</div>
     </DropdownMenuItem>
   )

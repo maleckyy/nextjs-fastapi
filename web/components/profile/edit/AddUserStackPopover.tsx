@@ -7,7 +7,9 @@ export default function AddUserStackPopover() {
   return (
     <Popover >
       <PopoverTrigger asChild>
-        <Pen size={18} className='mb-2' />
+        <button aria-label="Edit technology stack button">
+          <Pen size={18} className='mb-2' />
+        </button>
       </PopoverTrigger>
       <PopoverContent side='left' className='max-w-[400px]'>
         <div className="flex flex-col justify-start items-start gap-2">
