@@ -1,19 +1,21 @@
 import { ApiEndpoints } from '@/api/routes/apiEndpoints'
 import GenericCard from '@/components/dashboard/DashboardCard'
+import DashboardChart from '@/components/dashboard/DashboardChart'
 import SingleCardElementWithAmount from '@/components/dashboard/SingleCardElementWithAmount'
 import SingleCardElementWithDate from '@/components/dashboard/SingleCardElementWithDate'
+import SummaryDashboardChart from '@/components/expenses/SummaryDashboardChart'
 import PageTitle from '@/components/page-title'
 import PageContent from '@/components/shared/PageContent'
 import PageSection from '@/components/shared/PageSection'
+import { appMetadata } from '@/seoMetadata'
 import { ExpensesDialogProvider } from '@/store/expenses/DialogContext'
 import { EventOutput } from '@/types/events/event.type'
 import { Expense } from '@/types/expense/expense.type'
 import { Todo } from '@/types/todo/todo.type'
-import dynamic from 'next/dynamic'
+import { Metadata } from 'next'
 import React from 'react'
 
-const DashboardChartComponent = dynamic(() => import('../../../components/dashboard/DashboardChart'))
-const ExpensesChartComponent = dynamic(() => import('../../../components/expenses/SummaryDashboardChart'))
+export const metadata: Metadata = appMetadata.dashboard
 
 export default async function Dashboad() {
   return (
@@ -22,9 +24,9 @@ export default async function Dashboad() {
       <PageContent>
         <div className='flex flex-col md:flex-row gap-4 md:flex-nowrap flex-wrap pb-4'>
           <ExpensesDialogProvider>
-            <ExpensesChartComponent showLink />
+            <SummaryDashboardChart showLink />
           </ExpensesDialogProvider>
-          <DashboardChartComponent />
+          <DashboardChart />
         </div>
         <div className='flex flex-col lg:grid lg:grid-cols-2 xl:flex xl:flex-row xl:flex-nowrap gap-4'>
           <GenericCard<Todo>

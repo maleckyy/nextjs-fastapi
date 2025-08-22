@@ -1,7 +1,11 @@
 import AgentChat from '@/components/agentAi/AgentChat'
 import PageTitle from '@/components/page-title'
 import PageSection from '@/components/shared/PageSection'
+import { appMetadata } from '@/seoMetadata'
 import { AiChatDrawerProvider } from '@/store/agentAiStore/chatRoomDialogContext'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = appMetadata.aiAgent
 export default function AgentAiPage() {
 
   return (

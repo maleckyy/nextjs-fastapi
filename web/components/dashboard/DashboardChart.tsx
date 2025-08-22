@@ -8,7 +8,6 @@ import { ExpenseStats } from '@/types/expense/expense.type'
 import { useGetExpensesStats } from '@/api/expense/useGetExpensesStats'
 
 export default function DashboardChart() {
-
   const expensesStatsQuery = useGetExpensesStats()
   const { data } = expensesStatsQuery
 

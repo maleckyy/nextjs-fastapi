@@ -20,7 +20,7 @@ export default function SingleNavElement({ item }: PropsType) {
         'flex flex-row gap-2 items-center justify-start scale-hover',
         isActive && 'bg-primary'
       )}>
-        <Link href={item.path} className={clsx(isActive && 'text-secondary')}>
+        <Link href={item.path} className={clsx(isActive && 'text-secondary')} aria-label={`${item.title} page link`}>
           {item.iconNode}
           <span>{item.title}</span>
         </Link>
