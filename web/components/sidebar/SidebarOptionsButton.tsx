@@ -10,7 +10,6 @@ import { useManageTheme } from '@/hooks/useManageTheme'
 import { DropdownMenuGroup } from '@radix-ui/react-dropdown-menu'
 import { ActiveUserContext } from '@/store/activeUserContext'
 import { SidebarMenuButton, useSidebar } from '../ui/sidebar'
-import { useLogoutUser } from '@/api/auth/logout/useLogoutUser'
 import { useRouter } from 'next/navigation'
 import ProfileAvatar from '../profile/ProfileAvatar'
 import { useGetUserDetails } from '@/api/profile/useGetUserDetails'
@@ -20,7 +19,6 @@ export default function SidebarOptionsButton() {
   const { selectTheme } = useManageTheme()
   const { isMobile, state } = useSidebar()
   const { activeUser, clearData } = useContext(ActiveUserContext)
-  const logoutMutation = useLogoutUser()
   const router = useRouter()
   const { data: userDetails } = useGetUserDetails()
   function clearClientData() {
@@ -31,7 +29,6 @@ export default function SidebarOptionsButton() {
   }
   async function logoutUser() {
     try {
-      logoutMutation.mutate()
       const res = await fetch("/api/logout", { method: "POST", cache: "no-store" });
       if (!res.ok) throw new Error("signout failed");
     } catch { }
