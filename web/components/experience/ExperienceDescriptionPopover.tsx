@@ -11,10 +11,12 @@ export default function ExperienceDescriptionPopover({ description }: PropsType)
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Eye className='cursor-pointer' />
+        <button className='cursor-pointer' aria-label='Preview of the experience description'>
+          <Eye />
+        </button>
       </PopoverTrigger>
       <PopoverContent className="w-80">
-        <p>{replaceEmptyString(description, "Brak informacji")}</p>
+        <p>{replaceEmptyString(description, "No data")}</p>
       </PopoverContent>
     </Popover>
   )

@@ -61,11 +61,11 @@ export default function TodoDataTable() {
     <Table data-testid="todo-data-table">
       <TableHeader>
         <TableRow>
-          <TableHead className="text-center"></TableHead>
+          <TableHead className="text-center"><span className='sr-only'>Task status</span></TableHead>
           <TableHead className="w-[150px]">Name</TableHead>
           <TableHead>Description</TableHead>
           <TableHead>Create date</TableHead>
-          <TableHead className="text-center"><CreateTodoDialog refetch={refetch} /></TableHead>
+          <TableHead className="text-center"><CreateTodoDialog refetch={refetch} /><span className='sr-only'>Create new todo</span></TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -79,7 +79,7 @@ export default function TodoDataTable() {
           data.map((item: Todo) => (
             <TableRow key={item.id} data-testid={"todo-row-" + item.id}>
               <TableCell className='flex justify-center items-center mt-1'>
-                <Checkbox className='cursor-pointer' checked={item.is_done} onCheckedChange={() => changeTodoStatus(item)} />
+                <Checkbox className='cursor-pointer' checked={item.is_done} onCheckedChange={() => changeTodoStatus(item)} aria-label="Task status checkbox" />
               </TableCell>
               <TableCell className="font-medium">{item.title}</TableCell>
               <TableCell>{item.description}</TableCell>

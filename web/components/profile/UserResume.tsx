@@ -2,6 +2,7 @@
 import { api } from '@/api/axios';
 import { ApiEndpoints } from '@/api/routes/apiEndpoints';
 import React from 'react'
+import { DropdownMenuItem } from '../ui/dropdown-menu';
 
 export default function UserResume() {
 
@@ -14,6 +15,6 @@ export default function UserResume() {
   }
 
   return (
-    <div onClick={downloadCV} className='w-full'>Shov CV</div>
+    <DropdownMenuItem onClick={downloadCV} className='w-full text-left'>Shov CV</DropdownMenuItem>
   )
 }

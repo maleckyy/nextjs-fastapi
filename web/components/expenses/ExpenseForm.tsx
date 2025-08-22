@@ -94,7 +94,7 @@ export default function ExpenseForm({ expenseData }: PropsType) {
       <AppDatePicker name="expense_date" control={control} label="Transaction date" error={errors.expense_date?.message} defaultInputValue={expenseData && new Date(expenseData.expense_date)} />
       <AppSelect name="expense_type" control={control} label="Type" error={errors.expense_type?.message} selectOptions={selectOptions} />
       <AppInputField name="amount" type="number" control={control} label="Amout" error={errors.amount?.message} defaultInputValue={expenseData && expenseData.amount} />
-      <div className='flex justify-end mt-[16px]'>
+      <div className='flex justify-end'>
         <Button className='scale-hover cursor-pointer' onClick={handleSubmit(handleSubmitAction)} disabled={isSubmitting || !isDirty}>{expenseData ? ("Update ") : ("Add ")}</Button>
       </div>
     </div>

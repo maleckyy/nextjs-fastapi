@@ -13,7 +13,9 @@ export default function ExperienceTableActionMenu({ experienceItem }: PropsType)
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild className='cursor-pointer'>
-        <EllipsisVertical />
+        <button aria-label='Row action button'>
+          <EllipsisVertical />
+        </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent side='left'>
         <UpdateExperienceButton experience={experienceItem} />

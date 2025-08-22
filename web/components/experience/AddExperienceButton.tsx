@@ -8,6 +8,6 @@ export default function AddExperienceButton() {
   const { openDialog } = useExperienceDialog()
 
   return (
-    <div><Plus onClick={() => openDialog()} /></div>
+    <button aria-label="Add new experience" onClick={() => openDialog()}><Plus /></button>
   )
 }

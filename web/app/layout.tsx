@@ -9,7 +9,7 @@ import ActiveUserContextProvider from "@/store/activeUserContext";
 import HeadMeta from "@/components/HeadMeta";
 import { SessionProvider } from "next-auth/react"
 import AppInitializer from "@/components/AppInitializer";
-import { appDescription, appName } from "@/env/STATIC_NAMES";
+import { appMetadata } from "@/seoMetadata";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,10 +21,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: appName,
-  description: appDescription
-};
+export const metadata: Metadata = appMetadata.defaultMetadata
 
 export default function RootLayout({
   children,

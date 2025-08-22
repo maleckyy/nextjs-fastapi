@@ -7,6 +7,11 @@ import { fetchWithAuth } from '@/api/axiosServer';
 import { ApiEndpoints } from '@/api/routes/apiEndpoints';
 import PageSection from '@/components/shared/PageSection';
 import PageContent from '@/components/shared/PageContent';
+import { appMetadata } from '@/seoMetadata';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = appMetadata.todo
+
 export default async function TodoPage() {
   const queryClient = new QueryClient()
 

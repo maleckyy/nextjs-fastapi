@@ -28,8 +28,8 @@ export default async function GenericCard<T>({
     <Card className="gap-4 w-full bg-card shadow-xs" {...props}>
       <CardDescription className="px-6">
         <div className='flex flex-row justify-between items-center text-primary'>
-          <span className="text-base">{title}</span>
-          {linkHref && <Link href={linkHref}>
+          <h3 className="text-base">{title}</h3>
+          {linkHref && <Link href={linkHref} aria-label={`${title} link`}>
             <ExternalLink size={18} />
           </Link>}
         </div>

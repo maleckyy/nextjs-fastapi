@@ -28,7 +28,7 @@ export default async function ExpensesTable() {
               <TableHead>Type</TableHead>
               <TableHead>Date</TableHead>
               <TableHead className="text-right">Amount</TableHead>
-              <TableHead className="w-[50px] text-center"><AddExpenseButton /></TableHead>
+              <TableHead className="w-[50px] text-center"><AddExpenseButton /><span className='sr-only'>Add new transaction</span></TableHead>
             </TableRow>
           </TableHeader>
           <ExpensesTableBodyComponent />

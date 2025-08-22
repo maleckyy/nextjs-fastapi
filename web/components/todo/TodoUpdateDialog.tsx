@@ -70,7 +70,7 @@ export default function UpdateTodoDialog({ refetch, item }: PropsType) {
       setOpen(value)
       resetFormToDefaults()
     }}>
-      <DialogTrigger className='scale-hover cursor-pointer' data-testid="edit-todo-dialog-button"><Pen size={iconSize} className='mt-2' /></DialogTrigger>
+      <DialogTrigger className='scale-hover cursor-pointer' data-testid="edit-todo-dialog-button"><Pen size={iconSize} className='mt-2' aria-label="Edit task button" /></DialogTrigger>
       <DialogContent data-testid="edit-todo-dialog-content">
         <DialogHeader>
           <DialogTitle className='mb-2'>Create new todo</DialogTitle>
