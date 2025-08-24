@@ -1,4 +1,4 @@
-import { BotMessageSquare, CalendarDays, DollarSign, House, MessageCircle, NotebookPen, SidebarClose, User } from 'lucide-react'
+import { BotMessageSquare, CalendarDays, DollarSign, House, MessageCircle, SidebarClose, User } from 'lucide-react'
 import React from 'react'
 import { NavOptionsType } from '@/types/navigationTypes/navigation.type'
 import SingleNavElement from './sidebar/singleNavElement'
