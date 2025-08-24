@@ -3,14 +3,18 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { Calendar } from '../ui/calendar'
 import { Modifiers } from 'react-day-picker'
 import { CreateEventDialogRef } from './EventDialog'
+import { Card, CardContent } from '../ui/card'
+import { Button } from '../ui/button'
+import { PlusIcon } from 'lucide-react'
+import EmptyDataBox from '../shared/EmptyDataBox'
 
 type PropsType = {
   data: EventOutput[] | undefined,
   isSuccess: boolean,
   dialogRef: React.RefObject<CreateEventDialogRef | null>
-}
+} & React.HTMLAttributes<HTMLDivElement>
 
-export default function CalendarComponent({ data, isSuccess, dialogRef }: PropsType) {
+export default function CalendarComponent({ data, isSuccess, dialogRef, ...props }: PropsType) {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date())
   const [selectedEvents, setSelectedEvents] = useState<EventOutput[]>([])
 
@@ -34,7 +38,6 @@ export default function CalendarComponent({ data, isSuccess, dialogRef }: PropsT
     })
   }, [data])
 
-
   useEffect(() => {
     if (isSuccess) {
       const eventsForDay = getEventsByDay(selectedDate)
@@ -43,37 +46,59 @@ export default function CalendarComponent({ data, isSuccess, dialogRef }: PropsT
   }, [selectedDate, isSuccess, getEventsByDay])
 
   return (
-    <div className="calendar flex flex-col sm:flex-row gap-4 lg:flex-col items-center sm:items-start">
-      <Calendar
-        mode="multiple"
-        selected={eventDates}
-        onDayClick={(day, modifiers: Modifiers, e: React.MouseEvent) => {
-          if (e.altKey && e.button === 0) {
-            if (dialogRef.current) {
-              dialogRef.current.open(day);
-            }
-          }
-          return setSelectedDate(day)
-        }}
-        onSelect={() => { }}
-        className="[&_[role=gridcell].bg-accent]:bg-sidebar-primary [&_[role=gridcell].bg-accent]:text-sidebar-primary-foreground [&_[role=gridcell]]:w-[33px]"
-        modifiers={{
-          highlighted: new Date()
-        }}
-        modifiersClassNames={{
-          today: "bg-blue-500 text-white font-bold rounded-md border shadow-lg"
-        }}
-      />
-      <div>
-        <h4 className='medium-text-title font-medium' >Events on {selectedDate.toDateString()}</h4>
-        {selectedEvents.length > 0 ? (
-          selectedEvents.map((item, index) => (
-            <p key={index} className='small-text-description'>{index + 1}. {item.title}</p>
-          ))
-        ) : (
-          <span className='small-text-description'>No events for the selected day</span>
-        )}
-      </div>
-    </div>
+    <Card className="py-4" {...props}>
+      <CardContent className="px-6 flex md:flex-row gap-4 flex-col lg:flex-col xl:flex-row">
+        <div className='xs:w-[300] w-[100%] mx-auto lg:w-[250px] xxl:w-[280px]'>
+          <Calendar
+            mode="multiple"
+            selected={eventDates}
+            onSelect={() => { }}
+            className="bg-transparent p-0 w-full"
+            required
+            onDayClick={(day, modifiers: Modifiers, e: React.MouseEvent) => {
+              if (e.altKey && e.button === 0) {
+                if (dialogRef.current) {
+                  dialogRef.current.open(day);
+                }
+              }
+              return setSelectedDate(day)
+            }}
+          />
+          <span className='small-text-description mt-2'>To quickly create an event, select it by holding down the left Alt key.</span>
+        </div>
+        <section className='flex-1'>
+          <div className="flex w-full items-center justify-between">
+            <div className="text-sm font-medium">
+              {selectedDate.toDateString()} {selectedEvents.length > 0 && `(${selectedEvents.length})`}
+            </div>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="size-6"
+              title="Add Event"
+              onClick={() => dialogRef.current?.open(selectedDate)}
+              aria-label='Add event button'
+            >
+              <PlusIcon />
+              <span className="sr-only">Add Event</span>
+            </Button>
+          </div>
+          <div className="flex w-full flex-col gap-2 mt-2 overflow-y-auto max-h-[390px]">
+            {selectedEvents.map((event) => (
+              <div
+                key={event.title}
+                className="bg-muted after:bg-primary/70 relative rounded-md p-2 pl-6 text-sm after:absolute after:inset-y-2 after:left-2 after:w-1 after:rounded-full"
+              >
+                <div className="font-medium">{event.title}</div>
+                <div className="text-muted-foreground text-xs">
+                  {new Date(event.event_date).toDateString()}
+                </div>
+              </div>
+            ))}
+            {selectedEvents.length === 0 && <EmptyDataBox emptyDataText='No events' />}
+          </div>
+        </section>
+      </CardContent>
+    </Card>
   )
 }

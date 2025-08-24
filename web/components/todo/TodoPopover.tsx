@@ -10,7 +10,7 @@ type PropsType = {
 export default function TodoPopover({ iconNode, fn, popoverText }: PropsType) {
   return (
     <Popover>
-      <PopoverTrigger className='cursor-pointer' data-testid="delete-todo-popover-button" aria-label="Delete task poprover button" asChild>{iconNode}</PopoverTrigger>
+      <PopoverTrigger className='cursor-pointer' data-testid="delete-todo-popover-button" aria-label="Delete task poprover button">{iconNode}</PopoverTrigger>
       <PopoverContent data-testid="delete-todo-popover-content">
         <div className='flex flex-col gap-2'>
           <p>{popoverText}</p>
@@ -20,4 +20,3 @@ export default function TodoPopover({ iconNode, fn, popoverText }: PropsType) {
     </Popover>
   )
 }
-

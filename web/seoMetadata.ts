@@ -13,15 +13,10 @@ export const appMetadata: Record<string, Metadata> = {
     description: "Dashboard page with summary",
     keywords: ["dashboard", "summary"]
   },
-  todo: {
-    title: "Todo - " + appName,
-    description: "Task management system",
-    keywords: ["task"]
-  },
-  calendar: {
-    title: "Events - " + appName,
-    description: "All your events in one place",
-    keywords: ["events", "calendar", "time"]
+  organizer: {
+    title: "Organizer - " + appName,
+    description: "Unified view for tasks and calendar",
+    keywords: ["organizer", "tasks", "calendar", "events", "planning"]
   },
   profile: {
     title: "Your profile - " + appName,

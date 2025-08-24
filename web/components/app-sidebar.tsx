@@ -13,13 +13,8 @@ export const navOptions: NavOptionsType[] = [
     iconNode: <House />
   },
   {
-    title: "Todo",
-    path: "/todo",
-    iconNode: <NotebookPen />
-  },
-  {
-    title: "Calendar",
-    path: "/events",
+    title: "Organizer",
+    path: "/organizer",
     iconNode: <CalendarDays />
   },
   {
