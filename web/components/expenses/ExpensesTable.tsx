@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, CardDescription } from '../ui/card'
+import { Card, CardContent, CardDescription } from '../ui/card'
 import {
   Table,
   TableHead,
@@ -20,7 +20,7 @@ export default async function ExpensesTable() {
           <LastTransactionsButton />
         </div>
       </CardDescription>
-      <div className="overflow-x-auto">
+      <CardContent className="overflow-x-auto p-0">
         <Table>
           <TableHeader className="sticky top-0 bg-secondary z-10 shadow-sm">
             <TableRow>
@@ -33,7 +33,7 @@ export default async function ExpensesTable() {
           </TableHeader>
           <ExpensesTableBodyComponent />
         </Table>
-      </div>
+      </CardContent>
     </Card>
   )
 }

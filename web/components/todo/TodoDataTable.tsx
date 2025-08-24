@@ -59,13 +59,13 @@ export default function TodoDataTable() {
 
   return (
     <Table data-testid="todo-data-table">
-      <TableHeader>
+      <TableHeader className='sticky top-0 bg-secondary z-10 shadow-sm'>
         <TableRow>
-          <TableHead className="text-center"><span className='sr-only'>Task status</span></TableHead>
-          <TableHead className="w-[150px]">Name</TableHead>
+          <TableHead className="text-center w-[40px] "><span className='sr-only'>Task status</span></TableHead>
+          <TableHead className="">Name</TableHead>
           <TableHead>Description</TableHead>
           <TableHead>Create date</TableHead>
-          <TableHead className="text-center"><CreateTodoDialog refetch={refetch} /><span className='sr-only'>Create new todo</span></TableHead>
+          <TableHead className="text-center w-[80px]"><CreateTodoDialog refetch={refetch} /><span className='sr-only'>Create new todo</span></TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -78,11 +78,11 @@ export default function TodoDataTable() {
         ) : data && data.length > 0 ? (
           data.map((item: Todo) => (
             <TableRow key={item.id} data-testid={"todo-row-" + item.id}>
-              <TableCell className='flex justify-center items-center mt-1'>
+              <TableCell >
                 <Checkbox className='cursor-pointer' checked={item.is_done} onCheckedChange={() => changeTodoStatus(item)} aria-label="Task status checkbox" />
               </TableCell>
-              <TableCell className="font-medium">{item.title}</TableCell>
-              <TableCell>{item.description}</TableCell>
+              <TableCell><span className="font-medium text-pretty">{item.title}</span></TableCell>
+              <TableCell><span className="text-pretty">{item.description}</span></TableCell>
               <TableCell><FormatedDate date={item.created_at} /></TableCell>
               <TableCell className="text-center">
                 <div className='flex gap-2 justify-center'>

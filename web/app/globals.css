@@ -9,6 +9,11 @@
 
 @import './customStyles/customText.css';
 
+@theme {
+  --breakpoint-xs: 30rem;
+  --breakpoint-xxl: 90rem;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

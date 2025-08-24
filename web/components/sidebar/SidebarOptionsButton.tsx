@@ -54,7 +54,7 @@ export default function SidebarOptionsButton() {
           >
             {
               activeUser &&
-              <div className='flex flex-row justify-between w-full items-center cursor-pointer'>
+              <div className='flex flex-row justify-start w-full items-center cursor-pointer gap-2'>
                 <ProfileAvatar username={activeUser.username} widthInPx={32} photoPath={userDetails?.details.photo_path} />
                 {state === "expanded" &&
                   (<>
@@ -62,7 +62,7 @@ export default function SidebarOptionsButton() {
                       <span className='small-text-title font-medium'>{activeUser.username}</span>
                       <span className='extra-small-text-description'>{activeUser.email}</span>
                     </div>
-                    <EllipsisVertical size={18} />
+                    <EllipsisVertical size={18} className='ml-auto' />
                   </>)}
               </div>
             }
