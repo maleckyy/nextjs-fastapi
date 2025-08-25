@@ -68,38 +68,45 @@ The main motivation behind building this app was to expand my knowledge of React
 
 ## 🖼️ Images
 
-![Dashboard page](/app-images/Dashboard.PNG)
-
 _App dashboard page_
 
+![Dashboard page](/app-images/Dashboard.PNG)
 
-![Organizer page](/app-images/Organizer.PNG)
+
 
 _Organizer page_
 
+![Organizer page](/app-images/Organizer.PNG)
 
-![Profile page](/app-images/Profile.PNG)
+
 
 _Profile page_
 
+![Profile page](/app-images/Profile.PNG)
 
-![Finance page](/app-images/Finance.PNG)
+
 
 _Finance page_
 
+![Finance page](/app-images/Finance.PNG)
 
 
-![Print user cv](/app-images/print-cv.gif)
+
 
 _CV generation function based on profile data_
 
+![Print user cv](/app-images/print-cv.gif)
 
-![Financial report](/app-images/finance-report.gif)
+
 
 _Generating a financial report for the current month_
 
+![Financial report](/app-images/finance-report.gif)
+
+
+
+_Conversation with an AI agent_
 
 ![Chat with Ai](/app-images/ai-chat.gif)
 
-_Conversation with an AI agent_
 
