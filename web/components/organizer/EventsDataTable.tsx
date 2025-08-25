@@ -15,7 +15,7 @@ export default function EventsDataTable({ dialogRef, refetch, data, ...props }: 
   return (
     <Card className="flex-1 max-h-[500px]" {...props}>
       <CardDescription className="px-6">
-        <h3 className="text-base">All Events</h3>
+        <h3 className="text-base text-primary">All Events</h3>
       </CardDescription>
       <CardContent className="flex-1 overflow-x-auto">
         {data ? <EventList events={data} refetch={refetch} ref={dialogRef} /> : <AnimatedSpinner />}
