@@ -28,20 +28,20 @@ test('does monthly expenses card redirect to /finance', async ({ page }) => {
   await expect(page).toHaveURL('/finance')
 });
 
-test('does last todos card redirect to /todo', async ({ page }) => {
+test('does last todos card redirect to /organizer', async ({ page }) => {
   await login(page)
   await expect(page.getByTestId('last-todos-card')).toBeVisible()
   await expect(page.getByTestId('last-todos-card').getByRole('link')).toBeVisible()
   await page.getByTestId('last-todos-card').getByRole('link').click()
-  await expect(page.getByTestId('todo-header')).toBeVisible()
-  await expect(page).toHaveURL('/todo')
+  await expect(page.getByTestId('organizer-header')).toBeVisible()
+  await expect(page).toHaveURL('/organizer')
 });
 
-test('does upcoming events card redirect to /events', async ({ page }) => {
+test('does upcoming events card redirect to /organizer', async ({ page }) => {
   await login(page)
   await expect(page.getByTestId('upcoming-events-card')).toBeVisible()
   await expect(page.getByTestId('upcoming-events-card').getByRole('link')).toBeVisible()
   await page.getByTestId('upcoming-events-card').getByRole('link').click()
-  await expect(page.getByTestId('event-header')).toBeVisible()
-  await expect(page).toHaveURL('/events')
+  await expect(page.getByTestId('organizer-header')).toBeVisible()
+  await expect(page).toHaveURL('/organizer')
 });

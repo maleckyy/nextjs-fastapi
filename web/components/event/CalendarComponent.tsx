@@ -50,6 +50,7 @@ export default function CalendarComponent({ data, isSuccess, dialogRef, ...props
       <CardContent className="px-6 flex md:flex-row gap-4 flex-col lg:flex-col xl:flex-row">
         <div className='xs:w-[300] w-[100%] mx-auto lg:w-[250px] xxl:w-[280px]'>
           <Calendar
+            data-testid="calendar-component"
             mode="multiple"
             selected={eventDates}
             onSelect={() => { }}

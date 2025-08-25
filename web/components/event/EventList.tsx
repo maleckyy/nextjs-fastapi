@@ -26,7 +26,7 @@ export default function EventList({ events, refetch, ref }: PropsType) {
   }
 
   return (
-    <Table className='w-full table-fixed'>
+    <Table className='w-full table-fixed' data-testid="all-events-table">
       <TableHeader className='sticky top-0 bg-secondary z-10 shadow-sm'>
         <TableRow>
           <TableHead className='w-[30%]'>Name</TableHead>

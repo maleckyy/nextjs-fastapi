@@ -12,7 +12,7 @@ export const metadata: Metadata = appMetadata.organizer
 export default function organizerPage() {
   return (
     <PageSection>
-      <PageTitle title='Organizer' />
+      <PageTitle title='Organizer' data-testid="organizer-header" />
       <PageContent>
         <UpperOrganizerSection />
         <LowerOrganizerSection />

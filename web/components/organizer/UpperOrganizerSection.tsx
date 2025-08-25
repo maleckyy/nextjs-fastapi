@@ -12,15 +12,15 @@ import CalendarComponent from '../event/CalendarComponent';
 export default function UpperOrganizerSection() {
   const dialogRef = useRef<CreateEventDialogRef>(null);
 
-  const { data, isSuccess, isLoading, refetch } = useQuery<EventOutput[]>({
+  const { data, isSuccess, refetch } = useQuery<EventOutput[]>({
     queryKey: [QueryKeys.EVENTS],
     queryFn: async () => (await api.get(ApiEndpoints.EVENTS)).data,
   })
 
   return (
     <div className='flex flex-col lg:flex-row gap-4 mb-4'>
-      <CalendarComponent data={data} isSuccess={isSuccess} dialogRef={dialogRef} className="w-full lg:w-2/5" />
-      <EventsDataTable dialogRef={dialogRef} refetch={refetch} data={data} isLoading={isLoading} className="w-full lg:w-3/5" />
+      <CalendarComponent data={data} isSuccess={isSuccess} dialogRef={dialogRef} className="w-full lg:w-2/5" data-testid="calendar-component-card" />
+      <EventsDataTable dialogRef={dialogRef} refetch={refetch} data={data} className="w-full lg:w-3/5" data-testid="all-events-card" />
     </div>
   )
 }

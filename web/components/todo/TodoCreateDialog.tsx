@@ -55,7 +55,7 @@ export default function CreateTodoDialog({ refetch }: PropsType) {
     <Dialog open={open} onOpenChange={setOpen}>
       <Tooltip>
         <TooltipTrigger asChild>
-          <DialogTrigger className='scale-hover cursor-pointer' data-testid="create-todo-button" aria-disabled tabIndex={undefined}>
+          <DialogTrigger className='scale-hover cursor-pointer' data-testid="create-todo-button">
             <CirclePlus size={24} className='mt-2' aria-label="Create new task" />
           </DialogTrigger>
         </TooltipTrigger>

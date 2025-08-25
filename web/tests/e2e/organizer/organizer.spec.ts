@@ -1,24 +1,35 @@
 import { login } from '@/tests/helpers/loginHelper';
 import { expect, test } from '@playwright/test';
 
-test('should redirect to login when accessing /todo without login', async ({ page }) => {
-  await page.goto('/todo')
+test('should redirect to login when accessing /organizer without login', async ({ page }) => {
+  await page.goto('/organizer')
   await expect(page).toHaveURL("/login")
 });
 
-test('elements visibility on todo page', async ({ page }) => {
+test('elements visibility on organizer page', async ({ page }) => {
   await login(page)
-  await page.getByRole('link', { name: 'Todo' }).click()
-  await expect(page).toHaveURL('/todo')
-  await expect(page.getByTestId('todo-header')).toBeVisible()
+  await page.getByRole('link', { name: 'Organizer' }).click()
+  await expect(page).toHaveURL('/organizer')
+  await expect(page.getByTestId('organizer-header')).toBeVisible()
+
+  await expect(page.getByTestId('calendar-component-card')).toBeVisible()
+  await expect(page.getByTestId('calendar-component')).toBeVisible()
+
+  await expect(page.getByTestId('all-events-card')).toBeVisible()
+  await expect(page.getByTestId('all-events-table')).toBeVisible()
+
+  await expect(page.getByTestId('upcoming-events-card')).toBeVisible()
+
+  await expect(page.getByTestId('all-tasks-card')).toBeVisible()
   await expect(page.getByTestId('todo-data-table')).toBeVisible()
-  await expect(page.getByTestId('create-todo-button')).toBeVisible()
 });
 
 test('todo crud check', async ({ page }) => {
   await login(page)
-  await page.getByRole('link', { name: 'Todo' }).click()
-  await expect(page).toHaveURL('/todo')
+  await page.getByRole('link', { name: 'Organizer' }).click()
+  await expect(page).toHaveURL('/organizer')
+  await expect(page.getByTestId('all-tasks-card')).toBeVisible()
+  await expect(page.getByTestId('todo-data-table')).toBeVisible()
 
   // add new todo
   const createTodoButton = page.getByTestId('create-todo-button')

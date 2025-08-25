@@ -9,7 +9,6 @@ type PropsType = {
   dialogRef: Ref<CreateEventDialogRef>,
   refetch: () => void,
   data: EventOutput[] | undefined,
-  isLoading: boolean,
 } & React.HTMLAttributes<HTMLDivElement>
 
 export default function EventsDataTable({ dialogRef, refetch, data, ...props }: PropsType) {

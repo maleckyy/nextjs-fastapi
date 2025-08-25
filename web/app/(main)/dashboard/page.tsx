@@ -33,7 +33,7 @@ export default async function Dashboad() {
             endpoint={ApiEndpoints.TODO_LAST}
             title="Recent tasks"
             renderItem={(item, index) => <SingleCardElementWithDate title={item.title} description={item.description} key={index} index={index} />}
-            linkHref="/todo"
+            linkHref="/organizer"
             noDataText='No tasks'
             data-testid="last-todos-card"
           />
@@ -41,7 +41,7 @@ export default async function Dashboad() {
             endpoint={ApiEndpoints.EVENTS_UPCOMING}
             title="Upcoming events"
             renderItem={(item, index) => <SingleCardElementWithDate title={item.title} description={item.description} key={index} index={index} date={item.event_date} />}
-            linkHref="/events"
+            linkHref="/organizer"
             noDataText='No upcoming events'
             data-testid="upcoming-events-card"
           />
