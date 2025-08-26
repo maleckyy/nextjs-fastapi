@@ -12,6 +12,7 @@ from expenses import routes as expenses_routes
 from details.resume import routes as user_resume_routes
 from details.profileStack import routes as user_stack_routes
 from details.experience import routes as user_experience_routes
+from details.personalProjects import routes as personal_projects_routes
 from chat import routes as chat_routes
 from agent_ai import routes as agent_ai_routes
 from uploads.endpoint import routes as avatar_routes
@@ -50,6 +51,8 @@ app.include_router(todos_routes.router)
 app.include_router(events_routes.router)
 
 app.include_router(details_routes.router)
+
+app.include_router(personal_projects_routes.router)
 
 app.include_router(expenses_routes.router)
 
