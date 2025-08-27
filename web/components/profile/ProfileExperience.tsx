@@ -12,7 +12,7 @@ export default async function ProfileExperience() {
         <SectionTitle title="Work experience" />
         <AddExperienceButton />
       </div>
-      <div className='max-h-64 overflow-y-auto block'>
+      <div className='max-h-90 overflow-y-auto block'>
         <Table>
           <TableHeader className="sticky top-0 bg-secondary z-10 shadow-sm">
             <TableRow>

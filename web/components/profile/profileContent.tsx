@@ -14,6 +14,7 @@ import UserResume from './UserResume'
 import ProfileStack from './ProfileStack'
 import { ExperienceDialogProvider } from '@/store/experience/ExperienceDialogContext'
 import SectionTitle from '../shared/texts/SectionTitle'
+import PersonalProjectSection from './personalProject/PersonalProjectSection'
 
 export default async function ProfileContent() {
   const data: UserDetailsOutput = await fetchWithAuth(ApiEndpoints.USER_DETAILS)
@@ -58,9 +59,11 @@ export default async function ProfileContent() {
         <Separator orientation='vertical' className='h-full hidden lg:block' />
         <Separator className='lg:hidden block' />
         <div className='lg:w-2/3 flex flex-col gap-4 w-full'>
-          <ProfileExperience />
-          <Separator />
           <ProfileStack />
+          <Separator />
+          <PersonalProjectSection />
+          <Separator />
+          <ProfileExperience />
         </div>
       </div>
     </ExperienceDialogProvider>

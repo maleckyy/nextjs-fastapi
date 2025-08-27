@@ -4,6 +4,7 @@ import AppSidebar from "@/components/app-sidebar";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
+import { GlobalDialogProvider } from "@/store/globalDialogContext/globalDialog";
 
 export default async function RootLayout({
   children,
@@ -16,12 +17,14 @@ export default async function RootLayout({
   return (
     <ProtectedRoute>
       <SidebarProvider>
-        <div className="flex flex-col w-full md:flex-row md:px-4 min-h-0 py-4 px-2">
-          <AppSidebar />
-          <div className="w-full h-[calc(100vh-2rem)] min-h-0">
-            {children}
+        <GlobalDialogProvider>
+          <div className="flex flex-col w-full md:flex-row md:px-4 min-h-0 py-4 px-2">
+            <AppSidebar />
+            <div className="w-full h-[calc(100vh-2rem)] min-h-0">
+              {children}
+            </div>
           </div>
-        </div>
+        </GlobalDialogProvider>
       </SidebarProvider>
     </ProtectedRoute>
   );

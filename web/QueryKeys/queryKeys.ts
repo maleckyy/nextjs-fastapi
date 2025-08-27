@@ -9,7 +9,8 @@ export enum QueryKeys {
   PROFILE_STACK = 'profile-stack',
   PROFILE_EXPERIENCE = 'profile-experience',
   AI_CHATS = "user-ai-chat",
-  AI_CHAT_HISTORY = 'message-history'
+  AI_CHAT_HISTORY = 'message-history',
+  PROFILE_PERSONAL_PROJECTS = 'profile-personal-projects'
 }
 
 export enum MutationKeys {
