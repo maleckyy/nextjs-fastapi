@@ -4,7 +4,7 @@ import PersonalTableBody from './PersonalTableBody'
 
 export default function ProjectsTable() {
   return (
-    <Table>
+    <Table data-testid="personal-project-table">
       <TableHeader className="sticky top-0 bg-secondary z-10 shadow-sm">
         <TableRow>
           <TableHead>Project name</TableHead>

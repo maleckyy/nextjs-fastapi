@@ -33,13 +33,13 @@ export default function TableActionButton({ project }: { project: PersonalProjec
   }
 
   return (
-    <DropdownMenu>
+    <DropdownMenu >
       <DropdownMenuTrigger asChild className='cursor-pointer'>
-        <button aria-label='Row action button'>
+        <button aria-label='Row action button' data-testid="row-action-menu">
           <EllipsisVertical />
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent side='left'>
+      <DropdownMenuContent side='left' data-testid="row-menu-content">
         <DropdownMenuItem onClick={() => editProject(project)}>
           <div>Edit</div>
         </DropdownMenuItem>

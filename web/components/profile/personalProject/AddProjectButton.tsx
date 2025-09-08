@@ -14,6 +14,6 @@ export default function AddProjectButton() {
         content: <ProjectForm />,
         dataTestId: 'personal-project-dialog'
       })
-    }} className='cursor-pointer'><Plus /></button>
+    }} className='cursor-pointer' data-testid="add-project-button"><Plus /><span className="sr-only">Add project</span></button>
   )
 }
