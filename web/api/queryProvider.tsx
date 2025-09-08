@@ -11,7 +11,8 @@ export default function QueryProvider({
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
-        refetchOnWindowFocus: false
+        refetchOnWindowFocus: false,
+        staleTime: 60 * 100 * 7
       }
     }
   })
