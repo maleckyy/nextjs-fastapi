@@ -3,9 +3,7 @@ from sqlalchemy import nulls_last
 from .schemas import ExperienceCreate, ExperienceOut, ExperienceUpdate
 from dependency import db_dependency
 import models
-from fastapi import APIRouter, Depends
 from auth.routes import get_current_user
-from dependency import db_dependency
 
 
 router = APIRouter(

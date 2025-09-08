@@ -1,7 +1,7 @@
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { Control, Controller, FieldValues, Path, PathValue } from "react-hook-form";
+import { AutoTextarea } from "./TextareaResize";
 
 type InputProps<T extends FieldValues> = {
   name: Path<T>;
@@ -39,12 +39,14 @@ function AppInputField<T extends FieldValues>({ name, control, label, error, typ
               />}
 
             {type === "textarea" &&
-              <Textarea
+              <AutoTextarea
                 id={name}
                 placeholder={label}
                 {...field}
                 value={field.value ?? ''}
                 className={showLabel ? 'mt-2' : ''}
+                minRows={1}
+                maxRows={5}
               />
             }
           </>
