@@ -12,7 +12,7 @@ export default function QueryProvider({
     defaultOptions: {
       queries: {
         refetchOnWindowFocus: false,
-        staleTime: 60 * 100 * 7
+        staleTime: 60 * 1000 * 7
       }
     }
   })
