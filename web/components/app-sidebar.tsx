@@ -1,4 +1,4 @@
-import { BotMessageSquare, CalendarDays, DollarSign, House, MessageCircle, SidebarClose, User } from 'lucide-react'
+import { BotMessageSquare, CalendarDays, DollarSign, House, LayoutDashboard, MessageCircle, SidebarClose, User } from 'lucide-react'
 import React from 'react'
 import { NavOptionsType } from '@/types/navigationTypes/navigation.type'
 import SingleNavElement from './sidebar/singleNavElement'
@@ -11,6 +11,11 @@ export const navOptions: NavOptionsType[] = [
     title: "Dashboard",
     path: "/dashboard",
     iconNode: <House />
+  },
+  {
+    title: "Board",
+    path: "/board",
+    iconNode: <LayoutDashboard />
   },
   {
     title: "Organizer",

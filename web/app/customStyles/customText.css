@@ -4,7 +4,7 @@
   }
 
   .medium-text-title {
-    @apply text-accent-foreground  text-base;
+    @apply text-accent-foreground text-base;
   }
 
   .small-text-description {

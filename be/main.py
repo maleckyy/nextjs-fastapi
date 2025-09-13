@@ -15,6 +15,7 @@ from details.experience import routes as user_experience_routes
 from details.personalProjects import routes as personal_projects_routes
 from chat import routes as chat_routes
 from agent_ai import routes as agent_ai_routes
+from board import routes as board_routes
 from uploads.endpoint import routes as avatar_routes
 from auth.routes import get_current_user, oauth2_scheme
 from fastapi.middleware.cors import CORSMiddleware
@@ -45,6 +46,8 @@ models.Base.metadata.create_all(bind=engine)
 app.include_router(auth_routes.router)
 
 app.include_router(user_routes.router)
+
+app.include_router(board_routes.router)
 
 app.include_router(todos_routes.router)
 
