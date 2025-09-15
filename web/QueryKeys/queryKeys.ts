@@ -11,7 +11,9 @@ export enum QueryKeys {
   AI_CHATS = "user-ai-chat",
   AI_CHAT_HISTORY = 'message-history',
   PROFILE_PERSONAL_PROJECTS = 'profile-personal-projects',
-  BOARD = 'board'
+  BOARD = 'board',
+  BOARD_ACTIVE = 'active-board',
+  BOARD_TASK = 'board-single-task',
 }
 
 export enum MutationKeys {

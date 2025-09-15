@@ -10,7 +10,7 @@ export default function BoardHeader() {
   return (
     <div className='flex justify-between mb-4'>
       <h2 className='medium-text-title'>
-        {boardData?.board.name ?? "brak"}
+        {boardData?.board.name ?? "No board selected"}
       </h2>
       <BoardListDrawer />
     </div>

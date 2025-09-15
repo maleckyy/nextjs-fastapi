@@ -1,12 +1,14 @@
 'use client'
 import React, { createContext, useContext, useState, ReactNode, useRef, useEffect } from 'react'
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog'
+import { cn } from '@/lib/utils'
 
 type DialogData = {
   title?: string
   description?: string
   content?: ReactNode,
-  dataTestId?: string
+  dataTestId?: string,
+  hideTitle?: boolean
 }
 
 type DialogContextType = {
@@ -56,10 +58,9 @@ export const GlobalDialogProvider = ({ children }: { children: ReactNode }) => {
     <DialogContext.Provider value={{ openDialog, closeDialog, registerStatusCallback }}>
       {children}
       <Dialog open={open} onOpenChange={onDialogStatusChange} data-testid={dialogData.dataTestId}>
-        {/* <Dialog open={open} onOpenChange={setOpen} data-testid={dialogData.dataTestId}> */}
         <DialogContent className="sm:max-w-[500px]" aria-describedby={undefined}>
           {dialogData.title && (
-            <DialogTitle className="mb-2">{dialogData.title}</DialogTitle>
+            <DialogTitle className={cn("mb-2", dialogData.hideTitle && "sr-only")}>{dialogData.title}</DialogTitle>
           )}
           {dialogData.description && (
             <DialogDescription className="text-sm text-gray-500 mb-4">{dialogData.description}</DialogDescription>

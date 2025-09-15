@@ -35,5 +35,8 @@ export enum ApiEndpoints {
 
   AGENT_AI_CREATE_CHAT = '/agent-ai/chat',
 
-  BOARD = "/board"
+  BOARD = "/board",
+
+  BOARD_TASK = "/board/task"
+
 }
