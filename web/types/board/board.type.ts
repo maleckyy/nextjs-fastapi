@@ -9,12 +9,21 @@ export type Board = {
   name: string
 }
 
+export enum TaskPriority {
+  LOW = 0,
+  MEDIUM = 1,
+  HIGH = 2,
+  URGENT = 3
+}
+
 export type Task = {
   id: string
-  name: string
   title: string
   description: string
   created_at: Date
+  column_id: string
+  position: number
+  priority: TaskPriority
 }
 
 export type BoardColumn = {
@@ -38,4 +47,11 @@ export type TaskCreateRequest = {
   columnId: string,
   boardId: string,
   taskData: TaskCreate
+}
+
+export type ChangeTaskDestinationRequestBodyType = {
+  taskId: string,
+  sourceColumnId: string,
+  destinationColumnId: string,
+  newTaskPosition: number
 }
