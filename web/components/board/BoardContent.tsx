@@ -66,6 +66,7 @@ export default function BoardContent() {
       setBoard(updated);
 
       const changeTaskDestinationRequestBody: ChangeTaskDestinationRequestBodyType = {
+        boardId: boardId as string,
         taskId: moved.id,
         sourceColumnId: source.droppableId,
         destinationColumnId: destination.droppableId,
@@ -88,6 +89,7 @@ export default function BoardContent() {
       setBoard(updated);
 
       const changeTaskDestinationRequestBody: ChangeTaskDestinationRequestBodyType = {
+        boardId: boardId as string,
         taskId: moved.id,
         sourceColumnId: source.droppableId,
         destinationColumnId: destination.droppableId,

@@ -25,9 +25,9 @@ type PropsType = {
 }
 
 export default function BoardDialogContent({ taskId }: PropsType) {
-  const { data, isLoading, status } = useGetBoardTask(taskId)
   const searchParams = useSearchParams();
   const queryClient = useQueryClient()
+  const { data, isLoading, status } = useGetBoardTask({ taskId, boardId: searchParams.get(BOARD_PARAM_NAME) as string })
   type UpdateTaskSchemaType = z.infer<typeof updateTaskSchema>;
 
   const {

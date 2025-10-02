@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query"
-import { getBoardTask } from "./getBoardTask"
+import { getBoardTask, GetTaskRequest } from "./getBoardTask"
 import { QueryKeys } from "@/QueryKeys/queryKeys"
 
-export const useGetBoardTask = (taskId: string) => {
+export const useGetBoardTask = ({ taskId, boardId }: GetTaskRequest) => {
   return useQuery({
-    queryFn: () => getBoardTask(taskId),
+    queryFn: () => getBoardTask({ taskId, boardId }),
     queryKey: [QueryKeys.BOARD_TASK, taskId],
     enabled: !!taskId,
   })

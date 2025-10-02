@@ -26,14 +26,15 @@ export function useBoardContext() {
   return useContext(boardContext)
 }
 
+export const BOARD_PARAM_NAME = "boardId"
+export const TASK_PARAM_NAME = "taskId"
+
 export default function BoardContextProvider({ children }: { children: ReactNode }) {
   const [boardId, setBoardId] = useState<string>()
   const searchParams = useSearchParams();
   const queryClient = useQueryClient()
 
-  const BOARD_PARAM_NAME = "boardId"
   const BOARD_LOCALSTORAGE_KEY = "last-selected-board"
-  const TASK_PARAM_NAME = "taskId"
 
   function getBoardIdFromParams(): string | null {
     return searchParams.get(BOARD_PARAM_NAME)

@@ -50,6 +50,7 @@ export type TaskCreateRequest = {
 }
 
 export type ChangeTaskDestinationRequestBodyType = {
+  boardId: string,
   taskId: string,
   sourceColumnId: string,
   destinationColumnId: string,
