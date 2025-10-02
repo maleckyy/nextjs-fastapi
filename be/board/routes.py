@@ -7,7 +7,6 @@ from auth.routes import get_current_user
 from dependency import db_dependency
 from sqlalchemy.orm import selectinload
 
-
 router = APIRouter(
     prefix="/board",
     tags=["Board"],
@@ -31,6 +30,7 @@ def check_board_auth(db:db_dependency,board_id: str,column_id: str,current_user:
     column = db.query(models.BoardsColumns).filter(models.BoardsColumns.id == column_id).first()
     if not column:
         raise HTTPException(status_code=404, detail="Column not found")   
+
 
 @router.get("", response_model=list[BoardOutput])
 async def get_user_boards(db: db_dependency, current_user: models.Users = Depends(get_current_user)) :
@@ -57,6 +57,9 @@ async def get_board(db: db_dependency ,board_id: str, current_user: models.Users
         models.Boards.user_id == current_user.id,
         models.Boards.id == board_id
         ).first()
+
+    if not board:
+        raise HTTPException(status_code=404, detail="Board not found")
 
     cols = (
         db.query(models.BoardsColumns)
@@ -88,6 +91,18 @@ async def change_board_name(db: db_dependency ,board_id: str, new_board_data: Bo
     return new_board_data.name
 
 # board delete
+@router.delete("/{board_id}")
+async def delete_board(db: db_dependency ,board_id: str,current_user: models.Users = Depends(get_current_user)):
+    
+    board = db.query(models.Boards).filter(models.Boards.id == board_id).first()
+    if not board:
+        raise HTTPException(status_code=404, detail="Board not found")
+    if board.user_id != current_user.id:
+        raise HTTPException(status_code=403, detail="Not authorized to access this board")
+    
+    db.delete(board)
+    db.commit()
+    return {"details": "Board deleted"}
 
 
 # add new task
