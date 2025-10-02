@@ -58,7 +58,7 @@ export const GlobalDialogProvider = ({ children }: { children: ReactNode }) => {
     <DialogContext.Provider value={{ openDialog, closeDialog, registerStatusCallback }}>
       {children}
       <Dialog open={open} onOpenChange={onDialogStatusChange} data-testid={dialogData.dataTestId}>
-        <DialogContent className="sm:max-w-[500px]" aria-describedby={undefined}>
+        <DialogContent className="max-w-[500px] md:max-w-[800px]" aria-describedby={undefined}>
           {dialogData.title && (
             <DialogTitle className={cn("mb-2", dialogData.hideTitle && "sr-only")}>{dialogData.title}</DialogTitle>
           )}

@@ -25,6 +25,7 @@ export default function BoardContent() {
     getTaskIdFromParams,
     boardId,
   } = useBoardContext();
+
   const [board, setBoard] = useState<BoardOutput>();
   const { open } = useSidebar();
   const { openDialog } = useGlobalDialog(() => {

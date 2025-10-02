@@ -55,3 +55,9 @@ export type ChangeTaskDestinationRequestBodyType = {
   destinationColumnId: string,
   newTaskPosition: number
 }
+
+export type UpdateTask = {
+  title: string
+  description?: string | undefined
+  priority: TaskPriority
+}

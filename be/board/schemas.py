@@ -21,6 +21,10 @@ class BoardTaskCreate(BaseModel):
     title: str
     position : Optional[int] = 0
 
+class TaskUpdate(BaseModel):
+    title: str
+    description: Optional[str]
+    priority: BoardTaskPriorityType
 
 class BoardTask(BaseModel):
     title : str

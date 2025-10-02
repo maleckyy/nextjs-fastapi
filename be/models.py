@@ -255,7 +255,7 @@ class BoardsColumns(Base):
     board_id = Column(UUID(as_uuid=True), ForeignKey("board.id", ondelete="CASCADE"))
     position = Column(Integer, default=0)
 
-    tasks = relationship("BoardTasks", back_populates="column", cascade="all, delete-orphan")
+    tasks = relationship("BoardTasks", back_populates="column", cascade="all, delete-orphan",order_by="BoardTasks.position")
 
 class BoardTasks(Base):
     __tablename__ = "board_task"
