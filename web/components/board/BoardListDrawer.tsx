@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from '../ui/drawer'
 import { FolderPlus, PanelRightOpen, Plus } from 'lucide-react'
 import { useBoardContext } from '@/store/boardContext/boardContext'
@@ -18,24 +18,36 @@ import { QueryKeys } from '@/QueryKeys/queryKeys'
 import { cn } from '@/lib/utils'
 import EmptyDataBox from '../shared/EmptyDataBox'
 import { createToast } from '@/lib/toastService'
+import DeleteBoard from './dialogDrawer/DeleteBoard'
+import { useDeleteBoardById } from '@/api/board/boardApi/deleteBoardById'
 
 export default function BoardListDrawer() {
   const queryClient = useQueryClient()
   const [newBoard, setNewBoard] = useState('')
-  const { setBoardIdToParams, getBoardIdFromParams } = useBoardContext()
-  const { data } = useGetBoard()
+  const { boardId, setBoardIdToParams, getBoardIdFromParams, removeBoardId } = useBoardContext()
+  const { data, refetch } = useGetBoard()
   const addBoardMutation = useAddNewBoard()
+  const deleteBoardMutation = useDeleteBoardById()
+
+  const deleteBoard = useCallback(() => {
+    if (boardId) deleteBoardMutation.mutate(boardId, {
+      onSuccess: () => {
+        removeBoardId()
+        refetch()
+      }
+    })
+  }, [boardId, deleteBoardMutation, removeBoardId, refetch])
 
   function addNewBoard() {
     const inputValue = newBoard.trim()
     if (inputValue !== "") {
-      console.log(inputValue)
       addBoardMutation.mutate({ name: inputValue }, {
         onSuccess: (data) => {
           setNewBoard('')
           createToast("Board created", "success")
           queryClient.invalidateQueries({ queryKey: [QueryKeys.BOARD] })
           setBoardIdToParams(data.id)
+          refetch()
         },
         onError: (err) => {
           createToast("Error", "error")
@@ -78,20 +90,23 @@ export default function BoardListDrawer() {
                 return (
                   <li
                     key={board.id}
-                    onClick={() => {
+                    className={cn(board.id === getBoardIdFromParams() && "font-medium bg-muted rounded-lg ", "small-text-title px-2 py-2 -mx-2 first-letter:uppercase cursor-pointer flex justify-between items-center")}
+                  >
+                    <p onClick={() => {
                       setBoardIdToParams(board.id)
                       queryClient.invalidateQueries({ queryKey: [QueryKeys.BOARD_ACTIVE, board.id] })
                     }}
-                    className={cn(board.id === getBoardIdFromParams() && "font-medium bg-muted rounded-lg ", "small-text-title px-2 py-2 -mx-2 first-letter:uppercase cursor-pointer")}
-                  >
-                    {board.name}
+                      className='flex-1'
+                    >
+                      {board.name}
+                    </p>
+                    <DeleteBoard deleteFn={deleteBoard} />
                   </li>)
               })}
               {data && data?.length === 0 && <EmptyDataBox emptyDataText='No boards' />}
             </ul>
           </section>
         </section>
-
       </DrawerContent>
     </Drawer>
   )

@@ -11,6 +11,7 @@ export type BoardContextType = {
   removeTaskIdFromParams: () => void
   getBoardIdFromParams: () => string | null
   getTaskIdFromParams: () => string | null
+  removeBoardId: () => void
 }
 
 const boardContext = createContext<BoardContextType>({
@@ -19,7 +20,8 @@ const boardContext = createContext<BoardContextType>({
   setTaskIdToParams: () => { },
   removeTaskIdFromParams: () => { },
   getBoardIdFromParams: () => null,
-  getTaskIdFromParams: () => null
+  getTaskIdFromParams: () => null,
+  removeBoardId: () => { }
 })
 
 export function useBoardContext() {
@@ -70,6 +72,11 @@ export default function BoardContextProvider({ children }: { children: ReactNode
     removeParams(TASK_PARAM_NAME)
   }
 
+  function removeBoardId() {
+    removeParams(BOARD_PARAM_NAME)
+    localStorage.removeItem(BOARD_LOCALSTORAGE_KEY)
+  }
+
   useEffect(() => {
     const storedBoardId = localStorage.getItem("last-selected-board")
     if (storedBoardId) {
@@ -80,7 +87,7 @@ export default function BoardContextProvider({ children }: { children: ReactNode
   }, [setParams, queryClient])
 
   return (
-    <boardContext.Provider value={{ boardId, setBoardIdToParams, setTaskIdToParams, removeTaskIdFromParams, getBoardIdFromParams, getTaskIdFromParams }}>
+    <boardContext.Provider value={{ boardId, setBoardIdToParams, setTaskIdToParams, removeTaskIdFromParams, getBoardIdFromParams, getTaskIdFromParams, removeBoardId }}>
       {children}
     </boardContext.Provider>
   )

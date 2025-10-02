@@ -9,13 +9,14 @@ import { useUpdateBoardName } from '@/api/board/boardApi/useUpdateBoardName'
 export default function BoardHeader() {
   const { boardId } = useBoardContext()
   const { data: boardData } = useGetCurrentBoard(boardId)
-  const [boardName, setBoardName] = useState<string | undefined>("")
+  const [boardName, setBoardName] = useState<string | undefined>(undefined)
   const updateBoardNameMutation = useUpdateBoardName()
 
   const changeBoardName = useCallback((newName: string) => {
+    if (!boardId) return
     const reqBody = {
       newData: { name: newName },
-      boardId: boardId as string
+      boardId: boardId
     }
 
     updateBoardNameMutation.mutate(reqBody, {
