@@ -2,6 +2,7 @@ import uuid
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, Numeric, String, Table, Text, Enum
 from sqlalchemy.orm import relationship, backref
+from enums.board_task_priority import BoardTaskPriorityType
 from enums.ai_chat_message_type import MessageType
 from enums.expense_enum import ExpenseType
 from database import Base
@@ -84,6 +85,13 @@ class Users(Base):
         back_populates="user", 
         cascade="all, delete-orphan"
     )
+
+    boards = relationship(
+        "Boards", 
+        back_populates="user", 
+        cascade="all, delete-orphan"
+    )
+
 
 class TodoList(Base):
     __tablename__ = 'todo_list'
@@ -227,3 +235,39 @@ class ProfilePersonalProjects(Base):
 
     user_id = Column(UUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
     user = relationship("Users", back_populates="personal_projects")
+
+
+class Boards(Base):
+    __tablename__ = "board"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    name = Column(String, nullable=False)
+    created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
+
+    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    user = relationship("Users", back_populates="boards")
+
+class BoardsColumns(Base):
+    __tablename__ = "board_column"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    name = Column(String, nullable=False, default="New status")
+    board_id = Column(UUID(as_uuid=True), ForeignKey("board.id", ondelete="CASCADE"))
+    position = Column(Integer, default=0)
+
+    tasks = relationship("BoardTasks", back_populates="column", cascade="all, delete-orphan",order_by="BoardTasks.position")
+
+class BoardTasks(Base):
+    __tablename__ = "board_task"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    
+    column_id = Column(UUID(as_uuid=True), ForeignKey("board_column.id", ondelete="CASCADE"))
+    title = Column(String, nullable=False)
+    description = Column(String, nullable=True)
+    created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
+    position = Column(Integer, default=0)
+    priority = Column(Enum(BoardTaskPriorityType, name="priority"), nullable=False, default=BoardTaskPriorityType.LOW)
+
+    column = relationship("BoardsColumns", back_populates="tasks")
+
