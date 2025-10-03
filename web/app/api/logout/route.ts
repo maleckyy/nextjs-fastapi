@@ -11,6 +11,7 @@ export async function POST() {
       "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
       "Pragma": "no-cache",
       "Expires": "0",
+      "Set-Cookie": "next-auth.session-token=; Max-Age=0; Secure; HttpOnly;",
     },
   });
 }

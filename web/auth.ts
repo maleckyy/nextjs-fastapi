@@ -6,7 +6,6 @@ import { AuthUser } from "./types/authTypes/auth.type"
 import { serverRefreshToken } from "./api/auth/refresh/serverRefreshToken";
 import { tokenExpiresTime } from "./lib/tokenExpireTime";
 
-
 declare module "next-auth" {
   interface Session {
     user: {
@@ -54,7 +53,7 @@ async function refreshAccessToken(token: JWT) {
 }
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  session: { strategy: "jwt" },
+  session: { strategy: "jwt", maxAge: 24 * 60 * 60, updateAge: 24 * 60 * 60, },
   secret: process.env.AUTH_SECRET,
   providers: [
     Credentials({
