@@ -7,6 +7,7 @@ import { useUpdateTaskDetails } from '@/api/board/boardTask/useUpdateTaskDetails
 import { AutoTextarea } from '@/components/shared/Inputs/TextareaResize'
 import { Button } from '@/components/ui/button'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { createToast } from '@/lib/toastService'
 import { QueryKeys } from '@/QueryKeys/queryKeys'
 import { updateTaskSchema } from '@/schemas/task.schema'
 import { BOARD_PARAM_NAME, TASK_PARAM_NAME } from '@/store/boardContext/boardContext'
@@ -65,6 +66,7 @@ export default function BoardDialogContent({ taskId }: PropsType) {
     updateTaskMutation.mutate(requestData, {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: [QueryKeys.BOARD_TASK, taskId], })
+        createToast("Task updated", "success")
       }
     })
 
@@ -87,7 +89,7 @@ export default function BoardDialogContent({ taskId }: PropsType) {
     }
     deleteTaskMutatnion.mutate(params, {
       onSuccess: () => {
-        console.log("udano")
+        createToast("Task deleted", "info")
         closeDialog()
         removeParamsAfterDelete()
       }

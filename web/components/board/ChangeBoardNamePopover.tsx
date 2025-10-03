@@ -13,7 +13,6 @@ export default function ChangeBoardNamePopover({ changeBoardName, boardName }: P
   const inputRef = useRef<HTMLInputElement>(null)
   function changeName() {
     if (inputRef.current) {
-      console.log(inputRef.current.value)
       if (inputRef.current.value.trim() !== "") {
         changeBoardName(inputRef.current.value)
       }
