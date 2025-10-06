@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
-from board.schemas import Board, BoardColumnOutput, BoardCreate, BoardOutput, BoardTaskCreate, BoardTaskOutput, ChangeTaskPositionRequestBody, TaskUpdate
+from board.schemas import Board, BoardColumnCreate, BoardColumnOutput, BoardCreate, BoardOutput, BoardTaskCreate, BoardTaskOutput, ChangeTaskPositionRequestBody, TaskUpdate
 from dependency import db_dependency
 import models
 from fastapi import APIRouter, Depends
@@ -19,13 +19,17 @@ def create_default_columns(db: db_dependency, board_id: str):
     db.add(models.BoardsColumns(name="done", board_id=board_id, position=2))
     db.commit()
 
-def check_board_auth(db:db_dependency,board_id: str,column_id: str,current_user: models.Users = Depends(get_current_user)):
+
+def chech_board(db:db_dependency, board_id: str, current_user: models.Users = Depends(get_current_user)):
     board = db.query(models.Boards).filter(models.Boards.id == board_id).first()
     if not board:
         raise HTTPException(status_code=404, detail="Board not found")
     
     if board.user_id != current_user.id:
         raise HTTPException(status_code=403, detail="Not authorized to access this board")
+
+def check_board_auth(db:db_dependency, board_id: str,column_id: str, current_user: models.Users = Depends(get_current_user)):
+    chech_board(db, board_id, current_user)
 
     column = db.query(models.BoardsColumns).filter(models.BoardsColumns.id == column_id).first()
     if not column:
@@ -79,10 +83,7 @@ async def get_board(db: db_dependency ,board_id: str, current_user: models.Users
 async def change_board_name(db: db_dependency ,board_id: str, new_board_data: Board, current_user: models.Users = Depends(get_current_user)):
 
     board = db.query(models.Boards).filter(models.Boards.id == board_id).first()
-    if not board:
-        raise HTTPException(status_code=404, detail="Board not found")
-    if board.user_id != current_user.id:
-        raise HTTPException(status_code=403, detail="Not authorized to access this board")
+    chech_board(db, board_id, current_user)
 
     board.name = new_board_data.name
     db.commit()
@@ -92,17 +93,32 @@ async def change_board_name(db: db_dependency ,board_id: str, new_board_data: Bo
 
 # board delete
 @router.delete("/{board_id}")
-async def delete_board(db: db_dependency ,board_id: str,current_user: models.Users = Depends(get_current_user)):
+async def delete_board(db: db_dependency, board_id: str, current_user: models.Users = Depends(get_current_user)):
     
+    chech_board(db, board_id, current_user)
     board = db.query(models.Boards).filter(models.Boards.id == board_id).first()
-    if not board:
-        raise HTTPException(status_code=404, detail="Board not found")
-    if board.user_id != current_user.id:
-        raise HTTPException(status_code=403, detail="Not authorized to access this board")
     
     db.delete(board)
     db.commit()
     return {"details": "Board deleted"}
+
+
+# create new status/ column
+@router.post("/{board_id}/column", response_model=BoardColumnOutput)
+async def create_new_column(db: db_dependency, board_id: str, column_data: BoardColumnCreate, current_user: models.Users = Depends(get_current_user)):
+
+    chech_board(db, board_id, current_user)
+    
+    new_column = models.BoardsColumns(
+        name = column_data.name,
+        board_id = column_data.board_id,
+        position = column_data.position,
+    )
+    db.add(new_column)
+    db.commit()
+    db.refresh(new_column)
+
+    return new_column
 
 
 # add new task
@@ -202,7 +218,7 @@ async def delete_task(
     task_id: str,
     current_user: models.Users = Depends(get_current_user)
 ):
-    check_board_auth(db, board_id,column_id,current_user)
+    check_board_auth(db, board_id, column_id, current_user)
     
     task_to_delete = db.query(models.BoardTasks).filter(models.BoardTasks.id == task_id).first()
 

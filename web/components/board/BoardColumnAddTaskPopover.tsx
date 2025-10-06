@@ -27,7 +27,7 @@ export default function BoardColumnAddTaskPopover({ boardId, columnId, addTask }
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
-      <PopoverTrigger className='w-full cursor-pointer' asChild data-testid="add-task-button"><button className='small-text-title text-center pt-2'>+ Add new task</button></PopoverTrigger>
+      <PopoverTrigger className='w-full cursor-pointer' asChild data-testid="add-task-button"><button className='small-text-title text-center py-2 hover:bg-accent rounded-md'>+ Add new task</button></PopoverTrigger>
       <PopoverContent>
         <span className='small-text-title'>New task name</span>
         <div className='flex gap-2 mt-2'>

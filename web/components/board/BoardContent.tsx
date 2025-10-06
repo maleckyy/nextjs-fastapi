@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   DragDropContext,
   Droppable,
@@ -11,12 +11,15 @@ import { cn } from "@/lib/utils";
 import { useGlobalDialog } from "@/store/globalDialogContext/globalDialog";
 import { useBoardContext } from "@/store/boardContext/boardContext";
 import { useGetCurrentBoard } from "@/api/board/currentBoard/useGetCurrentBoard";
-import { BoardOutput, ChangeTaskDestinationRequestBodyType, TaskCreateRequest } from "@/types/board/board.type";
+import { BoardColumn, BoardOutput, ChangeTaskDestinationRequestBodyType, ColumnCreate, TaskCreateRequest } from "@/types/board/board.type";
 import { useAddNewTask } from "@/api/board/boardTask/useAddNewTask";
 import BoardColumnAddTaskPopover from "./BoardColumnAddTaskPopover";
 import BoardDialogContent from "./boardDialog/BoardDialogContent";
 import SingleTaskBox from "./SingleTaskBox";
 import { useUpdateTaskPosition } from "@/api/board/boardTask/useUpdateTaskPosition";
+import AddNewStatusButton from "./AddNewStatusButton";
+import { useAddNewColumn } from "@/api/board/columns/useAddNewColumn";
+import { createToast } from "@/lib/toastService";
 
 export default function BoardContent() {
   const {
@@ -35,6 +38,7 @@ export default function BoardContent() {
   const { data: boardData, isLoading } = useGetCurrentBoard(boardId)
   const addNewTaskMutatnion = useAddNewTask()
   const updateTaskPositionMutation = useUpdateTaskPosition()
+  const addNewColumnMutation = useAddNewColumn()
 
   const onDragEnd = (result: DropResult) => {
     const { source, destination } = result;
@@ -109,6 +113,29 @@ export default function BoardContent() {
     });
   }
 
+  const addNewStatus = useCallback((colName: string) => {
+    if (!board) return
+    if (colName.trim() === "") return
+    const newColData: ColumnCreate = {
+      position: board?.columns.length as number,
+      board_id: board?.board.id as string,
+      name: colName
+    }
+
+    addNewColumnMutation.mutate(newColData, {
+      onSuccess: (data: BoardColumn) => {
+        createToast("Status created!", "success")
+        setBoard((prevBoard) => {
+          if (!prevBoard) return undefined;
+          return {
+            ...prevBoard,
+            columns: [...prevBoard.columns, data],
+          };
+        });
+      }
+    })
+  }, [board, addNewColumnMutation])
+
   useEffect(() => {
     const taskIdFromParams = getTaskIdFromParams();
     if (taskIdFromParams && board) {
@@ -173,7 +200,7 @@ export default function BoardContent() {
               <div
                 ref={provided.innerRef}
                 {...provided.droppableProps}
-                className="w-[264px] flex-shrink-0 min-h-60 p-4 bg-gray-50 rounded"
+                className="w-[264px] flex-shrink-0 min-h-60 p-4 bg-gray-50 rounded-md"
               >
                 <div>
                   <h3 className="small-text-title font-bold mb-4 uppercase">{col.name}</h3>
@@ -207,6 +234,7 @@ export default function BoardContent() {
           </Droppable>
         ))}
       </DragDropContext>
+      <AddNewStatusButton addNewStatus={addNewStatus} />
     </div>
   );
 }

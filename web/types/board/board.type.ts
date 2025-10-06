@@ -3,6 +3,11 @@ export type BoardCreate = {
   name: string
 }
 
+export type ColumnCreate = {
+  name: string
+  board_id: string
+  position: number
+}
 export type Board = {
   id: string
   created_at: Date
