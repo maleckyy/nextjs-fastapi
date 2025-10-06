@@ -101,7 +101,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
       }
 
-      if (Date.now() > (token.tokenExpiresTime as number)) {
+      if (Date.now() < (token.tokenExpiresTime as number)) {
         return refreshAccessToken(token)
       }
       return token
