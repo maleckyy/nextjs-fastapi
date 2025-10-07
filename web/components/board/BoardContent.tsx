@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import {
   DragDropContext,
   Droppable,
@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 import { useGlobalDialog } from "@/store/globalDialogContext/globalDialog";
 import { useBoardContext } from "@/store/boardContext/boardContext";
 import { useGetCurrentBoard } from "@/api/board/currentBoard/useGetCurrentBoard";
-import { BoardColumn, BoardOutput, ChangeTaskDestinationRequestBodyType, ColumnCreate, TaskCreateRequest } from "@/types/board/board.type";
+import { BoardColumn, ChangeTaskDestinationRequestBodyType, ColumnCreate, TaskCreateRequest } from "@/types/board/board.type";
 import { useAddNewTask } from "@/api/board/boardTask/useAddNewTask";
 import BoardColumnAddTaskPopover from "./BoardColumnAddTaskPopover";
 import BoardDialogContent from "./boardDialog/BoardDialogContent";
@@ -33,6 +33,7 @@ export default function BoardContent() {
   const board = useBoardStore((state) => state.board)
   const addColumnToBoard = useBoardStore((state) => state.addColumnToBoard)
   const setBoard = useBoardStore((state) => state.setBoard)
+  const addTaskToColumn = useBoardStore((state) => state.addTaskToColumn)
 
   const { open } = useSidebar();
   const { openDialog } = useGlobalDialog(() => {
@@ -157,19 +158,7 @@ export default function BoardContent() {
     }
     addNewTaskMutatnion.mutate(postData, {
       onSuccess: (data) => {
-        setBoard((oldTable) => {
-          const newTable = { ...oldTable! };
-          newTable.columns = oldTable!.columns.map((col) => {
-            if (col.id === colId) {
-              return {
-                ...col,
-                tasks: [...col.tasks, data],
-              };
-            }
-            return col;
-          });
-          return newTable;
-        })
+        addTaskToColumn(colId, data)
       }
     })
   }
