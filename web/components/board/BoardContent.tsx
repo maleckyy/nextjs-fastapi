@@ -20,6 +20,7 @@ import { useUpdateTaskPosition } from "@/api/board/boardTask/useUpdateTaskPositi
 import AddNewStatusButton from "./AddNewStatusButton";
 import { useAddNewColumn } from "@/api/board/columns/useAddNewColumn";
 import { createToast } from "@/lib/toastService";
+import { useBoardStore } from "@/store/boardStore/boardStore";
 
 export default function BoardContent() {
   const {
@@ -29,7 +30,10 @@ export default function BoardContent() {
     boardId,
   } = useBoardContext();
 
-  const [board, setBoard] = useState<BoardOutput>();
+  const board = useBoardStore((state) => state.board)
+  const addColumnToBoard = useBoardStore((state) => state.addColumnToBoard)
+  const setBoard = useBoardStore((state) => state.setBoard)
+
   const { open } = useSidebar();
   const { openDialog } = useGlobalDialog(() => {
     removeTaskIdFromParams();
@@ -125,16 +129,10 @@ export default function BoardContent() {
     addNewColumnMutation.mutate(newColData, {
       onSuccess: (data: BoardColumn) => {
         createToast("Status created!", "success")
-        setBoard((prevBoard) => {
-          if (!prevBoard) return undefined;
-          return {
-            ...prevBoard,
-            columns: [...prevBoard.columns, data],
-          };
-        });
+        addColumnToBoard(data)
       }
     })
-  }, [board, addNewColumnMutation])
+  }, [board, addNewColumnMutation, addColumnToBoard])
 
   useEffect(() => {
     const taskIdFromParams = getTaskIdFromParams();
@@ -145,7 +143,7 @@ export default function BoardContent() {
 
   useEffect(() => {
     if (boardData) setBoard(boardData)
-  }, [boardData])
+  }, [boardData, setBoard])
 
   function addTask(colId: string, boardId: string, title: string) {
     if (!title || title.trim() === '') return
