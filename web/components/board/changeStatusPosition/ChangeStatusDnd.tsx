@@ -44,7 +44,6 @@ export default function VerticalDragDrop({ closeDialog }: { closeDialog: () => v
         onSuccess: () => {
           createToast("Status order changed!", "success")
           updateColumnsOrder(newColsPositions)
-          closeDialog()
         },
         onError: () => {
           createToast("Error", "error")
@@ -88,7 +87,7 @@ export default function VerticalDragDrop({ closeDialog }: { closeDialog: () => v
                         }}
                       >
                         <GripVertical size={16} />
-                        <span className="small-text-title font-semibold">{index} | {item.name} | {item.id}</span>
+                        <span className="small-text-title font-semibold">{index + 1}. {item.name}</span>
                       </div>
                     );
 

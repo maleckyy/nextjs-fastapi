@@ -21,6 +21,7 @@ import AddNewStatusButton from "./boardComponents/AddNewStatusButton";
 import { useAddNewColumn } from "@/api/board/columns/useAddNewColumn";
 import { createToast } from "@/lib/toastService";
 import { useBoardStore } from "@/store/boardStore/boardStore";
+import ColumnOptionsDropdown from "./boardComponents/ColumnOptionsDropdown";
 
 export default function BoardContent() {
   const {
@@ -190,8 +191,9 @@ export default function BoardContent() {
                 {...provided.droppableProps}
                 className="w-[264px] flex-shrink-0 min-h-60 p-4 bg-gray-50 rounded-md"
               >
-                <div>
-                  <h3 className="small-text-title font-bold mb-4 uppercase">{col.name}</h3>
+                <div className="flex justify-between items-center mb-4">
+                  <h3 className="small-text-title font-bold uppercase">{col.name}</h3>
+                  <ColumnOptionsDropdown column={col} />
                 </div>
                 {col.tasks.map((item, index) => (
                   <Draggable
