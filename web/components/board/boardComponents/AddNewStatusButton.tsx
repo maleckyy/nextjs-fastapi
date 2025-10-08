@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
+import { Popover, PopoverContent, PopoverTrigger } from '../../ui/popover'
 import { Plus } from 'lucide-react'
-import { Input } from '../ui/input'
-import { Button } from '../ui/button'
+import { Input } from '../../ui/input'
+import { Button } from '../../ui/button'
 
 type PropsType = {
   addNewStatus: (colName: string) => void

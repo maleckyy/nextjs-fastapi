@@ -1,11 +1,12 @@
-import { BoardColumn, BoardOutput, Task } from '@/types/board/board.type'
+import { BoardColumn, BoardOutput, Task, UpdateColumnPosition } from '@/types/board/board.type'
 import { create } from 'zustand'
 
 type BoardStoreType = {
   board: BoardOutput | undefined,
   setBoard: (newBoardData: BoardOutput) => void,
   addColumnToBoard: (newColumn: BoardColumn) => void,
-  addTaskToColumn: (colId: string, newTask: Task) => void
+  addTaskToColumn: (colId: string, newTask: Task) => void,
+  updateColumnsOrder: (newColsPosition: UpdateColumnPosition[]) => void
 }
 
 export const useBoardStore = create<BoardStoreType>((set) => ({
@@ -42,4 +43,20 @@ export const useBoardStore = create<BoardStoreType>((set) => ({
         },
       }
     }),
+
+  updateColumnsOrder: (newColsPosition: UpdateColumnPosition[]) =>
+    set((state) => {
+      if (!state.board) return state
+      const updatedColumns = state.board.columns.map(col => {
+        const newPos = newColsPosition.find(c => c.id === col.id)?.position
+        return newPos !== undefined ? { ...col, position: newPos } : col
+      })
+      updatedColumns.sort((a, b) => a.position - b.position)
+      return {
+        board: {
+          ...state.board,
+          columns: updatedColumns,
+        },
+      }
+    })
 }))

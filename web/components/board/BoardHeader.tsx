@@ -1,10 +1,11 @@
 'use client'
 import React, { useCallback, useEffect, useState } from 'react'
-import BoardListDrawer from './BoardListDrawer'
 import { useBoardContext } from '@/store/boardContext/boardContext'
 import { useGetCurrentBoard } from '@/api/board/currentBoard/useGetCurrentBoard'
-import ChangeBoardNamePopover from './ChangeBoardNamePopover'
+import ChangeBoardNamePopover from './boardComponents/ChangeBoardNamePopover'
 import { useUpdateBoardName } from '@/api/board/boardApi/useUpdateBoardName'
+import BoardListDrawer from './dialogDrawer/BoardListDrawer'
+import HeaderDropdown from './boardComponents/HeaderDropdown'
 
 export default function BoardHeader() {
   const { boardId } = useBoardContext()
@@ -34,11 +35,12 @@ export default function BoardHeader() {
 
   return (
     <div className='flex justify-between mb-4'>
-      <div className='flex gap-2'>
+      <div className='flex gap-2 items-center'>
         {boardData && <ChangeBoardNamePopover changeBoardName={changeBoardName} boardName={boardData.board.name} />}
         <h2 className='medium-text-title'>
           {boardName ?? "No board selected"}
         </h2>
+        <HeaderDropdown />
       </div>
       <BoardListDrawer />
     </div>

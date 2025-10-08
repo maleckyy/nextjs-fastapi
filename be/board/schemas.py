@@ -79,3 +79,7 @@ class BoardColumnOutput(BoardColumn):
     class Config:
         from_attributes = True
         populate_by_name = True
+
+class BoardColumnsUpdate(BaseModel):
+    id: str
+    position: int

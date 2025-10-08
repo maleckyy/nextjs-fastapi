@@ -1,5 +1,7 @@
+import uuid
 from fastapi import APIRouter, Depends, HTTPException
-from board.schemas import Board, BoardColumnCreate, BoardColumnOutput, BoardCreate, BoardOutput, BoardTaskCreate, BoardTaskOutput, ChangeTaskPositionRequestBody, TaskUpdate
+from sqlalchemy import select, update
+from board.schemas import Board, BoardColumnCreate, BoardColumnOutput, BoardColumnsUpdate, BoardCreate, BoardOutput, BoardTaskCreate, BoardTaskOutput, ChangeTaskPositionRequestBody, TaskUpdate
 from dependency import db_dependency
 import models
 from fastapi import APIRouter, Depends
@@ -119,6 +121,28 @@ async def create_new_column(db: db_dependency, board_id: str, column_data: Board
     db.refresh(new_column)
 
     return new_column
+
+# change status order
+@router.patch("/{board_id}/column")
+async def update_columns_order(board_id: str, columns_order: list[BoardColumnsUpdate], db: db_dependency, current_user: models.Users = Depends(get_current_user)):
+    chech_board(db, board_id, current_user)
+
+    existing_columns = db.query(models.BoardsColumns).filter(
+        models.BoardsColumns.board_id == board_id
+    ).order_by(models.BoardsColumns.position).all()
+
+    existing_columns_dict = {str(col.id): col for col in existing_columns}
+
+    for col_update in columns_order:
+        if col_update.id not in existing_columns_dict:
+            raise HTTPException(status_code=400, detail=f"Column {col_update.id} does not belong to board {board_id}")
+
+    for col_update in columns_order:
+        column = existing_columns_dict[col_update.id]
+        column.position = col_update.position
+    db.commit()
+
+    return [existing_columns, columns_order]
 
 
 # add new task

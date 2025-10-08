@@ -67,3 +67,8 @@ export type UpdateTask = {
   description?: string | undefined
   priority: TaskPriority
 }
+
+export type UpdateColumnPosition = {
+  id: string,
+  position: number
+}

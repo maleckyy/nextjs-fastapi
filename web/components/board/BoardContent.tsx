@@ -13,11 +13,11 @@ import { useBoardContext } from "@/store/boardContext/boardContext";
 import { useGetCurrentBoard } from "@/api/board/currentBoard/useGetCurrentBoard";
 import { BoardColumn, ChangeTaskDestinationRequestBodyType, ColumnCreate, TaskCreateRequest } from "@/types/board/board.type";
 import { useAddNewTask } from "@/api/board/boardTask/useAddNewTask";
-import BoardColumnAddTaskPopover from "./BoardColumnAddTaskPopover";
+import BoardColumnAddTaskPopover from "./boardComponents/BoardColumnAddTaskPopover";
 import BoardDialogContent from "./boardDialog/BoardDialogContent";
-import SingleTaskBox from "./SingleTaskBox";
+import SingleTaskBox from "./boardComponents/SingleTaskBox";
 import { useUpdateTaskPosition } from "@/api/board/boardTask/useUpdateTaskPosition";
-import AddNewStatusButton from "./AddNewStatusButton";
+import AddNewStatusButton from "./boardComponents/AddNewStatusButton";
 import { useAddNewColumn } from "@/api/board/columns/useAddNewColumn";
 import { createToast } from "@/lib/toastService";
 import { useBoardStore } from "@/store/boardStore/boardStore";
@@ -114,7 +114,8 @@ export default function BoardContent() {
       content: <BoardDialogContent taskId={taskId} />,
       dataTestId: `task-content-${taskId}`,
       title: "Task dialog",
-      hideTitle: true
+      hideTitle: true,
+      dialogWidth: 600
     });
   }
 
