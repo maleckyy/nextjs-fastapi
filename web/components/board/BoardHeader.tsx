@@ -35,7 +35,7 @@ export default function BoardHeader() {
   }, [boardData])
 
   return (
-    <div className='flex justify-between mb-4'>
+    <div className='flex justify-between'>
       <div className='flex gap-2 items-center'>
         {boardData && <ChangeBoardNamePopover changeBoardName={changeBoardName} boardName={boardData.board.name} />}
         <h2 className='medium-text-title'>

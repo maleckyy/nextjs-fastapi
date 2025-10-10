@@ -192,11 +192,14 @@ export default function BoardContent() {
               <div
                 ref={provided.innerRef}
                 {...provided.droppableProps}
-                className={cn(" flex-shrink-0 min-h-60 p-4 bg-gray-50 rounded-md", listView ? "w-full" : "w-[264px]")}
+                className={cn(" flex-shrink-0 p-4 bg-gray-50 rounded-md", listView ? "w-full" : "w-[264px] min-h-60 ")}
               >
                 <div className="flex justify-between items-center mb-4">
                   <h3 className="small-text-title font-bold uppercase">{col.name}</h3>
-                  <ColumnOptionsDropdown column={col} />
+                  <div className="flex gap-2">
+                    {listView && <BoardColumnAddTaskPopover addTask={addTask} boardId={boardId as string} columnId={col.id} />}
+                    <ColumnOptionsDropdown column={col} />
+                  </div>
                 </div>
                 {col.tasks.map((item, index) => (
                   <Draggable
@@ -220,7 +223,7 @@ export default function BoardContent() {
                     )}
                   </Draggable>
                 ))}
-                <BoardColumnAddTaskPopover addTask={addTask} boardId={boardId as string} columnId={col.id} />
+                <BoardColumnAddTaskPopover addTask={addTask} boardId={boardId as string} columnId={col.id} onlyText />
                 {provided.placeholder}
               </div>
             )}

@@ -42,7 +42,7 @@ function ColumnOptionsDropdown({ column }: PropsType) {
       <div className="flex-shrink-0">
         <DropdownMenuTrigger >
           <div className="cursor-pointer">
-            <Ellipsis size={18} />
+            <Ellipsis size={18} aria-label='Status dropdown trigger' />
           </div>
         </DropdownMenuTrigger>
       </div>
