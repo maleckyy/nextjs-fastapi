@@ -62,6 +62,21 @@ export default function VerticalDragDrop({ closeDialog }: { closeDialog: () => v
     if (board) setItems(board.columns)
   }, [board])
 
+  useEffect(() => {
+    const body = document.body;
+    const currentStyle = body.getAttribute('style') || '';
+    const styleToRemove = 'pointer-events: none;';
+    const newStyle = currentStyle.replace(new RegExp(styleToRemove.trim() + '\\s*'), '').trim();
+
+    if (newStyle !== currentStyle) {
+      if (newStyle) {
+        body.setAttribute('style', newStyle);
+      } else {
+        body.removeAttribute('style');
+      }
+    }
+  }, []);
+
   return (
     <div className="w-full">
       <DragDropContext onDragEnd={onDragEnd}>

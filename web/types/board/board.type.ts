@@ -33,6 +33,7 @@ export type Task = {
 
 export type BoardColumn = {
   id: string
+  board_id: string
   name: string
   position: number
   tasks: Task[]

@@ -6,7 +6,8 @@ type BoardStoreType = {
   setBoard: (newBoardData: BoardOutput) => void,
   addColumnToBoard: (newColumn: BoardColumn) => void,
   addTaskToColumn: (colId: string, newTask: Task) => void,
-  updateColumnsOrder: (newColsPosition: UpdateColumnPosition[]) => void
+  updateColumnsOrder: (newColsPosition: UpdateColumnPosition[]) => void,
+  deleteColumn: (colId: string) => void,
 }
 
 export const useBoardStore = create<BoardStoreType>((set) => ({
@@ -43,7 +44,6 @@ export const useBoardStore = create<BoardStoreType>((set) => ({
         },
       }
     }),
-
   updateColumnsOrder: (newColsPosition: UpdateColumnPosition[]) =>
     set((state) => {
       if (!state.board) return state
@@ -58,5 +58,16 @@ export const useBoardStore = create<BoardStoreType>((set) => ({
           columns: updatedColumns,
         },
       }
-    })
+    }),
+  deleteColumn: (colId: string,) =>
+    set((state) => {
+      if (!state.board) return state
+      const updatedColumns = state.board.columns.filter(col => col.id != colId)
+      return {
+        board: {
+          ...state.board,
+          columns: updatedColumns
+        }
+      }
+    }),
 }))

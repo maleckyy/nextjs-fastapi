@@ -173,6 +173,21 @@ async def create_new_task(db: db_dependency, board_id: str, column_id: str, task
 
     return new_task
 
+
+@router.delete("/{board_id}/column/{column_id}")
+async def delete_column_by_id(db: db_dependency, board_id: str, column_id: str, current_user: models.Users = Depends(get_current_user)):
+    chech_board(db, board_id, current_user)
+
+    column_to_delete = db.query(models.BoardsColumns).filter(models.BoardsColumns.id == column_id, models.BoardsColumns.board_id == board_id).first()
+
+    if not column_to_delete:
+        raise HTTPException(404, detail="Column not found")
+    
+    db.delete(column_to_delete)
+    db.commit()
+
+    return {"detail": "Column deleted"} 
+
 # get task by id
 @router.get("/{board_id}/task/{task_id}", response_model=BoardTaskOutput)
 async def get_task_by_id(db: db_dependency,board_id: str, task_id: str, current_user: models.Users = Depends(get_current_user)):
@@ -211,7 +226,7 @@ async def change_task_position(
 
     task_to_update = db.query(models.BoardTasks).filter(models.BoardTasks.id == task_id).first()
     if not task_to_update:
-        return {"error": "Task not found"}
+        raise HTTPException(404, "Task not found")
 
     if task.destination_column_id != task.source_column_id:
         task_to_update.column_id = task.destination_column_id
@@ -231,7 +246,7 @@ async def change_task_position(
         t.position = index
 
     db.commit()
-    return {"response": "success"}
+    return {"detail": "Success"}
 
 
 @router.delete("/{board_id}/column/{column_id}/task/{task_id}")
