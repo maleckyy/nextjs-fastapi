@@ -6,6 +6,7 @@ import ChangeBoardNamePopover from './boardComponents/ChangeBoardNamePopover'
 import { useUpdateBoardName } from '@/api/board/boardApi/useUpdateBoardName'
 import BoardListDrawer from './dialogDrawer/BoardListDrawer'
 import HeaderDropdown from './boardComponents/HeaderDropdown'
+import BoardViewToggle from './boardComponents/BoardViewToggle'
 
 export default function BoardHeader() {
   const { boardId } = useBoardContext()
@@ -41,6 +42,7 @@ export default function BoardHeader() {
           {boardName ?? "No board selected"}
         </h2>
         <HeaderDropdown />
+        <BoardViewToggle />
       </div>
       <BoardListDrawer />
     </div>

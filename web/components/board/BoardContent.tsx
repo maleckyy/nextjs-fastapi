@@ -22,6 +22,7 @@ import { useAddNewColumn } from "@/api/board/columns/useAddNewColumn";
 import { createToast } from "@/lib/toastService";
 import { useBoardStore } from "@/store/boardStore/boardStore";
 import ColumnOptionsDropdown from "./boardComponents/ColumnOptionsDropdown";
+import { useBoardViewStore } from "@/store/boardStore/boardViewStore";
 
 export default function BoardContent() {
   const {
@@ -35,6 +36,7 @@ export default function BoardContent() {
   const addColumnToBoard = useBoardStore((state) => state.addColumnToBoard)
   const setBoard = useBoardStore((state) => state.setBoard)
   const addTaskToColumn = useBoardStore((state) => state.addTaskToColumn)
+  const listView = useBoardViewStore(state => state.listView)
 
   const { open } = useSidebar();
   const { openDialog } = useGlobalDialog(() => {
@@ -176,10 +178,11 @@ export default function BoardContent() {
   return (
     <div
       className={cn(
-        "flex justify-start items-start gap-4 flex-nowrap overflow-x-auto w-full",
+        "flex flex-row justify-start items-start gap-4 flex-nowrap overflow-x-auto w-full",
         open
           ? "md:max-w-[calc(100vw-223px)]"
-          : "md:max-w-[calc(100vw-79px)]"
+          : "md:max-w-[calc(100vw-79px)]",
+        listView ? "flex  flex-col" : "flex  flex-row"
       )}
     >
       <DragDropContext onDragEnd={onDragEnd}>
@@ -189,7 +192,7 @@ export default function BoardContent() {
               <div
                 ref={provided.innerRef}
                 {...provided.droppableProps}
-                className="w-[264px] flex-shrink-0 min-h-60 p-4 bg-gray-50 rounded-md"
+                className={cn(" flex-shrink-0 min-h-60 p-4 bg-gray-50 rounded-md", listView ? "w-full" : "w-[264px]")}
               >
                 <div className="flex justify-between items-center mb-4">
                   <h3 className="small-text-title font-bold uppercase">{col.name}</h3>

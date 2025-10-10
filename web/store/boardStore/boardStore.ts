@@ -59,7 +59,7 @@ export const useBoardStore = create<BoardStoreType>((set) => ({
         },
       }
     }),
-  deleteColumn: (colId: string,) =>
+  deleteColumn: (colId: string) =>
     set((state) => {
       if (!state.board) return state
       const updatedColumns = state.board.columns.filter(col => col.id != colId)
