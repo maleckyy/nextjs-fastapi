@@ -1,25 +1,25 @@
 'use client'
 import React, { useCallback, useState } from 'react'
-import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from '../ui/drawer'
+import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from '../../ui/drawer'
 import { FolderPlus, PanelRightOpen, Plus } from 'lucide-react'
 import { useBoardContext } from '@/store/boardContext/boardContext'
-import { Separator } from '../ui/separator'
 import { Input } from "@/components/ui/input"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { Button } from '../ui/button'
 import { useGetBoard } from '@/api/board/boardApi/useGetBoard'
 import { useAddNewBoard } from '@/api/board/boardApi/useAddNewBoard'
 import { useQueryClient } from '@tanstack/react-query'
 import { QueryKeys } from '@/QueryKeys/queryKeys'
 import { cn } from '@/lib/utils'
-import EmptyDataBox from '../shared/EmptyDataBox'
 import { createToast } from '@/lib/toastService'
-import DeleteBoard from './dialogDrawer/DeleteBoard'
 import { useDeleteBoardById } from '@/api/board/boardApi/deleteBoardById'
+import { Separator } from '@/components/ui/separator'
+import { Button } from '@/components/ui/button'
+import DeleteBoard from './DeleteBoard'
+import EmptyDataBox from '@/components/shared/EmptyDataBox'
 
 export default function BoardListDrawer() {
   const queryClient = useQueryClient()

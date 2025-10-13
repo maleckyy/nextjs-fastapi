@@ -3,6 +3,11 @@ export type BoardCreate = {
   name: string
 }
 
+export type ColumnCreate = {
+  name: string
+  board_id: string
+  position: number
+}
 export type Board = {
   id: string
   created_at: Date
@@ -28,6 +33,7 @@ export type Task = {
 
 export type BoardColumn = {
   id: string
+  board_id: string
   name: string
   position: number
   tasks: Task[]
@@ -61,4 +67,9 @@ export type UpdateTask = {
   title: string
   description?: string | undefined
   priority: TaskPriority
+}
+
+export type UpdateColumnPosition = {
+  id: string,
+  position: number
 }

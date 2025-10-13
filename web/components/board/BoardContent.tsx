@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import {
   DragDropContext,
   Droppable,
@@ -11,12 +11,18 @@ import { cn } from "@/lib/utils";
 import { useGlobalDialog } from "@/store/globalDialogContext/globalDialog";
 import { useBoardContext } from "@/store/boardContext/boardContext";
 import { useGetCurrentBoard } from "@/api/board/currentBoard/useGetCurrentBoard";
-import { BoardOutput, ChangeTaskDestinationRequestBodyType, TaskCreateRequest } from "@/types/board/board.type";
+import { BoardColumn, ChangeTaskDestinationRequestBodyType, ColumnCreate, TaskCreateRequest } from "@/types/board/board.type";
 import { useAddNewTask } from "@/api/board/boardTask/useAddNewTask";
-import BoardColumnAddTaskPopover from "./BoardColumnAddTaskPopover";
+import BoardColumnAddTaskPopover from "./boardComponents/BoardColumnAddTaskPopover";
 import BoardDialogContent from "./boardDialog/BoardDialogContent";
-import SingleTaskBox from "./SingleTaskBox";
+import SingleTaskBox from "./boardComponents/SingleTaskBox";
 import { useUpdateTaskPosition } from "@/api/board/boardTask/useUpdateTaskPosition";
+import AddNewStatusButton from "./boardComponents/AddNewStatusButton";
+import { useAddNewColumn } from "@/api/board/columns/useAddNewColumn";
+import { createToast } from "@/lib/toastService";
+import { useBoardStore } from "@/store/boardStore/boardStore";
+import ColumnOptionsDropdown from "./boardComponents/ColumnOptionsDropdown";
+import { useBoardViewStore } from "@/store/boardStore/boardViewStore";
 
 export default function BoardContent() {
   const {
@@ -26,7 +32,12 @@ export default function BoardContent() {
     boardId,
   } = useBoardContext();
 
-  const [board, setBoard] = useState<BoardOutput>();
+  const board = useBoardStore((state) => state.board)
+  const addColumnToBoard = useBoardStore((state) => state.addColumnToBoard)
+  const setBoard = useBoardStore((state) => state.setBoard)
+  const addTaskToColumn = useBoardStore((state) => state.addTaskToColumn)
+  const listView = useBoardViewStore(state => state.listView)
+
   const { open } = useSidebar();
   const { openDialog } = useGlobalDialog(() => {
     removeTaskIdFromParams();
@@ -35,6 +46,7 @@ export default function BoardContent() {
   const { data: boardData, isLoading } = useGetCurrentBoard(boardId)
   const addNewTaskMutatnion = useAddNewTask()
   const updateTaskPositionMutation = useUpdateTaskPosition()
+  const addNewColumnMutation = useAddNewColumn()
 
   const onDragEnd = (result: DropResult) => {
     const { source, destination } = result;
@@ -105,9 +117,27 @@ export default function BoardContent() {
       content: <BoardDialogContent taskId={taskId} />,
       dataTestId: `task-content-${taskId}`,
       title: "Task dialog",
-      hideTitle: true
+      hideTitle: true,
+      dialogWidth: 600
     });
   }
+
+  const addNewStatus = useCallback((colName: string) => {
+    if (!board) return
+    if (colName.trim() === "") return
+    const newColData: ColumnCreate = {
+      position: board?.columns.length as number,
+      board_id: board?.board.id as string,
+      name: colName
+    }
+
+    addNewColumnMutation.mutate(newColData, {
+      onSuccess: (data: BoardColumn) => {
+        createToast("Status created!", "success")
+        addColumnToBoard(data)
+      }
+    })
+  }, [board, addNewColumnMutation, addColumnToBoard])
 
   useEffect(() => {
     const taskIdFromParams = getTaskIdFromParams();
@@ -118,7 +148,7 @@ export default function BoardContent() {
 
   useEffect(() => {
     if (boardData) setBoard(boardData)
-  }, [boardData])
+  }, [boardData, setBoard])
 
   function addTask(colId: string, boardId: string, title: string) {
     if (!title || title.trim() === '') return
@@ -132,19 +162,7 @@ export default function BoardContent() {
     }
     addNewTaskMutatnion.mutate(postData, {
       onSuccess: (data) => {
-        setBoard((oldTable) => {
-          const newTable = { ...oldTable! };
-          newTable.columns = oldTable!.columns.map((col) => {
-            if (col.id === colId) {
-              return {
-                ...col,
-                tasks: [...col.tasks, data],
-              };
-            }
-            return col;
-          });
-          return newTable;
-        })
+        addTaskToColumn(colId, data)
       }
     })
   }
@@ -160,10 +178,11 @@ export default function BoardContent() {
   return (
     <div
       className={cn(
-        "flex justify-start items-start gap-4 flex-nowrap overflow-x-auto w-full",
+        "flex flex-row justify-start items-start gap-4 flex-nowrap overflow-x-auto w-full",
         open
           ? "md:max-w-[calc(100vw-223px)]"
-          : "md:max-w-[calc(100vw-79px)]"
+          : "md:max-w-[calc(100vw-79px)]",
+        listView ? "flex  flex-col" : "flex  flex-row"
       )}
     >
       <DragDropContext onDragEnd={onDragEnd}>
@@ -173,10 +192,14 @@ export default function BoardContent() {
               <div
                 ref={provided.innerRef}
                 {...provided.droppableProps}
-                className="w-[264px] flex-shrink-0 min-h-60 p-4 bg-gray-50 rounded"
+                className={cn(" flex-shrink-0 p-4 bg-gray-50 rounded-md", listView ? "w-full" : "w-[264px] min-h-60 ")}
               >
-                <div>
-                  <h3 className="small-text-title font-bold mb-4 uppercase">{col.name}</h3>
+                <div className="flex justify-between items-center mb-4">
+                  <h3 className="small-text-title font-bold uppercase">{col.name}</h3>
+                  <div className="flex gap-2">
+                    {listView && <BoardColumnAddTaskPopover addTask={addTask} boardId={boardId as string} columnId={col.id} />}
+                    <ColumnOptionsDropdown column={col} />
+                  </div>
                 </div>
                 {col.tasks.map((item, index) => (
                   <Draggable
@@ -200,13 +223,14 @@ export default function BoardContent() {
                     )}
                   </Draggable>
                 ))}
-                <BoardColumnAddTaskPopover addTask={addTask} boardId={boardId as string} columnId={col.id} />
+                <BoardColumnAddTaskPopover addTask={addTask} boardId={boardId as string} columnId={col.id} onlyText />
                 {provided.placeholder}
               </div>
             )}
           </Droppable>
         ))}
       </DragDropContext>
+      <AddNewStatusButton addNewStatus={addNewStatus} />
     </div>
   );
 }

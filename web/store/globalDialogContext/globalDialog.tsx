@@ -3,12 +3,13 @@ import React, { createContext, useContext, useState, ReactNode, useRef, useEffec
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog'
 import { cn } from '@/lib/utils'
 
-type DialogData = {
+export type DialogData = {
   title?: string
   description?: string
   content?: ReactNode,
   dataTestId?: string,
-  hideTitle?: boolean
+  hideTitle?: boolean,
+  dialogWidth?: number
 }
 
 type DialogContextType = {
@@ -58,7 +59,10 @@ export const GlobalDialogProvider = ({ children }: { children: ReactNode }) => {
     <DialogContext.Provider value={{ openDialog, closeDialog, registerStatusCallback }}>
       {children}
       <Dialog open={open} onOpenChange={onDialogStatusChange} data-testid={dialogData.dataTestId}>
-        <DialogContent className="max-w-[500px] md:max-w-[800px]" aria-describedby={undefined}>
+        <DialogContent
+          style={dialogData.dialogWidth ? { width: `${dialogData.dialogWidth}px`, minWidth: `${dialogData.dialogWidth}px` } : {}}
+          className={cn("max-w-[500px] md:max-w-[800px]", !dialogData.dialogWidth && "w-fit")}
+          aria-describedby={undefined}>
           {dialogData.title && (
             <DialogTitle className={cn("mb-2", dialogData.hideTitle && "sr-only")}>{dialogData.title}</DialogTitle>
           )}

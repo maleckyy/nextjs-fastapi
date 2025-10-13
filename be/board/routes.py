@@ -1,5 +1,7 @@
+import uuid
 from fastapi import APIRouter, Depends, HTTPException
-from board.schemas import Board, BoardColumnOutput, BoardCreate, BoardOutput, BoardTaskCreate, BoardTaskOutput, ChangeTaskPositionRequestBody, TaskUpdate
+from sqlalchemy import select, update
+from board.schemas import Board, BoardColumnCreate, BoardColumnOutput, BoardColumnsUpdate, BoardCreate, BoardOutput, BoardTaskCreate, BoardTaskOutput, ChangeTaskPositionRequestBody, TaskUpdate
 from dependency import db_dependency
 import models
 from fastapi import APIRouter, Depends
@@ -19,13 +21,17 @@ def create_default_columns(db: db_dependency, board_id: str):
     db.add(models.BoardsColumns(name="done", board_id=board_id, position=2))
     db.commit()
 
-def check_board_auth(db:db_dependency,board_id: str,column_id: str,current_user: models.Users = Depends(get_current_user)):
+
+def chech_board(db:db_dependency, board_id: str, current_user: models.Users = Depends(get_current_user)):
     board = db.query(models.Boards).filter(models.Boards.id == board_id).first()
     if not board:
         raise HTTPException(status_code=404, detail="Board not found")
     
     if board.user_id != current_user.id:
         raise HTTPException(status_code=403, detail="Not authorized to access this board")
+
+def check_board_auth(db:db_dependency, board_id: str,column_id: str, current_user: models.Users = Depends(get_current_user)):
+    chech_board(db, board_id, current_user)
 
     column = db.query(models.BoardsColumns).filter(models.BoardsColumns.id == column_id).first()
     if not column:
@@ -79,10 +85,7 @@ async def get_board(db: db_dependency ,board_id: str, current_user: models.Users
 async def change_board_name(db: db_dependency ,board_id: str, new_board_data: Board, current_user: models.Users = Depends(get_current_user)):
 
     board = db.query(models.Boards).filter(models.Boards.id == board_id).first()
-    if not board:
-        raise HTTPException(status_code=404, detail="Board not found")
-    if board.user_id != current_user.id:
-        raise HTTPException(status_code=403, detail="Not authorized to access this board")
+    chech_board(db, board_id, current_user)
 
     board.name = new_board_data.name
     db.commit()
@@ -92,17 +95,54 @@ async def change_board_name(db: db_dependency ,board_id: str, new_board_data: Bo
 
 # board delete
 @router.delete("/{board_id}")
-async def delete_board(db: db_dependency ,board_id: str,current_user: models.Users = Depends(get_current_user)):
+async def delete_board(db: db_dependency, board_id: str, current_user: models.Users = Depends(get_current_user)):
     
+    chech_board(db, board_id, current_user)
     board = db.query(models.Boards).filter(models.Boards.id == board_id).first()
-    if not board:
-        raise HTTPException(status_code=404, detail="Board not found")
-    if board.user_id != current_user.id:
-        raise HTTPException(status_code=403, detail="Not authorized to access this board")
     
     db.delete(board)
     db.commit()
     return {"details": "Board deleted"}
+
+
+# create new status/ column
+@router.post("/{board_id}/column", response_model=BoardColumnOutput)
+async def create_new_column(db: db_dependency, board_id: str, column_data: BoardColumnCreate, current_user: models.Users = Depends(get_current_user)):
+
+    chech_board(db, board_id, current_user)
+    
+    new_column = models.BoardsColumns(
+        name = column_data.name,
+        board_id = column_data.board_id,
+        position = column_data.position,
+    )
+    db.add(new_column)
+    db.commit()
+    db.refresh(new_column)
+
+    return new_column
+
+# change status order
+@router.patch("/{board_id}/column")
+async def update_columns_order(board_id: str, columns_order: list[BoardColumnsUpdate], db: db_dependency, current_user: models.Users = Depends(get_current_user)):
+    chech_board(db, board_id, current_user)
+
+    existing_columns = db.query(models.BoardsColumns).filter(
+        models.BoardsColumns.board_id == board_id
+    ).order_by(models.BoardsColumns.position).all()
+
+    existing_columns_dict = {str(col.id): col for col in existing_columns}
+
+    for col_update in columns_order:
+        if col_update.id not in existing_columns_dict:
+            raise HTTPException(status_code=400, detail=f"Column {col_update.id} does not belong to board {board_id}")
+
+    for col_update in columns_order:
+        column = existing_columns_dict[col_update.id]
+        column.position = col_update.position
+    db.commit()
+
+    return [existing_columns, columns_order]
 
 
 # add new task
@@ -132,6 +172,21 @@ async def create_new_task(db: db_dependency, board_id: str, column_id: str, task
     db.refresh(new_task)
 
     return new_task
+
+
+@router.delete("/{board_id}/column/{column_id}")
+async def delete_column_by_id(db: db_dependency, board_id: str, column_id: str, current_user: models.Users = Depends(get_current_user)):
+    chech_board(db, board_id, current_user)
+
+    column_to_delete = db.query(models.BoardsColumns).filter(models.BoardsColumns.id == column_id, models.BoardsColumns.board_id == board_id).first()
+
+    if not column_to_delete:
+        raise HTTPException(404, detail="Column not found")
+    
+    db.delete(column_to_delete)
+    db.commit()
+
+    return {"detail": "Column deleted"} 
 
 # get task by id
 @router.get("/{board_id}/task/{task_id}", response_model=BoardTaskOutput)
@@ -171,7 +226,7 @@ async def change_task_position(
 
     task_to_update = db.query(models.BoardTasks).filter(models.BoardTasks.id == task_id).first()
     if not task_to_update:
-        return {"error": "Task not found"}
+        raise HTTPException(404, "Task not found")
 
     if task.destination_column_id != task.source_column_id:
         task_to_update.column_id = task.destination_column_id
@@ -191,7 +246,7 @@ async def change_task_position(
         t.position = index
 
     db.commit()
-    return {"response": "success"}
+    return {"detail": "Success"}
 
 
 @router.delete("/{board_id}/column/{column_id}/task/{task_id}")
@@ -202,7 +257,7 @@ async def delete_task(
     task_id: str,
     current_user: models.Users = Depends(get_current_user)
 ):
-    check_board_auth(db, board_id,column_id,current_user)
+    check_board_auth(db, board_id, column_id, current_user)
     
     task_to_delete = db.query(models.BoardTasks).filter(models.BoardTasks.id == task_id).first()
 

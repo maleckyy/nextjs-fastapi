@@ -11,8 +11,8 @@ export default function BoardPage() {
     <PageSection>
       <PageTitle title='Board' />
       <BoardContextProvider>
+        <BoardHeader />
         <PageContent>
-          <BoardHeader />
           <BoardContent />
         </PageContent>
       </BoardContextProvider>

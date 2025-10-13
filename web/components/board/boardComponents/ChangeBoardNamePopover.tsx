@@ -1,8 +1,8 @@
 import React, { useRef } from 'react'
-import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
+import { Popover, PopoverContent, PopoverTrigger } from '../../ui/popover'
 import { Pen } from 'lucide-react'
-import { Input } from '../ui/input'
-import { Button } from '../ui/button'
+import { Input } from '../../ui/input'
+import { Button } from '../../ui/button'
 
 type PropsType = {
   changeBoardName: (newName: string) => void
