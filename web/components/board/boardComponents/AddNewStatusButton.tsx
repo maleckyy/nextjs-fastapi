@@ -35,4 +35,3 @@ export default function AddNewStatusButton({ addNewStatus }: PropsType) {
     </Popover>
   )
 }
-// 

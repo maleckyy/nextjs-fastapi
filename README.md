@@ -37,7 +37,7 @@ The main motivation behind building this app was to expand my knowledge of React
 
 - **Accessibility** - Complies with WCAG guidelines; tested with WAVE Web Accessibility Evaluation Tool.
 
-
+- **Board** - Task management system with customizable boards, statuses, and tasks. Users can create multiple boards, define workflow stages (columns), and manage tasks with drag-and-drop functionality and priority levels.
   
 
 ## 🛠 Technologies
@@ -72,6 +72,15 @@ _App dashboard page_
 
 ![Dashboard page](/app-images/Dashboard.PNG)
 
+
+_Board page_
+
+![Board page](/app-images/board.gif)
+
+
+_Board - list view_
+
+![Board page - list view](/app-images/board-list-view.PNG)
 
 
 _Organizer page_
