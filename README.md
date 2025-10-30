@@ -27,17 +27,18 @@ The main motivation behind building this app was to expand my knowledge of React
 
 -  **Dashboard** – A summary view presenting key info from other modules, like finance charts, recent tasks, upcoming events, and latest transactions.
 
+- **Board** – Task management system with customizable boards, statuses, and tasks. Users can create multiple boards, define workflow stages (columns), and manage tasks with drag-and-drop functionality and priority levels.
+
 -  **CRUD** – Full create, read, update, delete functionality for tasks, calendar events, finances, and profile elements such as work experience, tech stack, personal data, account info, and profile picture.
 
 -  **Chat** – WebSocket-based real-time chat for communicating with other users, with conversation history saved.
 
 -  **AI Assistant** – Personal AI assistant powered by the LLaMA 2 model, supporting creation of new conversations to keep messages organized.
 
--  **PWA** - Progressive Web App with installable features and responsive design (offline mode not implemented yet).
+-  **PWA** – Progressive Web App with installable features and responsive design (offline mode not implemented yet).
 
-- **Accessibility** - Complies with WCAG guidelines; tested with WAVE Web Accessibility Evaluation Tool.
+- **Accessibility** – Complies with WCAG guidelines; tested with WAVE Web Accessibility Evaluation Tool.
 
-- **Board** - Task management system with customizable boards, statuses, and tasks. Users can create multiple boards, define workflow stages (columns), and manage tasks with drag-and-drop functionality and priority levels.
   
 
 ## 🛠 Technologies
