@@ -44,9 +44,18 @@ export default function BoardDialogContent({ taskId }: PropsType) {
   const deleteTaskMutatnion = useDeleteTaskById()
   const updateTaskMutation = useUpdateTaskDetails()
 
+  function checkChanges(value: UpdateTaskSchemaType) {
+    if (!data) return false
+    if (value.title === data.title && value.description === data.description && value.priority === data.priority.toString()) {
+      return false
+    }
+    return true
+  }
+
   const { closeDialog } = useGlobalDialog(() => {
     const values = getValues()
-    sendUpdatedTask({ ...values, priority: parseInt(values.priority) })
+    const isChanged = checkChanges(values)
+    if (isChanged) sendUpdatedTask({ ...values, priority: parseInt(values.priority) })
     removeParamsAfterDelete()
   })
 
@@ -69,7 +78,6 @@ export default function BoardDialogContent({ taskId }: PropsType) {
         createToast("Task updated", "success")
       }
     })
-
   }
 
   const removeParamsAfterDelete = useCallback(() => {
