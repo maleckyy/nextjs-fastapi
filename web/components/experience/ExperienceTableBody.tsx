@@ -8,6 +8,8 @@ import { api } from '@/api/axios'
 import { ApiEndpoints } from '@/api/routes/apiEndpoints'
 import { ExperienceOut } from '@/types/experience/experience.type'
 import { QueryKeys } from '@/QueryKeys/queryKeys'
+import EmptyDataBox from '../shared/EmptyDataBox'
+import AnimatedSpinner from '../shared/AnimatedSpinner'
 
 export default function ExperienceTableBody() {
 
@@ -16,7 +18,7 @@ export default function ExperienceTableBody() {
     return response.data
   }
 
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: [QueryKeys.PROFILE_EXPERIENCE],
     queryFn: getExperience,
   })
@@ -36,6 +38,17 @@ export default function ExperienceTableBody() {
           </TableRow>
         })
       )}
+      {data && data.length === 0 && (<TableRow>
+        <TableCell colSpan={5}>
+          <EmptyDataBox emptyDataText="No data" />
+        </TableCell>
+      </TableRow>)}
+      {isLoading && (
+        <TableRow>
+          <TableCell colSpan={5} className="text-center py-4">
+            <AnimatedSpinner />
+          </TableCell>
+        </TableRow>)}
     </TableBody>
   )
 }

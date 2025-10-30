@@ -11,10 +11,10 @@ export default function ProfileStackBadgeList() {
   return (
     <div className="flex gap-2 flex-wrap">
       {
-        data ? (
+        data && data.stack !== '' ? (
           stackArray.map((item: string) => <Badge key={item} className='font-medium text-sm uppercase'>{item}</Badge>)
         ) : (
-          <p>No data</p>
+          <p className='small-text-description'>No stack yet</p>
         )
       }
     </div>
