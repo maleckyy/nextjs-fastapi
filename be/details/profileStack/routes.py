@@ -18,10 +18,14 @@ async def get_profile_stack(db: db_dependency, current_user: models.Users = Depe
     user_stack = db.query(models.UserProfileStack).filter(models.UserProfileStack.user_id == current_user.id).first()
 
     if not user_stack:
-        raise HTTPException(status_code=404, detail="Stack not found")
-
-    if not user_stack.user_id == current_user.id:
-        raise HTTPException(status_code=401, detail="Unauthorized")
+        create_stack = models.UserProfileStack(
+            stack="",
+            user_id=current_user.id
+        )
+        db.add(create_stack)
+        db.commit()
+        db.refresh(create_stack)
+        return create_stack
 
     return user_stack
 
