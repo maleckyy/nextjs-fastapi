@@ -115,9 +115,6 @@ async def create_new_chat(db:db_dependency, current_user: models.Users = Depends
 async def get_all_user_chats(db:db_dependency, current_user: models.Users = Depends(get_current_user)):
 
     chats = db.query(models.AiChatRoom).filter(models.AiChatRoom.user_id == current_user.id).all()
-
-    if not chats:
-        raise HTTPException(status_code=404, detail="Chat not found or unauthorized")
     
     return chats
     

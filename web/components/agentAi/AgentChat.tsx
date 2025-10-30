@@ -12,7 +12,6 @@ import ChatInputSection from './ChatInputSection'
 import AiChatHeader from './AiChatHeader'
 
 export default function AgentChat() {
-
   const [messages, setMessages] = useState<AiMessage[]>([])
   const [loadingAnwser, setLoadingAnwser] = useState(false)
 
