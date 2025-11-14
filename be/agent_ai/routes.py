@@ -1,10 +1,10 @@
 from anthropic import BaseModel
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
-from pydantic import BaseModel
 from agent_ai.ollama_provider import OllamaProvider
 from auth.routes import get_current_user
-from agent_ai.schemas import ChatRoomOutput, MessageCreate, MessageOutput
+from agent_ai.schemas import ChatBoxQuestion, ChatRoomOutput, MessageCreate, MessageOutput
+from agent_ai.instructions.instruction import instruction
 import models
 from dependency import db_dependency
 from enums.ai_chat_message_type import MessageType
@@ -47,8 +47,13 @@ def build_prompt(chat_id, new_question, db):
         else:
             history_text += f"Assistant : {msg['content']}\n"
 
-    history_text += f"User: {new_question}\Assistant :"
+    history_text += f"User: {new_question}\\Assistant :"
     return history_text
+
+
+def build_chatbox_prompt(question, instructions):
+    prompt = f"{instructions}.\n\n User question is :{question}.\n Answer:"
+    return prompt
 
 def create_chat_message(chat_id: str, message_data: MessageCreate ,db:db_dependency, current_user: models.Users = Depends(get_current_user)):
     room_exists = (
@@ -149,3 +154,12 @@ async def delete_chat_by_id(chat_id: str, db:db_dependency, current_user: models
     db.delete(chat)
     db.commit()
     return "Chat deleted"
+
+@router.post("/help")
+async def ask_agent_for_help(
+    question: ChatBoxQuestion,
+    ):
+    prompt = build_chatbox_prompt(question.question, instruction)
+    answer = provider.complete(prompt)
+
+    return {"answer": answer}

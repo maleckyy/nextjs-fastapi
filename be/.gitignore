@@ -9,3 +9,5 @@ __pycache__/
 /scripts
 uploads/images
 wait-for-postgres.sh
+
+agent_ai/instructions

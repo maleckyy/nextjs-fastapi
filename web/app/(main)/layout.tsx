@@ -5,6 +5,7 @@ import ProtectedRoute from "@/components/ProtectedRoute";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { GlobalDialogProvider } from "@/store/globalDialogContext/globalDialog";
+import ChatBox from "@/components/chatbox/ChatBox";
 
 export default async function RootLayout({
   children,
@@ -23,6 +24,7 @@ export default async function RootLayout({
             <div className="w-full h-[calc(100vh-2rem)] min-h-0">
               {children}
             </div>
+            <ChatBox />
           </div>
         </GlobalDialogProvider>
       </SidebarProvider>
