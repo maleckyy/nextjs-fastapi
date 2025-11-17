@@ -19,3 +19,6 @@ class MessageOutput(MessageCreate):
 class ChatRoomOutput(BaseModel):
     id: UUID
     name: str
+
+class ChatBoxQuestion(BaseModel):
+    question: str

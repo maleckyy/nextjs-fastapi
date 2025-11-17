@@ -1,7 +1,7 @@
 import requests
 
 class OllamaProvider:
-    def __init__(self, model: str = "llama2"):
+    def __init__(self, model: str = "qwen3-coder"):
         self.model = model
         self.url = "http://localhost:11434/api/generate"
 
