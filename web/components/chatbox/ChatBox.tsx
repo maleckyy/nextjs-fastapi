@@ -8,6 +8,7 @@ import AnimatedSpinner from '../shared/AnimatedSpinner';
 import { useAskChatBox } from '@/api/chatbox/useAskChatbox';
 import useChatBoxStore from '@/store/chatBoxStore/useChatBoxStore';
 import { cn } from '@/lib/utils';
+import ReactMarkdown from "react-markdown";
 
 export default function ChatBox() {
   const [loadingAnswer, setLoadingAnswer] = useState(false);
@@ -78,7 +79,7 @@ export default function ChatBox() {
                       : 'bg-gray-200 text-gray-800'
                       }`}
                   >
-                    {message.text}
+                    <ReactMarkdown>{message.text}</ReactMarkdown>
                   </div>
                 </div>
               ))}
