@@ -122,3 +122,9 @@ _Conversation with an AI agent_
 ![Chat with Ai](/app-images/ai-chat.gif)
 
 
+
+
+_Conversation with GuideBot_
+
+![Chat with Ai](/app-images/guidebot.gif)
+
